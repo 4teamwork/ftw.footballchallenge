@@ -11,12 +11,12 @@ class TestLeagueModel(unittest2.TestCase):
     def session(self):
         return self.layer.session
 
-        def test_creation(self):
-            league1 = League('TheLeague')
-            self.session.add(league1)
-            self.layer.commit()
+    def test_creation(self):
+        league1 = League('TheLeague')
+        self.session.add(league1)
+        self.layer.commit()
 
-            leagues = self.session.query(League).all()
-            self.assertEquals(len(leagues), 1)
-            myleague = leagues[0]
-            self.assertEqual(myleague.name, 'TheLeague')
+        leagues = self.session.query(League).all()
+        self.assertEquals(len(leagues), 1)
+        myleague = leagues[0]
+        self.assertEqual(myleague.name, 'TheLeague')

@@ -1,4 +1,4 @@
-from ftw.footballchallenge import BASE
+from ftw.footballchallenge import Base
 from plone.testing import Layer
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
@@ -22,8 +22,8 @@ class DatabaseLayer(Layer):
         if not self._engine:
             self._engine = create_engine('sqlite://')
 
-            BASE.metadata.bind = self._engine
-            BASE.metadata.create_all()
+            Base.metadata.bind = self._engine
+            Base.metadata.create_all()
 
         return self._engine
 
