@@ -21,3 +21,4 @@ class TestNationModel(unittest2.TestCase):
         self.assertEquals(len(nations), 1)
         mynation = nations[0]
         self.assertEqual(mynation.name, 'MyNation')
+        self.assertEqual(mynation.__repr__(), '<Nation MyNation>')

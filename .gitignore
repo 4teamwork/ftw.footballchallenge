@@ -12,3 +12,5 @@ dist/
 parts/
 src/
 var/
+eggs/
+*.egg-info
