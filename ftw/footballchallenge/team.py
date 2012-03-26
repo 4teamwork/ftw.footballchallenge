@@ -10,10 +10,9 @@ player_team = Table('player_team', Base.metadata,
     Column('player_id', Integer, ForeignKey('players.id')))
 
 
-
 class Team(Base):
     __tablename__='teams'
-    
+
     id_ = Column('id', Integer, primary_key=True)
     name = Column(String(45))
     user_id = Column('user_id', String(40), nullable=False)

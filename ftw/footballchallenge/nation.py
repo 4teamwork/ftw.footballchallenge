@@ -4,11 +4,10 @@ from ftw.footballchallenge import Base
 
 class Nation(Base):
     __tablename__='nations'
-    
+
     id_ = Column('id', Integer, primary_key=True)
-    name = Column(String)
-    
-    
+    name = Column(String(45))
+
     def __init__(self, name):
         self.name = name
 

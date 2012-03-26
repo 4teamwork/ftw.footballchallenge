@@ -10,7 +10,6 @@ players_played = Table('players_played', Base.metadata,
     Column('player_id', Integer, ForeignKey('players.id')))
 
 
-
 class Game(Base):
     __tablename__='games'
 
@@ -24,8 +23,12 @@ class Game(Base):
 
     event = relationship("Event", backref=backref('games', order_by=id_))
 
-    nation1 = relationship("Nation", primaryjoin="Nation.id_==Game.nation1_id", backref=backref('games.nation1_id', order_by=id_))
-    nation2 = relationship("Nation", primaryjoin="Nation.id_==Game.nation2_id", backref=backref('games.nation2_id', order_by=id_))
+    nation1 = relationship("Nation",
+                           primaryjoin="Nation.id_==Game.nation1_id",
+                           backref=backref('games.nation1_id', order_by=id_))
+    nation2 = relationship("Nation",
+                           primaryjoin="Nation.id_==Game.nation2_id",
+                           backref=backref('games.nation2_id', order_by=id_))
 
     players = relationship('Player', secondary=players_played, backref='games')
 
