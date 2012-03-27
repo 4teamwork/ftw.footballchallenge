@@ -7,25 +7,25 @@ from sqlalchemy.orm import relationship, backref
 class Teamstatistics(Base):
     __tablename__='teamstatistics'
 
-    player_id = Column(Integer, ForeignKey('players.id'), primary_key=True,
+    team_id = Column(Integer, ForeignKey('teams.id'), primary_key=True,
                        nullable=False)
     game_id = Column(Integer, ForeignKey('games.id'), primary_key=True,
                      nullable=False)
     points = Column(Integer, nullable=False)
     total_points = Column(Integer, nullable=False)
-    date = Column(DateTime, nullable=False)
 
     game = relationship("Game", backref=backref('teamstatistics',
                         order_by=game_id))
-    player = relationship("Player", backref=backref('teamstatistics',
-                          order_by=player_id))
+    team = relationship("Team", backref=backref('teamstatistics',
+                          order_by=team_id))
 
-    def __init__(self, player_id, game_id, points, total_points):
-        self.player_id = player_id
+    def __init__(self, team_id, game_id, points, total_points):
+        self.team_id = team_id
         self.game_id = game_id
         self.points = points
         self.total_points = total_points
 
+
     def __repr__(self):
-        return '<Statistics for Team %s. Total Points: %s>' % (self.player,
-            self.game)
+        return '<Statistics for Team %s. Total Points: %s>' % (self.team.name,
+            self.total_points)

@@ -20,7 +20,7 @@ class DatabaseLayer(Layer):
 
     def get_connection(self):
         if not self._engine:
-            self._engine = create_engine('sqlite://')
+            self._engine = create_engine('sqlite://', encoding='utf-8')
 
             Base.metadata.bind = self._engine
             Base.metadata.create_all()

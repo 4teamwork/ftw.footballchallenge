@@ -1,0 +1,30 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    i18n_domain="ftw.footballchallenge">
+
+    <browser:page
+        for="*"
+        name="import_players"
+        class=".player_import.PlayerImportForm"
+        permission="zope2.View"
+        />
+
+    <browser:page
+        for="*"
+        name="create_event"
+        class=".event_creation.CreateEventForm"
+        permission="zope2.View"
+        />
+
+    <browser:page
+        name="ploneform-macros"
+        for=".player_import.PlayerImportForm"
+        layer="plone.app.z3cform.interfaces.IPloneFormLayer"
+        class="plone.app.z3cform.templates.Macros"
+        template="macros.pt"
+        allowed_interface="zope.interface.common.mapping.IItemMapping"
+        permission="zope.Public"
+        />
+
+</configure>

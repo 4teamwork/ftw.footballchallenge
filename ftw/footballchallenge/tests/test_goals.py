@@ -27,7 +27,7 @@ class TestGoalsModel(unittest2.TestCase):
         
         nations = self.session.query(Nation).all()
         event = self.session.query(Event).one()
-        game = Game(nations[0].id_, nations[1].id_, datetime.now(), event.id_, '3:0')
+        game = Game(nations[0].id_, nations[1].id_, datetime.now(), event.id_, 3, 0)
         self.session.add(game)
         self.layer.commit()
 
@@ -38,10 +38,13 @@ class TestGoalsModel(unittest2.TestCase):
         
         player1 = self.session.query(Player).one()
         game = self.session.query(Game).one()
+        game.players.append(player1)
         goal1 = Goal(player1.id_, game.id_, False)
         self.session.add(goal1)
         self.layer.commit()
+        player1 = self.session.query(Player).one()
         goals = self.session.query(Goal).all()
         self.assertEqual(len(goals),1)
         self.assertEqual(goals[0].id_, 1)
         self.assertEqual(goals[0].__repr__(),'<Goal Freddy, 1>')
+        self.assertEqual(len(player1.get_goals(self.session)),1)

@@ -1,13 +1,17 @@
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, Integer, String, Boolean
 from ftw.footballchallenge import Base
+from ftw.footballchallenge.game import Game
+from ftw.footballchallenge.goal import Goal
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship, backref
 from sqlalchemy import Table
+from ftw.footballchallenge.teamstatistics import Teamstatistics
 
 
 player_team = Table('player_team', Base.metadata,
     Column('team_id', Integer, ForeignKey('teams.id')),
-    Column('player_id', Integer, ForeignKey('players.id')))
+    Column('player_id', Integer, ForeignKey('players.id')),
+    Column('is_starter', Boolean))
 
 
 class Team(Base):
@@ -29,3 +33,15 @@ class Team(Base):
 
     def __repr__(self):
         return '<Team %s>' % self.name
+
+    def get_points(self, session):
+        stats = session.query(Teamstatistics).filter(
+            Teamstatistics.team_id==self.id_).order_by(
+                Teamstatistics.game_id).first()
+        return stats.total_points
+
+    def get_points_for_game(self, game_id, session):
+        stats = session.query(Teamstatistics).filter(
+            Teamstatistics.team_id==self.id_ and
+                Teamstatistics.game_id==game_id).one()
+        return stats.points

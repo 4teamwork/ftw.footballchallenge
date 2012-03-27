@@ -26,7 +26,7 @@ class TestGoalsModel(unittest2.TestCase):
         self.layer.commit()
         nations = self.session.query(Nation).all()
         event = self.session.query(Event).one()
-        game = Game(nations[0].id_, nations[1].id_, datetime.now(), event.id_, '3:0')
+        game = Game(nations[0].id_, nations[1].id_, datetime.now(), event.id_, 3, 0)
         self.session.add(game)
         self.layer.commit()
 

@@ -1,5 +1,6 @@
 from sqlalchemy import Column, Integer, String, Date
 from ftw.footballchallenge import Base
+from zope.schema import vocabulary
 
 
 class Event(Base):
@@ -15,3 +16,11 @@ class Event(Base):
 
     def __repr__(self):
         return '<Event %s>' % self.name
+
+
+def get_events_as_term(session):
+    terms=[]
+    events = session.query(Event).all()
+    for event in events:
+        terms.append(vocabulary.SimpleTerm(event.id_, event.id_, event.name))
+    return terms

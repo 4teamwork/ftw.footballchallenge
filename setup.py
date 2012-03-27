@@ -32,6 +32,7 @@ setup(name='ftw.footballchallenge',
       install_requires=[
           'setuptools',
           'SQLAlchemy',
+          'pyquery'
           # -*- Extra requirements: -*-
       ],
       

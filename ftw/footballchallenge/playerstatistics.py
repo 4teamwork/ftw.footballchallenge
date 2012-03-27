@@ -13,7 +13,6 @@ class Playerstatistics(Base):
                      nullable=False)
     points = Column(Integer, nullable=False)
     total_points = Column(Integer, nullable=False)
-    date = Column(DateTime, nullable=False)
 
     game = relationship("Game", backref=backref('playerstatistics',
                         order_by=game_id))
@@ -28,4 +27,4 @@ class Playerstatistics(Base):
 
     def __repr__(self):
         return '<Statistics for Player %s. Total Points: %s>' % (
-            self.player.name, self.game)
+            self.player.name, self.total_points)

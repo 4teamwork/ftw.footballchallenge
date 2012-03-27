@@ -17,7 +17,8 @@ class Game(Base):
 
     nation1_id = Column(Integer, ForeignKey('nations.id'), nullable=False)
     nation2_id = Column(Integer, ForeignKey('nations.id'), nullable=False)
-    result = Column(String(5))
+    score_nation1 = Column(Integer)
+    score_nation2 = Column(Integer)
     date = Column(DateTime, nullable=False)
     events_id = Column(Integer, ForeignKey('events.id'), nullable=False)
 
@@ -32,11 +33,13 @@ class Game(Base):
 
     players = relationship('Player', secondary=players_played, backref='games')
 
-    def __init__(self, nation1_id, nation2_id, date, events_id, result=None):
+    def __init__(self, nation1_id, nation2_id, date, events_id, score_nation1=None, score_nation2=None):
         self.nation1_id = nation1_id
         self.nation2_id = nation2_id
         self.date = date
         self.events_id = events_id
+        self.score_nation1 = score_nation1
+        self.score_nation2 = score_nation2
 
     def __repr__(self):
         return '<Game %s vs. %s>' % (self.nation1.name, self.nation2.name)
