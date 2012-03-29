@@ -85,6 +85,9 @@
                               <legend tal:condition="show_default_label"
                                       tal:attributes="id string:fieldsetlegend-default"
                                       tal:content="default_fieldset_label">Form name</legend>
+                              <div id="teamname">
+                                  <tal:widget tal:replace="structure view/widgets/name/@@ploneform-render-widget"/>
+                              
                               <div id="labels">
                                     <div id="label_keeper" class="label"></div>
                                     <div id="label_defender" class="label"></div>
@@ -92,8 +95,52 @@
                                     <div id="label_striker" class="label"></div>
                              </div>
                              <div id="starters">
-                                    <div id="">
-                                              <tal:widget tal:replace="structure widget/@@ploneform-render-widget"/>
+                                    <div id="keeper" class="player">
+                                              <tal:widget tal:replace="structure view/widgets/keeper/@@ploneform-render-widget"/>
+                                    </div>
+                                    <div id="defenders" class="player">
+                                        <tal:widget tal:replace="structure view/widgets/defender1/@@ploneform-render-widget"/>
+                                        <tal:widget tal:replace="structure view/widgets/defender2/@@ploneform-render-widget"/>
+                                        <tal:widget tal:replace="structure view/widgets/defender3/@@ploneform-render-widget"/>                                        
+                                   </div>
+                                   <div id="midfield1" class="player">
+                                       <tal:widget tal:replace="structure view/widgets/midfield1/@@ploneform-render-widget"/>
+                                       <tal:widget tal:replace="structure view/widgets/midfield2/@@ploneform-render-widget"/>
+                                       <tal:widget tal:replace="structure view/widgets/midfield3/@@ploneform-render-widget"/>                                        
+                                  </div>
+                                  <div id="midfield2" class="player">
+                                      <tal:widget tal:replace="structure view/widgets/midfield4/@@ploneform-render-widget"/>
+                                      <tal:widget tal:replace="structure view/widgets/midfield5/@@ploneform-render-widget"/>                                        
+                                 </div>
+                                 <div id="striker" class="player">
+                                     <tal:widget tal:replace="structure view/widgets/striker1/@@ploneform-render-widget"/>
+                                     <tal:widget tal:replace="structure view/widgets/striker2/@@ploneform-render-widget"/>
+                                </div>
+                                </div>
+                                <div id="substitute">
+                                    <div id="starters">
+                                           <div id="keeper" class="player">
+                                                     <tal:widget tal:replace="structure view/widgets/substitute_keeper/@@ploneform-render-widget"/>
+                                           </div>
+                                           <div id="defenders_sub" class="player">
+                                               <tal:widget tal:replace="structure view/widgets/substitute_defender1/@@ploneform-render-widget"/>
+                                               <tal:widget tal:replace="structure view/widgets/substitute_defender2/@@ploneform-render-widget"/>
+                                               <tal:widget tal:replace="structure view/widgets/substitute_defender3/@@ploneform-render-widget"/>                                        
+                                          </div>
+                                          <div id="midfield1_sub" class="player">
+                                              <tal:widget tal:replace="structure view/widgets/substitute_midfield1/@@ploneform-render-widget"/>
+                                              <tal:widget tal:replace="structure view/widgets/substitute_midfield2/@@ploneform-render-widget"/>
+                                              <tal:widget tal:replace="structure view/widgets/substitute_midfield3/@@ploneform-render-widget"/>                                        
+                                         </div>
+                                         <div id="midfield2_sub" class="player">
+                                             <tal:widget tal:replace="structure view/widgets/substitute_midfield4/@@ploneform-render-widget"/>
+                                             <tal:widget tal:replace="structure view/widgets/substitute_midfield5/@@ploneform-render-widget"/>                                        
+                                        </div>
+                                        <div id="striker_sub" class="player">
+                                            <tal:widget tal:replace="structure view/widgets/substitute_striker1/@@ploneform-render-widget"/>
+                                            <tal:widget tal:replace="structure view/widgets/substitute_striker2/@@ploneform-render-widget"/>
+                                       </div>
+
                               </metal:define>
                           </fieldset>
 

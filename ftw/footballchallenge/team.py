@@ -8,12 +8,6 @@ from sqlalchemy import Table
 from ftw.footballchallenge.teamstatistics import Teamstatistics
 
 
-player_team = Table('player_team', Base.metadata,
-    Column('team_id', Integer, ForeignKey('teams.id')),
-    Column('player_id', Integer, ForeignKey('players.id')),
-    Column('is_starter', Boolean))
-
-
 class Team(Base):
     __tablename__='teams'
 
@@ -24,7 +18,7 @@ class Team(Base):
     league_id = Column(Integer, ForeignKey('leagues.id'), nullable=True)
     league = relationship("League", backref=backref('leagues', order_by=id_))
 
-    players = relationship('Player', secondary=player_team, backref='teams')
+    players = relationship('Teams_Players', backref='team')
 
     def __init__(self, name, user_id, league_id=None):
         self.name = name

@@ -7,8 +7,10 @@ from ftw.footballchallenge.goal import Goal
 from ftw.footballchallenge.card import Card
 from ftw.footballchallenge.save import Save
 from ftw.footballchallenge.game import Game
+from ftw.footballchallenge.event import Event
 from ftw.footballchallenge.config import POINT_MAPPING_STRIKER, POINT_MAPPING_MIDFIELD, POINT_MAPPING_DEFENDER, POINT_MAPPING_KEEPER
-
+from datetime import datetime
+from zope.schema import vocabulary
 
 
 class Player(Base):
@@ -144,3 +146,13 @@ class Player(Base):
                    elif game.score_nation2 >1:
                        log.append([game, mapping['3_goals'], '3 Goals recieved'])
         return log
+
+def get_player_term(session, position):
+    terms=[]
+    event_id = session.query(Event).filter(Event.lockdate > datetime.now()).one().id_
+    players = session.query(Player).filter(Player.position==position and Player.event_id == event_id).all()
+    for player in players:
+        terms.append(vocabulary.SimpleTerm(player.id_, player.id_, player.name))
+    return terms
+    
+    
