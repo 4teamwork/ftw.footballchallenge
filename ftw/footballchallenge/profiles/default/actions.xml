@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<object name="portal_actions" meta_type="Plone Actions Tool"
+        xmlns:i18n="http://xml.zope.org/namespaces/i18n">
+
+    <object name="user_actions" meta_type="CMF Action Category">
+        <object name="create_event" meta_type="CMF Action" i18n:domain="ftw.footballchallenge">
+            <property name="title" i18n:translate="">Create Event</property>
+            <property name="url_expr">string:create_event</property>
+            <property name="permissions">
+                <element value="View"/>
+            </property>
+    </object>
+        <object name="edit_team" meta_type="CMF Action" i18n:domain="ftw.footballchallenge">
+            <property name="title" i18n:translate="">Team erstellen</property>
+            <property name="url_expr">string:edit_team</property>
+            <property name="permissions">
+                <element value="View"/>
+            </property>
+    </object>
+
+</object>

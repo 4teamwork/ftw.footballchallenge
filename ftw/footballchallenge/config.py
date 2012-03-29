@@ -50,3 +50,6 @@ POINT_MAPPING_KEEPER = {
     '3_goals': -4,
     'save': 4 
 }
+
+
+PROJECTNAME = 'ftw.footballchallenge'

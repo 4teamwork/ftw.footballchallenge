@@ -18,6 +18,13 @@
         />
 
     <browser:page
+        for="*"
+        name="edit_team"
+        class=".edit_team.EditTeamForm"
+        permission="zope2.View"
+        />
+
+    <browser:page
         name="ploneform-macros"
         for=".player_import.PlayerImportForm"
         layer="plone.app.z3cform.interfaces.IPloneFormLayer"
