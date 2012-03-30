@@ -1,8 +1,10 @@
-from sqlalchemy import Column, Integer, DateTime
+from sqlalchemy import Column, Integer
 from ftw.footballchallenge import Base
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship, backref
-
+import transaction
+from ftw.footballchallenge.config import POINT_MAPPING_STRIKER, POINT_MAPPING_MIDFIELD, POINT_MAPPING_DEFENDER, POINT_MAPPING_KEEPER
+from z3c.saconfig import named_scoped_session
 
 class Playerstatistics(Base):
     __tablename__='playerstatistics'
@@ -28,3 +30,56 @@ class Playerstatistics(Base):
     def __repr__(self):
         return '<Statistics for Player %s. Total Points: %s>' % (
             self.player.name, self.total_points)
+
+def calculate_player_points(game):
+    for player in game.players:
+        points = 0
+        if player.position == "striker":
+            mapping = POINT_MAPPING_STRIKER
+        elif player.position == "midfield":
+            mapping = POINT_MAPPING_MIDFIELD
+        elif player.position == "defender":
+            mapping = POINT_MAPPING_DEFENDER
+        else:
+            mapping = POINT_MAPPING_KEEPER
+            
+        if player.nation_id == game.nation1_id:
+            if game.score_nation1 > game.score_nation2:
+                points += mapping['victory']
+            elif game.score_nation1 == game.score_nation2:
+                points += mapping['draw']
+            else:
+                points += mapping['loss']        
+        else:
+            if game.score_nation1 < game.score_nation2:
+                points += mapping['victory']
+            elif game.score_nation1 == game.score_nation2:
+                points += mapping['draw']
+            else:
+                points += mapping['loss']
+        session = named_scoped_session('footballchallenge')
+        goals = player.get_goals(session. game.id_)
+        points += mapping['goal']*len(goals)
+        card = player.get_cards(session. game.id_)
+        points += mapping[card.color]
+        if player.position == "keeper" or player.position == "defender":
+            if player.nation_id == game.nation1_id:
+                if game.score_nation2 == 0:
+                    points += mapping['no_goals']
+                elif game.score_nation2 <= 3:
+                    points += mapping['3_goals']
+            else:
+                if game.score_nation1 == 0:
+                    points += mapping['no_goals']
+                elif game.score_nation1 <= 3:
+                    points += mapping['3_goals']
+        if player.position == "keeper":
+            saves = player.get_saves(session. game.id_)
+            points += mapping['save']*len(saves)
+        old_entry = session.query(Playerstatistics).filter(Playerstatistics.player_id == player.id).all()[-1]
+        if not old_entry:
+            stats = Playerstatistics(player.id_, game.id_, points, points)
+        else:
+            stats = Playerstatistics(player.id_, game.id_, points, old_entry.total_points+points)
+        session.add(stats)
+    transaction.commit()

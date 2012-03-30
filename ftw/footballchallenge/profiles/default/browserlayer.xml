@@ -1,0 +1,4 @@
+<layers>
+    <layer name="ftw.footballchallenge"
+           interface="ftw.footballchallenge.interfaces.IFootballchallengeLayer" />
+</layers>

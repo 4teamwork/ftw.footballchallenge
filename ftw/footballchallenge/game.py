@@ -26,10 +26,10 @@ class Game(Base):
 
     nation1 = relationship("Nation",
                            primaryjoin="Nation.id_==Game.nation1_id",
-                           backref=backref('games.nation1_id', order_by=id_))
+                           backref='games.nation1_id')
     nation2 = relationship("Nation",
                            primaryjoin="Nation.id_==Game.nation2_id",
-                           backref=backref('games.nation2_id', order_by=id_))
+                           backref='games.nation2_id')
 
     players = relationship('Player', secondary=players_played, backref='games')
 

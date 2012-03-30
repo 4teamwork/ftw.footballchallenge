@@ -50,6 +50,22 @@ POINT_MAPPING_KEEPER = {
     '3_goals': -4,
     'save': 4 
 }
-
+POSITION_MAPPING={
+    u'Torwart':'keeper',
+    u'Abwehr - Rechter Verteidiger':'defender',
+    u'Abwehr - Linker Verteidiger':'defender',
+    u'Abwehr - Innenverteidiger':'defender',
+    u'Mittelfeld - Defensives Mittelfeld':'midfield',
+    u'Mittelfeld - Zentrales Mittelfeld':'midfield',
+    u'Mittelfeld - Offensives Mittelfeld':'midfield',
+    u'Mittelfeld - Linksau\xdfen':'midfield',
+    u'Mittelfeld - Rechtsau\xdfen':'midfield',
+    u'Sturm - Mittelst\xfcrmer':'striker',
+    u'Sturm - Rechtsau\xdfen':'striker',
+    u'Sturm - Linksau\xdfen':'striker',
+    u'Sturm - H\xe4ngende Spitze':'striker',
+    u'Mittelfeld - Linkes Mittelfeld':'midfield',
+    u'Mittelfeld - Rechtes Mittelfeld':'midfield'
+}
 
 PROJECTNAME = 'ftw.footballchallenge'

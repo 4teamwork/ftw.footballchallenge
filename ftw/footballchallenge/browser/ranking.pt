@@ -1,0 +1,8 @@
+<div class="ranking" i18n:domain="ftw.footballchallenge">
+    <ol tal:repeat="team view/get_ranking">
+        <li>
+            <span tal:content="team/teams/name" />
+            <span tal:content="team/teams/total_points"/>
+        </li>
+    </ol>
+</div>

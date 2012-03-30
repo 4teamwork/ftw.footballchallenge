@@ -16,6 +16,6 @@
             <property name="permissions">
                 <element value="View"/>
             </property>
-    </object>
-
+        </object>
+</object>
 </object>
