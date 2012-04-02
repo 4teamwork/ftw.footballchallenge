@@ -2,7 +2,7 @@ from ftw.footballchallenge.nation import Nation
 from ftw.footballchallenge.game import Game
 from ftw.footballchallenge.event import Event
 from ftw.footballchallenge.teamstatistics import Teamstatistics
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 from ftw.footballchallenge.testing import DATABASE_LAYER
 from ftw.footballchallenge.team import Team
 import unittest2
@@ -16,7 +16,7 @@ class TestTeamstatsModel(unittest2.TestCase):
         return self.layer.session
 
     def test_creation(self):
-        event1 = Event('TheEvent', date.today()+1)
+        event1 = Event('TheEvent', date.today()+timedelta(days=1))
         self.session.add(event1)        
         nation1 = Nation('Nation1')
         self.session.add(nation1)

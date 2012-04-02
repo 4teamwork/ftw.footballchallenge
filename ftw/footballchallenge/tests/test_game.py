@@ -5,7 +5,7 @@ from ftw.footballchallenge.player import Player
 from ftw.footballchallenge.event import Event
 import unittest2
 from datetime import datetime
-from datetime import date
+from datetime import date, timedelta
 
 
 class TestGameModel(unittest2.TestCase):
@@ -18,7 +18,7 @@ class TestGameModel(unittest2.TestCase):
 
     
     def test_creation(self):
-        event1 = Event('TheEvent', date.today()+1)
+        event1 = Event('TheEvent', date.today()+timedelta(days=1))
         self.session.add(event1)        
         nation1 = Nation('Nation1')
         self.session.add(nation1)

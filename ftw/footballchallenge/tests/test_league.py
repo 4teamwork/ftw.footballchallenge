@@ -2,7 +2,7 @@ from ftw.footballchallenge.testing import DATABASE_LAYER
 from ftw.footballchallenge.league import League
 from ftw.footballchallenge.event import Event
 import unittest2
-
+from datetime import date, timedelta
 
 class TestLeagueModel(unittest2.TestCase):
     
@@ -14,7 +14,7 @@ class TestLeagueModel(unittest2.TestCase):
 
     def test_creation(self):
         
-        event1 = Event('TheEvent', datetime.date.today()+1)
+        event1 = Event('TheEvent', date.today()+timedelta(days=1))
         self.session.add(event1)
         self.layer.commit()
         myevent = self.session.query(Event).one()

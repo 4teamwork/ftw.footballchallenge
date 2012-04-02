@@ -9,7 +9,7 @@ from ftw.footballchallenge.team import Team
 from ftw.footballchallenge.testing import DATABASE_LAYER
 from datetime import datetime
 import unittest2
-from datetime import date
+from datetime import date, timedelta
 
 
 class TestGoalsModel(unittest2.TestCase):
@@ -22,7 +22,7 @@ class TestGoalsModel(unittest2.TestCase):
 
     
     def test_creation(self):
-        event = Event('TheEvent', date.today()+1)
+        event = Event('TheEvent', date.today()+timedelta(days=1))
         self.session.add(event)
         nation1 = Nation('Nation1')
         self.session.add(nation1)
