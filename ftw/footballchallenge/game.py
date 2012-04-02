@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, DateTime
+from sqlalchemy import Column, Integer, DateTime
 from ftw.footballchallenge import Base
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship, backref
@@ -11,6 +11,7 @@ players_played = Table('players_played', Base.metadata,
 
 
 class Game(Base):
+    """Model delclaration for Game Type"""
     __tablename__='games'
 
     id_ = Column('id', Integer, primary_key=True)
@@ -33,7 +34,8 @@ class Game(Base):
 
     players = relationship('Player', secondary=players_played, backref='games')
 
-    def __init__(self, nation1_id, nation2_id, date, events_id, score_nation1=None, score_nation2=None):
+    def __init__(self, nation1_id, nation2_id, date, events_id,
+                 score_nation1=None, score_nation2=None):
         self.nation1_id = nation1_id
         self.nation2_id = nation2_id
         self.date = date

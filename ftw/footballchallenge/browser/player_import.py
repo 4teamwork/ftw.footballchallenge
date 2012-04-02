@@ -4,8 +4,6 @@ from ftw.footballchallenge import _
 from z3c.saconfig import named_scoped_session
 from ftw.footballchallenge.playerimport import import_team
 from ftw.footballchallenge.event import get_events_as_term
-from zope.app.component.hooks import getSite
-from zope.interface import alsoProvides
 
 
 class PlayerImportSchema(interface.Interface):
@@ -15,13 +13,12 @@ class PlayerImportSchema(interface.Interface):
     event = schema.Choice(title=_('label_import_event', default="Event"),
                           source=get_events_as_term)
 
+
 class PlayerImportForm(form.Form):
     fields = field.Fields(PlayerImportSchema)
     label = _(u'heading_import_players', 'Import Players')
-    ignoreContext = True    
+    ignoreContext = True
 
-    
-    
     @button.buttonAndHandler(_(u'Import'))
     def handleImport(self, action):
         data, errors = self.extractData()
@@ -31,8 +28,7 @@ class PlayerImportForm(form.Form):
             session = named_scoped_session('footballchallenge')
             import_team(urls, session, event)
             return self.request.RESPONSE.redirect(self.context.absolute_url())
-    
-    
+
     @button.buttonAndHandler(_(u'Cancel'))
     def handleCancel(self, action):
         return self.request.RESPONSE.redirect(self.context.absolute_url())

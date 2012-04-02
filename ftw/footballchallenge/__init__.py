@@ -9,9 +9,6 @@ _ = MessageFactory("ftw.footballchallenge")
 Base = declarative_base()
 
 
-
-
-
 def initialize(context):
     """Initializer called when used as a Zope 2 product.
 

@@ -40,6 +40,34 @@
         factory="ftw.footballchallenge.traverse.LeagueTraverse"
         />
 
+    <adapter
+        name="game"
+        for="* zope.publisher.interfaces.IRequest"
+        provides="zope.traversing.interfaces.ITraversable"
+        factory="ftw.footballchallenge.traverse.GameTraverse"
+        />
+
+    <adapter
+        name="player"
+        for="* zope.publisher.interfaces.IRequest"
+        provides="zope.traversing.interfaces.ITraversable"
+        factory="ftw.footballchallenge.traverse.PlayerTraverse"
+        />
+
+    <adapter
+        name="team"
+        for="* zope.publisher.interfaces.IRequest"
+        provides="zope.traversing.interfaces.ITraversable"
+        factory="ftw.footballchallenge.traverse.TeamTraverse"
+        />
+
+    <adapter
+        name="event"
+        for="* zope.publisher.interfaces.IRequest"
+        provides="zope.traversing.interfaces.ITraversable"
+        factory="ftw.footballchallenge.traverse.EventTraverse"
+        />
+
     <subscriber
           for="z3c.saconfig.interfaces.IEngineCreatedEvent"
           handler=".handlers.create_sql_tables"

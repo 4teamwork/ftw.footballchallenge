@@ -5,6 +5,7 @@ from sqlalchemy.orm import relationship, backref
 
 
 class Goal(Base):
+    """Modeldefinition for goal"""
     __tablename__='goals'
 
     id_ = Column('id', Integer, primary_key=True)

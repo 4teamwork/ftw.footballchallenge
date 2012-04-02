@@ -14,40 +14,51 @@ from ftw.footballchallenge.save import Save
 from ftw.footballchallenge.teamstatistics import calculate_team_points
 from ftw.footballchallenge.playerstatistics import calculate_player_points
 
-class CreateGameSchema(interface.Interface):
 
-    date = schema.Date(title=_('label_date', default="Date"),required=True)
+class CreateGameSchema(interface.Interface):
+    """defines which Fields we will schow in the create Form."""
+    date = schema.Date(title=_('label_date', default="Date"), required=True)
     event = schema.Choice(title=_('label_import_event', default="Event"),
                           source=get_events_as_term)
-    score_home = schema.Int(title=_('label_homescore', default="Home Score"), required=False)
-    score_visitor = schema.Int(title=_('label_visitorscore', default="Visitor Score"), required=False)
-    
+    score_home = schema.Int(title=_('label_homescore', default="Home Score"),
+                            required=False)
+    score_visitor = schema.Int(title=_('label_visitorscore',
+                                       default="Visitor Score"),
+                               required=False)
+
     nation1 = schema.Choice(title=_('label_hometeam', default="Home Team"),
                             source=get_nations_term)
-    nation2 = schema.Choice(title=_('label_visitorteam', default="Visitor Team"),
+    nation2 = schema.Choice(title=_('label_visitorteam',
+                                    default="Visitor Team"),
                             source=get_nations_term)
     yellow = schema.List(title=_('label_yellow', default="Yellow Cards"),
                            value_type=schema.Choice(
                            source=get_player_term))
-    sec_yellow = schema.List(title=_('label_2yellow', default="Second Yellow Cards"),
+    sec_yellow = schema.List(title=_('label_2yellow',
+                                     default="Second Yellow Cards"),
                           value_type=schema.Choice(
                           source=get_player_term))
     red = schema.List(title=_('label_red', default="Red Cards"),
                         value_type=schema.Choice(
                         source=get_player_term))
-    
+
     goals = schema.List(title=_('label_goal', default="Goals"),
                         value_type=schema.Choice(
                         source=get_player_term))
-    
+
     saves = schema.List(title=_('label_save', default="Penalty save"),
                           value_type=schema.Choice(
                           source=get_keeper_term))
 
+
 class CreateGameForm(form.Form):
+    """Defines the Form and the behavior."""
+    #this sets the Schema as Fields
     fields = field.Fields(CreateGameSchema)
     label = _(u'heading_create_event', 'Add Game')
     fields['date'].widgetFactory = DatePickerFieldWidget
+    #The ignoreContext flag tells the Form not to try to get defaults
+    #  from context, since we don't have a request this will fail
     ignoreContext = True
 
     @button.buttonAndHandler(_(u'Import'))
@@ -55,7 +66,9 @@ class CreateGameForm(form.Form):
         data, errors = self.extractData()
         if len(errors) == 0:
             session = named_scoped_session('footballchallenge')
-            game = Game(int(data['nation1']), int(data['nation2']), data['date'], data['event'], data['score_home'], data['score_visitor'])
+            game = Game(int(data['nation1']), int(data['nation2']),
+                        data['date'], data['event'], data['score_home'],
+                        data['score_visitor'])
             session.add(game)
             transaction.commit()
             game = session.query(Game).all()[-1]
@@ -75,11 +88,11 @@ class CreateGameForm(form.Form):
                 obj = Save(save, game.id_)
                 session.add(obj)
             transaction.commit()
+            #After creating a game we need to update our statstables
             calculate_player_points(game = session.query(Game).all()[-1])
             calculate_team_points(game = session.query(Game).all()[-1])
 
             self.request.response.redirect(self.context.absolute_url())
-
 
     @button.buttonAndHandler(_(u'Cancel'))
     def handleCancel(self, action):

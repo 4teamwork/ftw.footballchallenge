@@ -5,6 +5,7 @@ from sqlalchemy.orm import relationship, backref
 
 
 class Save(Base):
+    """Modeldefiniton for Save"""
     __tablename__='saves'
 
     id_ = Column('id', Integer, primary_key=True)

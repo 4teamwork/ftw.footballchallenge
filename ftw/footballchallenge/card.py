@@ -5,6 +5,7 @@ from sqlalchemy.orm import relationship, backref
 
 
 class Card(Base):
+    """SQLAlchemy model for the Cards a player can recieve"""
     __tablename__='cards'
 
     id_ = Column('id', Integer, primary_key=True)
@@ -17,6 +18,7 @@ class Card(Base):
     game = relationship("Game", backref=backref('cards', order_by=id_))
 
     def __init__(self, player_id, game_id, color):
+        """initializes the object"""
         self.player_id = player_id
         self.game_id = game_id
         self.color = color

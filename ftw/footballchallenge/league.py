@@ -5,11 +5,14 @@ from sqlalchemy.orm import relationship, backref
 from zope.interface import implements
 from ftw.footballchallenge.interfaces import ILeague
 
+
 class League(Base):
+    """Modeldefinition for League"""
     __tablename__='leagues'
 
+    #implement the Markerinterface
     implements(ILeague)
-    
+
     id_ = Column('id', Integer, primary_key=True)
     name = Column(String(45))
 

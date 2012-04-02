@@ -9,5 +9,6 @@ class IFootballchallengeLayer(Interface):
     """ftw.datepicker browser layer
     """
 
+
 class ILeague(Interface):
     """Marker interface for League"""
