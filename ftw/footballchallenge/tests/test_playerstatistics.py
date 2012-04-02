@@ -6,7 +6,7 @@ from ftw.footballchallenge.playerstatistics import Playerstatistics
 from datetime import datetime
 from ftw.footballchallenge.testing import DATABASE_LAYER
 import unittest2
-
+from datetime import date
 
 class TestPlayerstatsModel(unittest2.TestCase):
     
@@ -17,7 +17,7 @@ class TestPlayerstatsModel(unittest2.TestCase):
         return self.layer.session
 
     def test_creation(self):
-        event1 = Event('TheEvent')
+        event1 = Event('TheEvent', date.today()+1)
         self.session.add(event1)        
         nation1 = Nation('Nation1')
         self.session.add(nation1)

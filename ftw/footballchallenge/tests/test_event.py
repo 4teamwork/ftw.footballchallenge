@@ -1,7 +1,7 @@
 from ftw.footballchallenge.testing import DATABASE_LAYER
 from ftw.footballchallenge.event import Event
 import unittest2
-
+import datetime.date
 
 class TestEventModel(unittest2.TestCase):
     
@@ -12,7 +12,7 @@ class TestEventModel(unittest2.TestCase):
         return self.layer.session
 
     def test_creation(self):
-        event1 = Event('TheEvent')
+        event1 = Event('TheEvent', date.today()+1)
         self.session.add(event1)
         self.layer.commit()
 

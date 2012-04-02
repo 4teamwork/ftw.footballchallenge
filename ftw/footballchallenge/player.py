@@ -114,7 +114,6 @@ class Player(Base):
            influenced the Points of a Player
 
         """
-
         #TODO: Check if we can refactor this. The code looks bloody awful
         log = []
         #get right mapping

@@ -5,6 +5,7 @@ from ftw.footballchallenge.save import Save
 from ftw.footballchallenge.event import Event
 from ftw.footballchallenge.testing import DATABASE_LAYER
 from datetime import datetime
+from datetime import date
 import unittest2
 
 class TestGoalsModel(unittest2.TestCase):
@@ -17,7 +18,7 @@ class TestGoalsModel(unittest2.TestCase):
 
     
     def test_creation(self):
-        event1 = Event('TheEvent')
+        event1 = Event('TheEvent', date.today()+1)
         self.session.add(event1)        
         nation1 = Nation('Nation1')
         self.session.add(nation1)

@@ -14,7 +14,7 @@ class TestLeagueModel(unittest2.TestCase):
 
     def test_creation(self):
         
-        event1 = Event("TheEvent")
+        event1 = Event('TheEvent', datetime.date.today()+1)
         self.session.add(event1)
         self.layer.commit()
         myevent = self.session.query(Event).one()
