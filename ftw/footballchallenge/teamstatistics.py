@@ -39,29 +39,31 @@ class Teamstatistics(Base):
 def calculate_team_points(game):
     """recalculates the team points after a game"""
     session = named_scoped_session('footballchallenge')
-    teams = session.query(Team).filter(Team.event_id == game.event_id).all()
+    teams = session.query(Team).filter(Team.event_id == game.events_id).all()
     points = {}
     for team in teams:
         for player in game.players:
-            if player.teams.team == team:
-                playerstats = session.query(Playerstatistics).filter(
-                    Playerstatistics.player_id == player.id_ and \
-                        Playerstatistics.game_id == game.id_)
-                team_player = session.query(Teams_Players).filter(
-                    Teams_Players.team_id == team.id_ and \
-                    Teams_Players.player_id == player.id_)
-                if not team_player.is_starter:
-                    points[team.id_]+= playerstats.points/2
-                else:
-                    points[team.id_]+= playerstats.points/2
+            for teams_players in player.teams:
+                if teams_players.team == team:
+                    playerstats = session.query(Playerstatistics).filter_by(
+                        player_id = player.id_).filter_by(game_id = game.id_).one()
+                    team_player = session.query(Teams_Players).filter_by(
+                        team_id = team.id_).filter_by(
+                        player_id = player.id_).one()
+                    if not points.get(team.id_, None):
+                        points[team.id_] = 0
+                    if not team_player.is_starter:
+                        points[team.id_]+= playerstats.points/2
+                    else:
+                        points[team.id_]+= playerstats.points
 
     for key, value in points.items():
-        old_stats = session.query(Teamstatistics.team_id==key).all()[-1]
+        old_stats = session.query(Teamstatistics).filter(Teamstatistics.team_id==key).all()
         if not old_stats:
             stats=Teamstatistics(key, game.id_, value, value)
         else:
             stats=Teamstatistics(key, game.id_, value,
-                                 old_stats.total_points+value)
+                                 old_stats[-1].total_points+value)
 
         session.add(stats)
     transaction.commit()

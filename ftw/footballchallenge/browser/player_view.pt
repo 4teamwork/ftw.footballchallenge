@@ -1,0 +1,28 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="context/main_template/macros/master"
+      i18n:domain="ftw.footballchallenge">
+
+<metal:content-core fill-slot="content-core">
+    <div style="float:left">
+        <ul>
+            <li><span i18n:translate="">Name:</span><span tal:content="context/name" /></li>
+            <li><span i18n:translate="">Position:</span><span tal:content="context/position" /></li>
+            <li><span i18n:translate="">Original Name:</span><span tal:content="context/original_name" /></li>
+            <li><span i18n:translate="">Date of Birth:</span><span tal:content="context/date_of_birth" /></li>
+            <li><span i18n:translate="">Value:</span><span tal:content="context/value" /></li>
+            <li><span i18n:translate="">Club:</span><span tal:content="context/club" /></li>
+            <li><span i18n:translate="">Teams:</span><span>
+                <ul>
+                    <li tal:repeat="team context/teams" tal:content="team/team/name" />
+                </ul>
+        </ul>
+    </div>
+    <div style="padding-left:1em" tal:define="url python: context.absolute_url()+'/++player++'+str(context.id_)+'/player_img'">
+        <img style="padding-left:1em" tal:attributes="src url" />
+    </div>
+</metal:content-core>
+</html>

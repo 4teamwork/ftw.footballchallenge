@@ -72,10 +72,11 @@ def calculate_player_points(game):
 
         session = named_scoped_session('footballchallenge')
         #get points for playerspecific events like cards or goals
-        goals = player.get_goals(session. game.id_)
+        goals = player.get_goals(session, game.id_)
         points += mapping['goal']*len(goals)
-        card = player.get_cards(session. game.id_)
-        points += mapping[card.color]
+        card = player.get_cards(session, game.id_)
+        if card:
+            points += mapping[card[0].color]
         if player.position == "keeper" or player.position == "defender":
             if player.nation_id == game.nation1_id:
                 if game.score_nation2 == 0:
@@ -88,16 +89,16 @@ def calculate_player_points(game):
                 elif game.score_nation1 <= 3:
                     points += mapping['3_goals']
         if player.position == "keeper":
-            saves = player.get_saves(session. game.id_)
+            saves = player.get_saves(session, game.id_)
             points += mapping['save']*len(saves)
 
         #get last entry. We need it to calculate the total
         old_entry = session.query(Playerstatistics).filter(
-            Playerstatistics.player_id == player.id).all()[-1]
+            Playerstatistics.player_id == player.id_).all()
         if not old_entry:
             stats = Playerstatistics(player.id_, game.id_, points, points)
         else:
             stats = Playerstatistics(player.id_, game.id_, points,
-                                     old_entry.total_points+points)
+                                     old_entry[-1].total_points+points)
         session.add(stats)
     transaction.commit()

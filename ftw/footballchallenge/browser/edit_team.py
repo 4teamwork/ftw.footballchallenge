@@ -1,9 +1,8 @@
-from z3c.form import form, field, button
+from z3c.form import form, field, button, value
 from zope import interface, schema
 from ftw.footballchallenge import _
 from z3c.saconfig import named_scoped_session
-from ftw.footballchallenge.player import get_keeper_term, get_defender_term
-from ftw.footballchallenge.player import get_midfield_term, get_striker_term
+from zope.schema import vocabulary
 from Products.CMFCore.utils import getToolByName
 from ftw.footballchallenge.team import Team
 from ftw.footballchallenge.player import Player
@@ -15,7 +14,7 @@ from zope.interface import implements
 from ftw.footballchallenge.interfaces import IEditTeam
 from zope.interface import invariant
 from zope.interface import Invalid
-
+from zope import component
 
 class EditTeamSchema(interface.Interface):
     """Schemadefinition of EditteamSchema"""
@@ -23,75 +22,76 @@ class EditTeamSchema(interface.Interface):
                            required=True)
 
     keeper = schema.Choice(title=_(u'label_keeper', default="keeper"),
-                           source=get_keeper_term)
+                           vocabulary=u"KeeperFactory")
 
     defender1 = schema.Choice(title=_(u'label_defender', default="defender"),
-                              source=get_defender_term)
+                              vocabulary=u"DefenderFactory")
     defender2 = schema.Choice(title=_(u'label_defender', default="defender"),
-                              source=get_defender_term)
+                              vocabulary=u"DefenderFactory")
     defender3 = schema.Choice(title=_(u'label_defender', default="defender"),
-                              source=get_defender_term)
+                              vocabulary=u"DefenderFactory")
 
     midfield1 = schema.Choice(title=_(u'label_midfield', default="midfield"),
-                              source=get_midfield_term)
+                              vocabulary=u"MidfieldFactory")
     midfield2 = schema.Choice(title=_(u'label_midfield', default="midfield"),
-                              source=get_midfield_term)
+                              vocabulary=u"MidfieldFactory")
 
     midfield3 = schema.Choice(title=_(u'label_midfield', default="midfield"),
-                              source=get_midfield_term)
+                              vocabulary=u"MidfieldFactory")
     midfield4 = schema.Choice(title=_(u'label_midfield', default="midfield"),
-                              source=get_midfield_term)
+                              vocabulary=u"MidfieldFactory")
     midfield5 = schema.Choice(title=_(u'label_midfield', default="midfield"),
-                              source=get_midfield_term)
+                              vocabulary=u"MidfieldFactory")
 
     striker1 = schema.Choice(title=_(u'label_striker', default="striker"),
-                             source=get_striker_term)
+                             vocabulary=u"StrikerFactory")
     striker2 = schema.Choice(title=_(u'label_striker', default="striker"),
-                             source=get_striker_term)
+                             vocabulary=u"StrikerFactory")
 
 
 #And now the Substitutes
     substitute_keeper = schema.Choice(title=_(u'label_keeper',
                                               default="keeper"),
-                           source=get_keeper_term)
+                           vocabulary=u"KeeperFactory")
 
     substitute_defender1 = schema.Choice(title=_(u'label_defender',
                                          default="defender"),
-                              source=get_defender_term)
+                              vocabulary=u"DefenderFactory")
     substitute_defender2 = schema.Choice(title=_(u'label_defender',
                                          default="defender"),
-                              source=get_defender_term)
+                              vocabulary=u"DefenderFactory")
     substitute_defender3 = schema.Choice(title=_(u'label_defender',
                                          default="defender"),
-                              source=get_defender_term)
+                              vocabulary=u"DefenderFactory")
 
     substitute_midfield1 = schema.Choice(title=_(u'label_midfield',
                                          default="midfield"),
-                              source=get_midfield_term)
+                              vocabulary=u"MidfieldFactory")
     substitute_midfield2 = schema.Choice(title=_(u'label_midfield',
                                          default="midfield"),
-                              source=get_midfield_term)
+                              vocabulary=u"MidfieldFactory")
 
     substitute_midfield3 = schema.Choice(title=_(u'label_midfield',
                                          default="midfield"),
-                              source=get_midfield_term)
+                              vocabulary=u"MidfieldFactory")
     substitute_midfield4 = schema.Choice(title=_(u'label_midfield',
                                          default="midfield"),
-                              source=get_midfield_term)
+                              vocabulary=u"MidfieldFactory")
     substitute_midfield5 = schema.Choice(title=_(u'label_midfield',
                                          default="midfield"),
-                              source=get_midfield_term)
+                              vocabulary=u"MidfieldFactory")
 
     substitute_striker1 = schema.Choice(title=_(u'label_striker',
                                         default="striker"),
-                             source=get_striker_term)
+                             vocabulary=u"StrikerFactory")
     substitute_striker2 = schema.Choice(title=_(u'label_striker',
                                         default="striker"),
-                             source=get_striker_term)
+                             vocabulary=u"StrikerFactory")
 
     @invariant
     def player_only_once(data):
         """A Validator that checks if every Player is only used once"""
+        import pdb; pdb.set_trace( )
         keys = EditTeamSchema
         if len(set([getattr(data, name) for name in keys.names()])) == \
         len(keys.names()):
@@ -106,39 +106,39 @@ class EditTeamForm(form.Form):
 
     ignoreContext = True
 
-    # def update_widgets(self, context, request):
-    #     membershiptool = getToolByName(self.context, 'portal_membership')
-    #     userid = membershiptool.getAuthenticatedUser().userid
-    #     session = named_scoped_session('footballchallenge')
-    #     event_id = session.query(Event).filter(Event.lockdate > datetime.now()).one().id_
-    #     team = session.query(Team).filter(Team.userid==userid and Team.event_id == event_id)
-    #     keepers = session.query(Player).filter(team in Player.teams and Player.position=="keeper" and team.Players[Player.id_].is_starter==True).all()
-    #     defenders = session.query(Player).filter(team in Player.teams and Player.position=="defender" and team.Players[Player.id_].is_starter==True).all()
-    #     midfield = session.query(Player).filter(team in Player.teams and Player.position=="midfield" and team.Players[Player.id_].is_starter==True).all()
-    #     strikers = session.query(Player).filter(team in Player.teams and Player.position=="striker" and team.Players[Player.id_].is_starter==True).all()
-    # 
-    #     subkeepers = session.query(Player).filter(team in Player.teams and Player.position=="keeper" and team.Players[Player.id_].is_starter==False).all()
-    #     subdefenders = session.query(Player).filter(team in Player.teams and Player.position=="defender" and team.Players[Player.id_].is_starter==False).all()
-    #     submidfield = session.query(Player).filter(team in Player.teams and Player.position=="midfield" and team.Players[Player.id_].is_starter==False).all()
-    #     substrikers = session.query(Player).filter(team in Player.teams and Player.position=="striker" and team.Players[Player.id_].is_starter==False).all()
-    # 
-    #     request.form.widgets['keeper'] = keepers[0]
-    #     for defender in defenders:
-    #         request.form.widgets['defender'+str(defender.id_+1)]
-    #     for midfielder in midfield:
-    #         request.form.widgets['midfield'+str(midfielder.id_+1)]
-    #     for striker in strikers:
-    #         request.form.widgets['striker'+str(striker.id_+1)]
-    # 
-    #     request.form.widgets['substitute_keeper'] = subkeepers[0]
-    #     for defender in subdefenders:
-    #         request.form.widgets['substitute_defender'+str(defender.id_+1)]
-    #     for midfielder in submidfield:
-    #         request.form.widgets['substitute_midfield'+str(midfielder.id_+1)]
-    #     for striker in substrikers:
-    #         request.form.widgets['substitute_striker'+str(striker.id_+1)]
-    # 
-    #     super(EditTeamForm, self).update_widgets()
+    def updateWidgets(self):
+        membershiptool = getToolByName(self.context, 'portal_membership')
+        userid = membershiptool.getAuthenticatedMember().getId()
+        session = named_scoped_session('footballchallenge')
+        event_id = session.query(Event).filter(Event.LockDate > datetime.now()).one().id_
+        if not len(session.query(Team).filter_by(user_id=userid).filter_by(event_id=event_id).all()):
+            super(EditTeamForm, self).updateWidgets()
+            return
+        team = session.query(Team).filter_by(user_id=userid).filter_by(event_id=event_id).one()
+        starters = session.query(Teams_Players).filter_by(team_id=team.id_).filter_by(is_starter=True).all()
+        substitutes = session.query(Teams_Players).filter_by(team_id=team.id_).filter_by(is_starter=False).all()
+
+        self.fields['name'].field.default = team.name
+        count = {'defender':1, 'midfield':1, 'striker':1}    
+        for starter in starters:
+            if not starter.player.position=="keeper":
+                self.fields[(starter.player.position + str(count[starter.player.position])).encode('utf-8')].field.default = starter.player.id_
+                count[starter.player.position] += 1
+            else:
+                self.request.form["keeper"] = starter.player.id_
+        
+        
+        count = {'defender':1, 'midfield':1, 'striker':1}
+        for substitute in substitutes:
+            if not substitute.player.position=="keeper":
+                self.fields["substitute_"+(substitute.player.position + str(count[substitute.player.position])).encode('utf-8')].field.default = substitute.player.id_
+                count[substitute.player.position] += 1
+            else:
+                self.request.form["substitute_keeper"] = substitute.player.id_
+
+
+        super(EditTeamForm, self).updateWidgets()
+            
     @button.buttonAndHandler(_(u'Edit'))
     def handleEdit(self, action):
         """Handles the Edit action of the form"""
@@ -152,20 +152,19 @@ class EditTeamForm(form.Form):
             #get the userid we need it to find the right team
             membershiptool = getToolByName(self.context, 'portal_membership')
             userid = membershiptool.getAuthenticatedMember().getId()
-            if not session.query(Team).filter(Team.user_id==userid).all():
+            if not session.query(Team).filter_by(user_id=userid).filter_by(event_id=event_id).all():
                 #create the team if it doesn't exist.
                 team = Team(data['name'], userid, event_id)
-                session.add(team)
+                session.add(team)                
             else:
-                team = session.query(Team).filter(Team.name==data['name'] and\
-                Team.userid==userid and Team.event_id == event_id)
+                team = session.query(Team).filter_by(user_id=userid).filter_by(event_id=event_id).one()
             session.query(Teams_Players).filter(Teams_Players.team_id==\
             team.id_).delete()
             for k, v in data.items():
                 if not k == 'name':
                     player = session.query(Player).filter(Player.id_==v).one()
                     #Create relationsship between Team and Player
-                    team.players.append(Teams_Players(player,
+                    team.players.append(Teams_Players(team.id_, player,
                                         bool(not 'substitute' in k)))
             transaction.commit()
             return self.request.RESPONSE.redirect(self.context.absolute_url())
@@ -173,3 +172,5 @@ class EditTeamForm(form.Form):
     @button.buttonAndHandler(_(u'Cancel'))
     def handleCancel(self, action):
         return self.request.RESPONSE.redirect(self.context.absolute_url())
+
+

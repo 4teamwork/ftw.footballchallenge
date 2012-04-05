@@ -2,11 +2,15 @@ from sqlalchemy import Column, Integer, String
 from ftw.footballchallenge import Base
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship, backref
+from zope.interface import implements
+from ftw.footballchallenge.interfaces import ITeam
 
 
 class Team(Base):
     """Modeldefintion for Team"""
     __tablename__='teams'
+
+    implements(ITeam)
 
     id_ = Column('id', Integer, primary_key=True)
     name = Column(String(45))
@@ -23,7 +27,7 @@ class Team(Base):
         self.name = name
         self.user_id = user_id
         self.league_id = league_id
-        self.event_id
+        self.event_id = event_id
 
     def __repr__(self):
         return '<Team %s>' % self.name

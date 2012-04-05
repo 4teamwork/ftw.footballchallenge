@@ -20,7 +20,7 @@
 
     <!-- <i18n:registerTranslations directory="locales" /> -->
 
-
+    
     <!-- Register the installation GenericSetup extension profile -->
     <genericsetup:registerProfile
         name="default"
@@ -72,6 +72,41 @@
           for="z3c.saconfig.interfaces.IEngineCreatedEvent"
           handler=".handlers.create_sql_tables"
           />
-    
+
+  <utility
+      name="KeeperFactory"
+      factory=".player.KeeperVocabularyFactory"
+      />    
+
+  <utility
+      name="DefenderFactory"
+      factory=".player.DefenderVocabularyFactory"
+      />    
+
+  <utility
+      name="MidfieldFactory"
+      factory=".player.MidfieldVocabularyFactory"
+      />    
+
+  <utility
+      name="StrikerFactory"
+      factory=".player.StrikerVocabularyFactory"
+      />    
+
+  <utility
+      name="EventFactory"
+      factory=".event.EventVocabularyFactory"
+      />    
+
+  <utility
+      name="PlayerFactory"
+      factory=".player.PlayerVocabularyFactory"
+      />    
+
+  <utility
+      name="NationFactory"
+      factory=".nation.NationVocabularyFactory"
+      />    
+
 
 </configure>

@@ -5,7 +5,7 @@ from z3c.saconfig import named_scoped_session
 from ftw.datepicker.widget import DatePickerFieldWidget
 from ftw.footballchallenge.event import Event
 import transaction
-
+from ftw.footballchallenge.interfaces import IEvent
 
 class CreateEventSchema(interface.Interface):
 
@@ -20,6 +20,23 @@ class CreateEventForm(form.Form):
     fields['date'].widgetFactory = DatePickerFieldWidget
     ignoreContext = True
 
+    def updateWidgets(self):
+        try:
+            IEvent(self.context)
+        except TypeError:
+            pass
+        if IEvent.providedBy(self.context):
+            session = named_scoped_session("footballchallenge")
+            event = session.query(Event).filter(Event.id_==self.context.id_).one()
+            self.fields['name'].field.default = event.name
+            self.fields['date'].field.default = event.LockDate
+        super(CreateEventForm, self).updateWidgets()
+    
+    def update(self):
+        self.request['disable_plone.leftcolumn'] = True
+        self.request['disable_plone.rightcolumn'] = True
+        super(CreateEventForm, self).update()
+
     @button.buttonAndHandler(_(u'Import'))
     def handleImport(self, action):
         data, errors = self.extractData()
@@ -27,9 +44,16 @@ class CreateEventForm(form.Form):
             name = data['name']
             date = data['date']
             session = named_scoped_session('footballchallenge')
-            event = Event(name, date)
-            session.add(event)
-            transaction.commit()
+            
+            if IEvent.providedBy(self.context):
+                event = session.query(Event).filter(Event.id_==self.context.id_).one()
+                event.name = name
+                event.date = date
+                transaction.commit()
+            else:
+                event = Event(name, date)
+                session.add(event)
+                transaction.commit()
             return self.request.RESPONSE.redirect(self.context.absolute_url())
 
     @button.buttonAndHandler(_(u'Cancel'))

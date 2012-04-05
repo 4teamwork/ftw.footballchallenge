@@ -15,6 +15,7 @@ class Teams_Players(Base):
     is_starter = Column('is_starter', Boolean)
     player = relationship("Player", backref="teams")
 
-    def __init__(self, player, is_starter):
+    def __init__(self, team_id, player, is_starter):
+        self.team_id = team_id
         self.is_starter = is_starter
         self.player = player

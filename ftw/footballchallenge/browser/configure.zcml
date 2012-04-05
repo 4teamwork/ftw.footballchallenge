@@ -42,9 +42,37 @@
         for="ftw.footballchallenge.interfaces.ILeague"
         name="ranking"
         class=".ranking.Ranking"
-        template="ranking.pt"
         permission="zope2.View"
         />
+
+    <browser:page
+        for="*"
+        name="team_overview"
+        class=".team_overview.TeamOverview"
+        permission="zope2.View"
+        />
+
+    <browser:page
+        for="*"
+        name="player_view"
+        class=".player_view.PlayerView"
+        permission="zope2.View"
+        />
+
+    <browser:page
+        for="*"
+        name="player_img"
+        class=".image.PlayerImage"
+        permission="zope2.View"
+        />
+
+    <browser:page
+        for="*"
+        name="game_view"
+        class=".game_overview.GameOverview"
+        permission="zope2.View"
+        />
+
     <browser:page
         name="ploneform-macros"
         for="ftw.footballchallenge.interfaces.IEditTeam"

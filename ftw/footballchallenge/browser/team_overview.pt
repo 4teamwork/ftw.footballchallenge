@@ -1,0 +1,39 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="context/main_template/macros/master"
+      i18n:domain="ftw.footballchallenge">
+
+<metal:content-core fill-slot="content-core">
+     <div>
+    <h2 i18n:translate="">Starters</h2>
+    <table class="listing">
+        <tr>
+            <th i18n:translate="">Name</th>
+            <th i18n:translate="">Nationalität</th>
+            <th i18n:translate="">Position</th>
+        </tr>
+        <tr tal:repeat="player view/get_starters">
+            <td tal:content="structure python:view.generate_link(player)" />
+            <td tal:content="player/nation/name" />
+            <td i18n:translate="" tal:content="player/position" />
+        </tr>
+    </table>
+    <h2 i18n:translate="">Substitutes</h2>
+    <table class="listing">
+        <tr>
+            <th i18n:translate="">Name</th>
+            <th i18n:translate="">Nationalität</th>
+            <th i18n:translate="">Position</th>
+        </tr>
+        <tr tal:repeat="player view/get_substitutes">
+            <td tal:content="structure python:view.generate_link(player)" />
+            <td tal:content="player/nation/name" />
+            <td i18n:translate="" tal:content="player/position" />
+        </tr>
+    </table>
+</div>
+</metal:content-core>
+</html>

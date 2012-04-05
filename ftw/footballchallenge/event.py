@@ -4,12 +4,16 @@ from zope.schema import vocabulary
 from z3c.saconfig import named_scoped_session
 from zope.interface import alsoProvides
 from zope.schema.interfaces import IContextSourceBinder
+from zope.interface import implements
+from ftw.footballchallenge.interfaces import IEvent
+from zope.schema.interfaces import IVocabularyFactory
 
 
 class Event(Base):
     """Modeldefinition for Event"""
     __tablename__='events'
-
+    
+    implements(IEvent)
 
     id_ = Column('id', Integer, primary_key=True)
     name = Column(String(45))
@@ -23,12 +27,15 @@ class Event(Base):
         return '<Event %s>' % self.name
 
 
-def get_events_as_term(context):
-    """Returns the Events as SimpleVocabulary to use it as Source for fields"""
-    session = named_scoped_session('footballchallenge')
-    terms=[]
-    events = session.query(Event).all()
-    for event in events:
-        terms.append(vocabulary.SimpleTerm(event.id_, event.id_, event.name))
-    return vocabulary.SimpleVocabulary(terms)
-alsoProvides(get_events_as_term, IContextSourceBinder)
+class EventVocabularyFactory(object):
+    
+    implements(IVocabularyFactory)
+
+    def __call__(self, context):
+        """Returns the Events as SimpleVocabulary to use it as Source for fields"""
+        session = named_scoped_session('footballchallenge')
+        terms=[]
+        events = session.query(Event).all()
+        for event in events:
+            terms.append(vocabulary.SimpleTerm(event.id_, event.id_, event.name))
+        return vocabulary.SimpleVocabulary(terms)

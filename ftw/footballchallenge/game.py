@@ -3,6 +3,8 @@ from ftw.footballchallenge import Base
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship, backref
 from sqlalchemy import Table
+from zope.interface import implements
+from ftw.footballchallenge.interfaces import IGame
 
 
 players_played = Table('players_played', Base.metadata,
@@ -13,6 +15,8 @@ players_played = Table('players_played', Base.metadata,
 class Game(Base):
     """Model delclaration for Game Type"""
     __tablename__='games'
+
+    implements(IGame)
 
     id_ = Column('id', Integer, primary_key=True)
 

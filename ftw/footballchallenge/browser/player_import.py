@@ -3,7 +3,6 @@ from zope import interface, schema
 from ftw.footballchallenge import _
 from z3c.saconfig import named_scoped_session
 from ftw.footballchallenge.playerimport import import_team
-from ftw.footballchallenge.event import get_events_as_term
 
 
 class PlayerImportSchema(interface.Interface):
@@ -11,7 +10,7 @@ class PlayerImportSchema(interface.Interface):
     urls = schema.List(title=_(u'label_import_urls', default="Urls"),
                        value_type = schema.TextLine())
     event = schema.Choice(title=_('label_import_event', default="Event"),
-                          source=get_events_as_term)
+                          source=u"EventFactory")
 
 
 class PlayerImportForm(form.Form):

@@ -1,0 +1,47 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="context/main_template/macros/master"
+      i18n:domain="ftw.footballchallenge">
+
+<metal:content-core fill-slot="content-core">
+<div>
+    <table class="listing" tal:define="infos view/get_gameinfos">
+        <tr>
+            <td>Home: </td>
+            <td tal:content="infos/home" />
+        </tr>
+        <tr>
+            <td>Visitor: </td>
+            <td tal:content="infos/visitor" />
+        </tr>
+        <tr>
+            <td>Goals:</td>
+            <td>
+                <ul tal:repeat="goal infos/goals">
+                    <li tal:content="goal" />
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td>Cards:</td>
+            <td>
+                <ul tal:repeat="card infos/cards">
+                    <li tal:content="card" />
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td>Saves:</td>
+            <td>
+                <ul tal:repeat="save infos/saves">
+                    <li tal:content="save" />
+                </ul>
+            </td>
+        </tr>
+    </table>
+</div>
+</metal:content-core>
+</html>

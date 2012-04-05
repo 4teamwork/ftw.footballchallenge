@@ -1,8 +1,34 @@
-<div class="ranking" i18n:domain="ftw.footballchallenge">
-    <ol tal:repeat="team view/get_ranking">
-        <li>
-            <span tal:content="team/teams/name" />
-            <span tal:content="team/teams/total_points"/>
-        </li>
-    </ol>
-</div>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="context/main_template/macros/master"
+      i18n:domain="ftw.footballchallenge">
+
+<metal:content-core fill-slot="content-core">
+    <div class="ranking" i18n:domain="ftw.footballchallenge" tal:define="stats view/get_ranking">
+        <table class="listing">
+            <colgroup>
+                <col width="25%">
+                <col width="25%">
+                <col width="25%">
+                <col width="25%">
+            </colgroup>
+            <tr>
+            <th i18n:translate="">Rank</th>
+            <th i18n:translate="">Points</th>
+            <th i18n:translate="">Team</th>
+            <th i18n:translate="">Coach</th>
+            </tr>
+            <tr tal:repeat="stat stats">
+                <td tal:content="python: stats.index(stat) + 1"/>
+                <td tal:content="stat/total_points"/>
+                <td tal:content="structure python: view.get_link(stat)" />
+                <td tal:content="structure python: view.get_userimg(stat)" />
+            </tr>
+        </table>
+    </div>
+    
+</metal:content-core>
+</html>

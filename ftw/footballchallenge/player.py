@@ -13,16 +13,20 @@ from ftw.footballchallenge.config import POINT_MAPPING_MIDFIELD
 from ftw.footballchallenge.config import POINT_MAPPING_DEFENDER
 from ftw.footballchallenge.config import POINT_MAPPING_KEEPER
 from datetime import date
+from zope.schema.interfaces import IVocabularyFactory
 from zope.schema import vocabulary
 from z3c.saconfig import named_scoped_session
 from zope.interface import alsoProvides
-from zope.schema.interfaces import IContextSourceBinder
-
+from zope.interface import implements
+from ftw.footballchallenge.interfaces import IPlayer
+from zope.interface import classProvides
+from zope.schema.interfaces import ISource, IContextSourceBinder
 
 class Player(Base):
     """Modeldefinition for Player"""
     __tablename__='players'
 
+    implements(IPlayer)
 
     id_ = Column('id', Integer, primary_key=True)
     name = Column(String(128))
@@ -77,8 +81,8 @@ class Player(Base):
     def get_goals(self, session, game_id=None):
         """Gets all goals or the goals for one game"""
         if game_id:
-            goals = session.query(Goal).filter(
-                Goal.player_id==self.id_ and Goal.game_id==game_id).order_by(
+            goals = session.query(Goal).filter_by(
+                player_id=self.id_).filter_by(game_id=game_id).order_by(
                     Goal.game_id).all()
         else:
             goals = session.query(Goal).filter(
@@ -220,28 +224,54 @@ def get_player_term(context, position=None, nation=None):
     return vocabulary.SimpleVocabulary(terms)
 
 
-def get_keeper_term(context):
-    """a Proxy function which returns keeper term"""
-    return get_player_term(context, position="keeper")
+class PlayerVocabularyFactory(object):
+    
+    implements(IVocabularyFactory)
+
+    def __call__(self, context):
+        """a Proxy function which returns keeper term"""
+        return get_player_term(context)
+    
+    
+class KeeperVocabularyFactory(object):
+
+    implements(IVocabularyFactory)
+#    implements(ISource)
+#    classProvides(IContextSourceBinder)
+
+    def __call__(self, context):
+        """a Proxy function which returns keeper term"""
+        return get_player_term(context, position="keeper")
+
+class DefenderVocabularyFactory(object):
+
+        implements(IVocabularyFactory)
+    #    implements(ISource)
+    #    classProvides(IContextSourceBinder)
+
+        def __call__(self, context):
+            """a Proxy function which returns keeper term"""
+            return get_player_term(context, position="defender")
+
+class MidfieldVocabularyFactory(object):
+
+        implements(IVocabularyFactory)
+    #    implements(ISource)
+    #    classProvides(IContextSourceBinder)
+
+        def __call__(self, context):
+            """a Proxy function which returns keeper term"""
+            return get_player_term(context, position="midfield")
 
 
-def get_defender_term(context):
-    """a Proky function which returns defender term"""
-    return get_player_term(context, position="defender")
 
+class StrikerVocabularyFactory(object):
 
-def get_midfield_term(context):
-    """a Proky function which returns midfield term"""
-    return get_player_term(context, position="midfield")
+        implements(IVocabularyFactory)
+    #    implements(ISource)
+    #    classProvides(IContextSourceBinder)
 
+        def __call__(self, context):
+            """a Proxy function which returns keeper term"""
+            return get_player_term(context, position="striker")
 
-def get_striker_term(context):
-    """a Proky function which returns defender term"""
-    return get_player_term(context, position="striker")
-
-#the functions need to provide IContextSourceBinder when we use it as source
-alsoProvides(get_keeper_term, IContextSourceBinder)
-alsoProvides(get_defender_term, IContextSourceBinder)
-alsoProvides(get_midfield_term, IContextSourceBinder)
-alsoProvides(get_striker_term, IContextSourceBinder)
-alsoProvides(get_player_term, IContextSourceBinder)
