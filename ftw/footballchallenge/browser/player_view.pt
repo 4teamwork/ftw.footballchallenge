@@ -19,6 +19,15 @@
                 <ul>
                     <li tal:repeat="team context/teams" tal:content="team/team/name" />
                 </ul>
+            </span>
+            </li>
+            <li><span i18n:translate="">Log:</span><span>
+                <ul>
+                    <li tal:repeat="log context/get_log" tal:content="python: 'log[2]+':'+str(log[1])+' points'" />
+                </ul>
+            </span>
+            </li>
+
         </ul>
     </div>
     <div style="padding-left:1em" tal:define="url python: context.absolute_url()+'/++player++'+str(context.id_)+'/player_img'">

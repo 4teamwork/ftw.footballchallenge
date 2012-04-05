@@ -44,6 +44,8 @@ def import_team(rootpage, session, event):
                     original_name = playerpage(
                         "table.tabelle_spieler.s10 tr").eq(0)("td:last").text()
                     i=1
+                else:
+                    original_name = u''
                 date_of_birth = playerpage(
                     "table.tabelle_spieler.s10 tr").eq(0+i)("td:last").text()
                 age = playerpage(

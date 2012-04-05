@@ -113,12 +113,13 @@ class Player(Base):
                     Save.game_id).all()
         return saves
 
-    def get_log(self, session):
+    def get_log(self):
         """Returns a Log with all Events that
            influenced the Points of a Player
 
         """
         #TODO: Check if we can refactor this. The code looks bloody awful
+        session = named_scoped_session('footballchallenge')
         log = []
         #get right mapping
         if self.position == "striker":

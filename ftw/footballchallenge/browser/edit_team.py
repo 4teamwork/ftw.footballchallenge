@@ -91,7 +91,6 @@ class EditTeamSchema(interface.Interface):
     @invariant
     def player_only_once(data):
         """A Validator that checks if every Player is only used once"""
-        import pdb; pdb.set_trace( )
         keys = EditTeamSchema
         if len(set([getattr(data, name) for name in keys.names()])) == \
         len(keys.names()):
