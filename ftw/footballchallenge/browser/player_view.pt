@@ -23,7 +23,7 @@
             </li>
             <li><span i18n:translate="">Log:</span><span>
                 <ul>
-                    <li tal:repeat="log context/get_log" tal:content="python: 'log[2]+':'+str(log[1])+' points'" />
+                    <li tal:repeat="log context/get_log" tal:content="python: log[2]+':'+str(log[1])+'points'" />
                 </ul>
             </span>
             </li>
