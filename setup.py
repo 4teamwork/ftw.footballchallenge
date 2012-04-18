@@ -33,7 +33,9 @@ setup(name='ftw.footballchallenge',
           'setuptools',
           'SQLAlchemy',
           'pyquery',
-          'z3c.saconfig'
+          'z3c.saconfig',
+          'MySQL-python',
+          'ftw.datepicker'
           # -*- Extra requirements: -*-
       ],
       
