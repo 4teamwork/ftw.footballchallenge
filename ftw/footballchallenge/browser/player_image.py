@@ -20,6 +20,7 @@ class PlayerImageView(BrowserView):
             raise NotFound(self, self.player_id, self.request)
 
         self.request.response.setHeader('Content-Type', 'image/jpeg')
+        self.request.response.setHeader('Content-Length', len(player.image))
         self.request.response.write(player.image)
 
     def publishTraverse(self, request, name):
