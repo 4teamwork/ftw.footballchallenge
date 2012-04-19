@@ -73,6 +73,16 @@
         permission="zope2.View"
         />
 
+
+    <browser:page
+        for="*"
+        name="nations"
+        class=".nations.NationsView"
+        permission="zope2.View"
+        />
+
+
+
     <browser:page
         name="ploneform-macros"
         for="ftw.footballchallenge.interfaces.IEditTeam"

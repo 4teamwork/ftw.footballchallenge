@@ -2,18 +2,22 @@ from sqlalchemy import Column, Integer, String
 from ftw.footballchallenge import Base
 from zope.schema import vocabulary
 from z3c.saconfig import named_scoped_session
-from zope.interface import alsoProvides
 from zope.schema.interfaces import IVocabularyFactory
 from zope.interface import implements
 from ftw.footballchallenge.interfaces import INation
 
 class Nation(Base):
-    "Modeldeifition for Nation"
+    "Model definition for Nation"
     __tablename__='nations'
 
     implements(INation)
     id_ = Column('id', Integer, primary_key=True)
     name = Column(String(45))
+    # 2-letter country code http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
+    country = Column(String(2))
+    coach = Column(String(64))
+    participations = Column(Integer)
+    fifa_rank = Column(Integer)
 
     def __init__(self, name):
         self.name = name
