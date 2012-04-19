@@ -21,7 +21,7 @@
             </thead>
             <tbody>
                 <tr tal:repeat="nation view/nations">
-                    <td tal:content="nation/title"></td>
+                    <td><a href="#" tal:content="nation/title" tal:attributes="href nation/url">Switzerland</a></td>
                     <td tal:content="nation/coach"></td>
                     <td tal:content="nation/participations"></td>
                     <td tal:content="nation/rank"></td>

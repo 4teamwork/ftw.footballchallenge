@@ -1,0 +1,72 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="context/main_template/macros/master"
+      i18n:domain="ftw.footballchallenge">
+<body>
+
+<metal:content-core fill-slot="content-title">
+    <metal:content-core define-macro="content-title">
+        <h1 tal:define="player view/player" tal:content="player/name">Diego Armando Maradona</h1>
+    </metal:content-core>
+</metal:content-core>
+
+<metal:content-core fill-slot="content-core">
+    <metal:content-core define-macro="content-core" tal:define="player view/player">
+
+        <img src="#" class="playerPortrait"
+             tal:attributes="src string:${portal_url}/playerimage/${player/id_}">
+
+        <table class="vertical listing" tal:define="player view/player">
+            <tbody>
+                <tr>
+                    <th>Original Name</th>
+                    <td tal:content="player/original_name"></td>
+                </tr>
+                <tr>
+                    <th>Club</th>
+                    <td tal:content="player/club"></td>
+                </tr>
+                <tr tal:define="nation player/nation">
+                    <th>Nation</th>
+                    <td>
+                        <a href="#"
+                           tal:content="nation/name"
+                           tal:attributes="href string:${context/absolute_url}/@@nations/${nation/id_}"></a>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Position</th>
+                    <td tal:content="player/position"></td>
+                </tr>
+                <tr>
+                    <th>Age</th>
+                    <td tal:content="player/age"></td>
+                </tr>
+                <tr>
+                    <th>Size</th>
+                    <td tal:content="player/size"></td>
+                </tr>
+                <tr>
+                    <th>Value</th>
+                    <td>CHF <span tal:content="player/value" /></td>
+                </tr>
+                <tr>
+                    <th>Nominations</th>
+                    <td>12</td>
+                </tr>
+                <tr>
+                    <th>Points</th>
+                    <td>48</td>
+                </tr>
+            </tbody>
+        </table>
+
+    </metal:content-core>
+</metal:content-core>
+
+</body>
+</html>
+
