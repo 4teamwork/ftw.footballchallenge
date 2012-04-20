@@ -22,80 +22,113 @@ class EditTeamSchema(interface.Interface):
                            required=True)
 
     keeper = schema.Choice(title=_(u'label_keeper', default="keeper"),
-                           vocabulary=u"KeeperFactory")
+                           vocabulary=u"KeeperFactory",
+                           required=False)
 
     defender1 = schema.Choice(title=_(u'label_defender', default="defender"),
-                              vocabulary=u"DefenderFactory")
+                              vocabulary=u"DefenderFactory",
+                              required=False)
     defender2 = schema.Choice(title=_(u'label_defender', default="defender"),
-                              vocabulary=u"DefenderFactory")
+                              vocabulary=u"DefenderFactory",
+                              required=False)
     defender3 = schema.Choice(title=_(u'label_defender', default="defender"),
-                              vocabulary=u"DefenderFactory")
+                              vocabulary=u"DefenderFactory",
+                              required=False)
 
     midfield1 = schema.Choice(title=_(u'label_midfield', default="midfield"),
-                              vocabulary=u"MidfieldFactory")
+                              vocabulary=u"MidfieldFactory",
+                              required=False)
     midfield2 = schema.Choice(title=_(u'label_midfield', default="midfield"),
-                              vocabulary=u"MidfieldFactory")
+                              vocabulary=u"MidfieldFactory",
+                              required=False)
 
     midfield3 = schema.Choice(title=_(u'label_midfield', default="midfield"),
-                              vocabulary=u"MidfieldFactory")
+                              vocabulary=u"MidfieldFactory",
+                              required=False)
     midfield4 = schema.Choice(title=_(u'label_midfield', default="midfield"),
-                              vocabulary=u"MidfieldFactory")
+                              vocabulary=u"MidfieldFactory",
+                              required=False)
     midfield5 = schema.Choice(title=_(u'label_midfield', default="midfield"),
-                              vocabulary=u"MidfieldFactory")
+                              vocabulary=u"MidfieldFactory",
+                              required=False)
 
     striker1 = schema.Choice(title=_(u'label_striker', default="striker"),
-                             vocabulary=u"StrikerFactory")
+                             vocabulary=u"StrikerFactory",
+                             required=False)
     striker2 = schema.Choice(title=_(u'label_striker', default="striker"),
-                             vocabulary=u"StrikerFactory")
+                             vocabulary=u"StrikerFactory",
+                             required=False)
 
 
 #And now the Substitutes
     substitute_keeper = schema.Choice(title=_(u'label_keeper',
                                               default="keeper"),
-                           vocabulary=u"KeeperFactory")
+                           vocabulary=u"KeeperFactory",
+                           required=False)
 
     substitute_defender1 = schema.Choice(title=_(u'label_defender',
                                          default="defender"),
-                              vocabulary=u"DefenderFactory")
+                              vocabulary=u"DefenderFactory",
+                              required=False)
     substitute_defender2 = schema.Choice(title=_(u'label_defender',
                                          default="defender"),
-                              vocabulary=u"DefenderFactory")
+                              vocabulary=u"DefenderFactory",
+                              required=False)
     substitute_defender3 = schema.Choice(title=_(u'label_defender',
                                          default="defender"),
-                              vocabulary=u"DefenderFactory")
+                              vocabulary=u"DefenderFactory",
+                              required=False)
 
     substitute_midfield1 = schema.Choice(title=_(u'label_midfield',
                                          default="midfield"),
-                              vocabulary=u"MidfieldFactory")
+                              vocabulary=u"MidfieldFactory",
+                              required=False)
     substitute_midfield2 = schema.Choice(title=_(u'label_midfield',
                                          default="midfield"),
-                              vocabulary=u"MidfieldFactory")
+                              vocabulary=u"MidfieldFactory",
+                              required=False)
 
     substitute_midfield3 = schema.Choice(title=_(u'label_midfield',
                                          default="midfield"),
-                              vocabulary=u"MidfieldFactory")
+                              vocabulary=u"MidfieldFactory",
+                              required=False)
     substitute_midfield4 = schema.Choice(title=_(u'label_midfield',
                                          default="midfield"),
-                              vocabulary=u"MidfieldFactory")
+                              vocabulary=u"MidfieldFactory",
+                              required=False)
     substitute_midfield5 = schema.Choice(title=_(u'label_midfield',
                                          default="midfield"),
-                              vocabulary=u"MidfieldFactory")
+                              vocabulary=u"MidfieldFactory",
+                              required=False)
 
     substitute_striker1 = schema.Choice(title=_(u'label_striker',
                                         default="striker"),
-                             vocabulary=u"StrikerFactory")
+                             vocabulary=u"StrikerFactory",
+                             required=False)
     substitute_striker2 = schema.Choice(title=_(u'label_striker',
                                         default="striker"),
-                             vocabulary=u"StrikerFactory")
+                             vocabulary=u"StrikerFactory",
+                             required=False)
 
     @invariant
     def player_only_once(data):
         """A Validator that checks if every Player is only used once"""
         keys = EditTeamSchema
-        if len(set([getattr(data, name) for name in keys.names()])) == \
-        len(keys.names()):
+        playerset = set([getattr(data, name) for name in keys.names()])
+        playerlist = [getattr(data, name) for name in keys.names()]
+        if len(playerset) == len(keys.names()):
             return True
-        raise Invalid(_(u"You can't use a player multiple times"))
+        double_players = [x for x in playerset if playerlist.count(x) > 1]
+        playernames = ''
+        session = named_scoped_session('footballchallenge')
+        if len(double_players) == 1:
+            if not double_players[0]:
+                return True
+        for player_id in double_players:
+            if player_id:
+                playernames += session.query(Player).filter(
+                    Player.id_ == player_id).one().name
+        raise Invalid(_(u"You can't use the player "+playernames+" multiple times"))
 
 
 class EditTeamForm(form.Form):
@@ -124,7 +157,7 @@ class EditTeamForm(form.Form):
                 self.fields[(starter.player.position + str(count[starter.player.position])).encode('utf-8')].field.default = starter.player.id_
                 count[starter.player.position] += 1
             else:
-                self.request.form["keeper"] = starter.player.id_
+                self.fields["keeper"].field.default = starter.player.id_
         
         
         count = {'defender':1, 'midfield':1, 'striker':1}
@@ -133,12 +166,12 @@ class EditTeamForm(form.Form):
                 self.fields["substitute_"+(substitute.player.position + str(count[substitute.player.position])).encode('utf-8')].field.default = substitute.player.id_
                 count[substitute.player.position] += 1
             else:
-                self.request.form["substitute_keeper"] = substitute.player.id_
+                self.fields["substitute_keeper"].field.default = substitute.player.id_
 
 
         super(EditTeamForm, self).updateWidgets()
-            
-    @button.buttonAndHandler(_(u'Edit'))
+        
+    @button.buttonAndHandler(_(u'Save'))
     def handleEdit(self, action):
         """Handles the Edit action of the form"""
         data, errors = self.extractData()
@@ -160,7 +193,7 @@ class EditTeamForm(form.Form):
             session.query(Teams_Players).filter(Teams_Players.team_id==\
             team.id_).delete()
             for k, v in data.items():
-                if not k == 'name':
+                if not k == 'name' and v:
                     player = session.query(Player).filter(Player.id_==v).one()
                     #Create relationsship between Team and Player
                     team.players.append(Teams_Players(team.id_, player,
