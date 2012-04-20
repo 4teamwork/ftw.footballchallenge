@@ -1,10 +1,16 @@
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, Integer, String, Table
 from ftw.footballchallenge import Base
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship, backref
 from zope.interface import implements
 from ftw.footballchallenge.interfaces import ITeam
+from zope.schema.interfaces import IVocabularyFactory
+from zope.schema import vocabulary
+from z3c.saconfig import named_scoped_session
 
+leagues_teams = Table('leagues_teams', Base.metadata,
+    Column('team_id', Integer, ForeignKey('teams.id')),
+    Column('league_id', Integer, ForeignKey('leagues.id')))
 
 class Team(Base):
     """Modeldefintion for Team"""
@@ -17,8 +23,7 @@ class Team(Base):
     user_id = Column('user_id', String(40), nullable=False)
 
     event_id = Column(Integer, ForeignKey('events.id'), nullable=False)
-    league_id = Column(Integer, ForeignKey('leagues.id'), nullable=True)
-    league = relationship("League", backref=backref('leagues', order_by=id_))
+    leagues = relationship('League', secondary=leagues_teams, backref='teams')
 
     players = relationship('Teams_Players', backref='team')
     event = relationship('Event', backref='teams')
@@ -31,3 +36,18 @@ class Team(Base):
 
     def __repr__(self):
         return '<Team %s>' % self.name
+
+
+
+class TeamVocabularyFactory(object):
+
+    implements(IVocabularyFactory)
+
+    def __call__(self, context):
+        """a Proxy function which returns keeper term"""
+        session = named_scoped_session('footballchallenge')
+        teams = session.query(Team).filter(Team.event_id == context.event_id).all()
+        terms = []
+        for team in teams:
+            terms.append(vocabulary.SimpleTerm(team.id_, team.id_, team.name))
+        return vocabulary.SimpleVocabulary(terms)
