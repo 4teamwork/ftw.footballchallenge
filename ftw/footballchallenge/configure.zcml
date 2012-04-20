@@ -108,5 +108,10 @@
       factory=".nation.NationVocabularyFactory"
       />    
 
+  <utility
+      name="TeamFactory"
+      factory=".team.TeamVocabularyFactory"
+      />    
+
 
 </configure>

@@ -4,7 +4,7 @@ from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship, backref
 from zope.interface import implements
 from ftw.footballchallenge.interfaces import ILeague
-
+from Acquisition.interfaces import IAcquirer
 
 class League(Base):
     """Modeldefinition for League"""

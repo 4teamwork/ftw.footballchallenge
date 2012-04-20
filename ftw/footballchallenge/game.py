@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, DateTime
+from sqlalchemy import Column, Integer, DateTime, Boolean, String
 from ftw.footballchallenge import Base
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship, backref
@@ -20,8 +20,8 @@ class Game(Base):
 
     id_ = Column('id', Integer, primary_key=True)
 
-    nation1_id = Column(Integer, ForeignKey('nations.id'), nullable=False)
-    nation2_id = Column(Integer, ForeignKey('nations.id'), nullable=False)
+    nation1_id = Column(Integer, ForeignKey('nations.id'))
+    nation2_id = Column(Integer, ForeignKey('nations.id'))
     score_nation1 = Column(Integer)
     score_nation2 = Column(Integer)
     date = Column(DateTime, nullable=False)
@@ -36,16 +36,19 @@ class Game(Base):
                            primaryjoin="Nation.id_==Game.nation2_id",
                            backref='games.nation2_id')
 
+    calculated = Column(Boolean)
+    nation1_dummy = Column(String(45))
+    nation2_dummy = Column(String(45))
     players = relationship('Player', secondary=players_played, backref='games')
 
-    def __init__(self, nation1_id, nation2_id, date, events_id,
-                 score_nation1=None, score_nation2=None):
+    def __init__(self, date, events_id,
+                 nation1_dummy=None, nation2_dummy=None, nation1_id=None, nation2_id=None, calculated=False):
         self.nation1_id = nation1_id
         self.nation2_id = nation2_id
         self.date = date
         self.events_id = events_id
-        self.score_nation1 = score_nation1
-        self.score_nation2 = score_nation2
-
+        self.nation1_dummy = nation1_dummy
+        self.nation2_dummy = nation2_dummy
+        self.calculated = calculated
     def __repr__(self):
         return '<Game %s vs. %s>' % (self.nation1.name, self.nation2.name)

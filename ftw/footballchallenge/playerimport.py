@@ -58,7 +58,7 @@ def import_team(rootpage, session, event):
                 try:
                     position = POSITION_MAPPING[position]
                 except:
-                    print name, nation
+                    pass
                 foot = playerpage(
                     "table.tabelle_spieler.s10 tr").eq(6+i)("td:last").text()
                 value = playerpage(
