@@ -1,0 +1,144 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="context/main_template/macros/master"
+      i18n:domain="ftw.footballchallenge">
+<body>
+
+<metal:content-core fill-slot="content-core">
+    <metal:content-core define-macro="content-core">
+    <form method="post" tal:attributes="action string: ${context/absolute_url}/${view/__name__}/${view/game_id}">
+        <span tal:replace="structure context/@@authenticator/authenticator" />
+        <h2 i18n:translate="">Home Team</h2>
+        <table class="listing">
+            <thead>
+                <tr>
+                    <th i18n:translate="label_player">Player</th>
+                    <th i18n:translate="label_played">Played</th>
+                    <th i18n:translate="label_yellow">Yellow</th>
+                    <th i18n:translate="label_2ndyellow">2nd Yellow</th>
+                    <th i18n:translate="label_red">Red</th>
+                    <th i18n:translate="label_goals">Goals</th>
+                    <th i18n:translate="label_saves">Penalty Saves</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr tal:repeat="player view/get_home_team">
+                    <td tal:content="player/name" />
+                    <td><input class="noborder"
+                           type="checkbox"
+                           value="checked"
+                           tal:attributes="name string:played.${player/id_}:record; id string: ${player/id_}_played;
+                           checked python: request.form.get(str(player.id_)+'_played')" />
+                    </td>
+                    <td><input class="noborder"
+                           type="checkbox"
+                           value="checked"
+                           tal:attributes="name string:yellow.${player/id_}:record; id string: ${player/id_}_yellow;
+                           checked python: request.form.get(str(player.id_)+'_yellow')" />
+                    </td>
+                    <td><input class="noborder"
+                           type="checkbox"
+                           value="checked"
+                           tal:attributes="name string:2ndyellow.${player/id_}:record; id string: ${player/id_}_2ndyellow;
+                           checked python: request.form.get(str(player.id_)+'_2ndyellow')" />
+                    </td>
+                    <td><input class="noborder"
+                           type="checkbox"
+                           value="checked"
+                           tal:attributes="name string:red.${player/id_}:record; id string: ${player/id_}_red;
+                           checked python: request.form.get(str(player.id_)+'_red')" />
+                    </td>
+                    <td><input class="noborder"
+                           type="text"
+                           size="5"
+                           maxlength="2"
+                           tal:attributes="name string:goals.${player/id_}:record; id string: ${player/id_}_goals;
+                           value python: request.form.get(str(player.id_)+'_goals')" />
+                    </td>
+                    <td><input class="noborder"
+                           type="text"
+                           size="5"
+                           maxlength="2"
+                           tal:attributes="name string:saves.${player/id_}:record; id string: ${player/id_}_saves;
+                           checked python: request.form.get(str(player.id_)+'_saves')" />
+                    </td>
+                    
+                </tr>
+            </tbody>
+        </table>
+        <h2 i18n:translate="">Visitor Team</h2>
+        <table class="listing">
+            <thead>
+                <tr>
+                    <th i18n:translate="label_player">Player</th>
+                    <th i18n:translate="label_played">Played</th>
+                    <th i18n:translate="label_yellow">Yellow</th>
+                    <th i18n:translate="label_2ndyellow">2nd Yellow</th>
+                    <th i18n:translate="label_red">Red</th>
+                    <th i18n:translate="label_goals">Goals</th>
+                    <th i18n:translate="label_saves">Penalty Saves</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr tal:repeat="player view/get_visitor_team">
+                    <td tal:content="player/name" />
+                    <td><input class="noborder"
+                           type="checkbox"
+                           value="checked"
+                           tal:attributes="name string:played.${player/id_}:record; id string: ${player/id_}_played;
+                           checked python: request.form.get(str(player.id_)+'_played')" />
+                    </td>
+                    <td><input class="noborder"
+                           type="checkbox"
+                           value="checked"
+                           tal:attributes="name string:yellow.${player/id_}:record; id string: ${player/id_}_yellow;
+                           checked python: request.form.get(str(player.id_)+'_yellow')" />
+                    </td>
+                    <td><input class="noborder"
+                           type="checkbox"
+                           value="checked"
+                           tal:attributes="name string:2ndyellow.${player/id_}:record; id string: ${player/id_}_2ndyellow;
+                           checked python: request.form.get(str(player.id_)+'_2ndyellow')" />
+                    </td>
+                    <td><input class="noborder"
+                           type="checkbox"
+                           value="checked"
+                           tal:attributes="name string:red.${player/id_}:record; id string: ${player/id_}_red;
+                           checked python: request.form.get(str(player.id_)+'_red')" />
+                    </td>
+                    <td><input class="noborder"
+                           type="text"
+                           size="5"
+                           maxlength="2"
+                           tal:attributes="name string:goals.${player/id_}:record; id string: ${player/id_}_goals;
+                           value python: request.form.get(str(player.id_)+'_goals')" />
+                    </td>
+                    <td><input class="noborder"
+                           type="text"
+                           size="5"
+                           maxlength="2"
+                           tal:attributes="name string:saves.${player/id_}:record; id string: ${player/id_}_saves;
+                           checked python: request.form.get(str(player.id_)+'_saves')" />
+                    </td>
+                    
+                </tr>
+            </tbody>
+        </table>
+
+    <input type="hidden" name="form.submited" value="1" />
+      <input class="context"
+       type="submit"
+       name="Change"
+       i18n:attributes="value label_save;"
+       value="Save" />
+    
+    </form>
+    </metal:content-core>
+</metal:content-core>
+
+</body>
+</html>
+

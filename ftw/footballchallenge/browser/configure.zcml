@@ -33,6 +33,21 @@
 
     <browser:page
         for="*"
+        name="enter_results"
+        class=".enter_results.EnterResults"
+        permission="zope2.View"
+        />
+
+
+    <browser:page
+        for="*"
+        name="assign_teams"
+        class=".assign_league.AssignLeagueForm"
+        permission="zope2.View"
+        />
+
+    <browser:page
+        for="*"
         name="create_game"
         class=".create_game.CreateGameForm"
         permission="zope2.View"
