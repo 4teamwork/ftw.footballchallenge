@@ -7,10 +7,13 @@ from ftw.footballchallenge.interfaces import ITeam
 from zope.schema.interfaces import IVocabularyFactory
 from zope.schema import vocabulary
 from z3c.saconfig import named_scoped_session
+import datetime
+from ftw.footballchallenge.event import Event
 
 leagues_teams = Table('leagues_teams', Base.metadata,
     Column('team_id', Integer, ForeignKey('teams.id')),
     Column('league_id', Integer, ForeignKey('leagues.id')))
+
 
 class Team(Base):
     """Modeldefintion for Team"""
@@ -46,7 +49,8 @@ class TeamVocabularyFactory(object):
     def __call__(self, context):
         """a Proxy function which returns keeper term"""
         session = named_scoped_session('footballchallenge')
-        teams = session.query(Team).filter(Team.event_id == context.event_id).all()
+        event_id = session.query(Event).filter(Event.LockDate > datetime.date.today()).one().id_
+        teams = session.query(Team).filter(Team.event_id == event_id).all()
         terms = []
         for team in teams:
             terms.append(vocabulary.SimpleTerm(team.id_, team.id_, team.name))
