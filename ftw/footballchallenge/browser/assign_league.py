@@ -27,6 +27,14 @@ class AssignLeagueForm(form.Form):
         self.league_id = name
         return self
     
+    def updateWidgets(self):
+        session = named_scoped_session('footballchallenge')
+        league = session.query(League).filter(League.id_ == self.league_id).one()
+        if league.teams:
+            teams_ids = [team.id_ for team in league.teams]
+            self.fields['teams'].field.default = teams_ids
+        super(AssignLeagueForm, self).updateWidgets()
+
     @button.buttonAndHandler(_(u'Save'))
     def handleImport(self, action):
         data, errors = self.extractData()
@@ -37,7 +45,7 @@ class AssignLeagueForm(form.Form):
             for team_id in data['teams']:
                 team = session.query(Team).filter(Team.id_ == team_id).one()
                 teams.append(team)
-            league.teams.extend(teams)
+            league.teams = teams
             return self.request.RESPONSE.redirect(self.context.absolute_url())
 
     @button.buttonAndHandler(_(u'Cancel'))
