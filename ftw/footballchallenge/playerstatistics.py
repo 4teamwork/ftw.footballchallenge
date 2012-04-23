@@ -19,18 +19,16 @@ class Playerstatistics(Base):
     game_id = Column(Integer, ForeignKey('games.id'), primary_key=True,
                      nullable=False)
     points = Column(Integer, nullable=False)
-    total_points = Column(Integer, nullable=False)
 
     game = relationship("Game", backref=backref('playerstatistics',
                         order_by=game_id))
     player = relationship("Player", backref=backref('playerstatistics',
                           order_by=player_id))
 
-    def __init__(self, player_id, game_id, points, total_points):
+    def __init__(self, player_id, game_id, points):
         self.player_id = player_id
         self.game_id = game_id
         self.points = points
-        self.total_points = total_points
 
     def __repr__(self):
         return '<Statistics for Player %s. Total Points: %s>' % (
@@ -93,12 +91,5 @@ def calculate_player_points(game):
             points += mapping['save']*len(saves)
 
         #get last entry. We need it to calculate the total
-        old_entry = session.query(Playerstatistics).filter(
-            Playerstatistics.player_id == player.id_).all()
-        if not old_entry:
-            stats = Playerstatistics(player.id_, game.id_, points, points)
-        else:
-            stats = Playerstatistics(player.id_, game.id_, points,
-                                     old_entry[-1].total_points+points)
+        stats = Playerstatistics(player.id_, game.id_, points)
         session.add(stats)
-    transaction.commit()
