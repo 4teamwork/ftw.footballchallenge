@@ -23,9 +23,9 @@
             </tr>
             <tr tal:repeat="stat stats">
                 <td tal:content="python: stats.index(stat) + 1"/>
-                <td tal:content="stat/total_points"/>
-                <td tal:content="structure python: view.get_link(stat)" />
-                <td tal:content="structure python: view.get_userimg(stat)" />
+                <td tal:content="python: stat[1]"/>
+                <td tal:content="structure python: view.get_link(stat[0])" />
+                <td tal:content="structure python: view.get_userimg(stat[0])" />
             </tr>
         </table>
     </div>
