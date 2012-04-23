@@ -28,7 +28,7 @@ def import_team(rootpage, session, event):
             Nation.country==country_code).first()
         # Create a new nation if we didn't find one
         if nation is None:
-            nation = Nation(nation_name)
+            nation = Nation(nation_name, event)
             nation.country = country_code
             session.add(nation)
 
