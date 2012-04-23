@@ -5,6 +5,9 @@ from z3c.saconfig import named_scoped_session
 from zope.schema.interfaces import IVocabularyFactory
 from zope.interface import implements
 from ftw.footballchallenge.interfaces import INation
+from sqlalchemy import ForeignKey
+from sqlalchemy.orm import relationship, backref
+
 
 class Nation(Base):
     "Model definition for Nation"
@@ -18,9 +21,13 @@ class Nation(Base):
     coach = Column(String(64))
     participations = Column(Integer)
     fifa_rank = Column(Integer)
+    event_id = Column(Integer, ForeignKey('events.id'), nullable=False)
+    event = relationship("Event", backref=backref('nations', order_by=id_))
 
-    def __init__(self, name):
+
+    def __init__(self, name, event_id):
         self.name = name
+        self.event_id = event_id
 
     def __repr__(self):
         return '<Nation %s>' % self.name
