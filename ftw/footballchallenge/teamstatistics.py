@@ -18,18 +18,16 @@ class Teamstatistics(Base):
     game_id = Column(Integer, ForeignKey('games.id'), primary_key=True,
                      nullable=False)
     points = Column(Integer, nullable=False)
-    total_points = Column(Integer, nullable=False)
 
     game = relationship("Game", backref=backref('teamstatistics',
                         order_by=game_id))
     team = relationship("Team", backref=backref('teamstatistics',
                           order_by=team_id))
 
-    def __init__(self, team_id, game_id, points, total_points):
+    def __init__(self, team_id, game_id, points):
         self.team_id = team_id
         self.game_id = game_id
         self.points = points
-        self.total_points = total_points
 
     def __repr__(self):
         return '<Statistics for Team %s. Total Points: %s>' % (self.team.name,
@@ -58,12 +56,5 @@ def calculate_team_points(game):
                         points[team.id_]+= playerstats.points
 
     for key, value in points.items():
-        old_stats = session.query(Teamstatistics).filter(Teamstatistics.team_id==key).all()
-        if not old_stats:
-            stats=Teamstatistics(key, game.id_, value, value)
-        else:
-            stats=Teamstatistics(key, game.id_, value,
-                                 old_stats[-1].total_points+value)
-
+        stats=Teamstatistics(key, game.id_, value)
         session.add(stats)
-    transaction.commit()
