@@ -20,13 +20,6 @@ class EnterResults(BrowserView):
     
     template = ViewPageTemplateFile("enter_results.pt")
     
-    def update(self):
-        import pdb; pdb.set_trace( )
-        if 'submited' in self.request.form:
-            authenticator = getMultiAdapter((self.context, self.request), name=u"authenticator")
-            if not authenticator.verify():
-                raise Forbidden()
-        super(EnterResults, self).update()
     
     def __call__(self):
         if self.request.form.get('form.submited'):
@@ -74,6 +67,9 @@ class EnterResults(BrowserView):
         return players
 
     def write_to_db(self, playing_players, yellow, second_yellow, red, goals, saves):
+        home_ids = [player.id_ for player in self.get_home_team()]
+        home_score = 0
+        visitor_score = 0
         session = named_scoped_session('footballchallenge')
         game = session.query(Game).filter(Game.id_ == self.game_id).one()
         if playing_players:
@@ -94,11 +90,17 @@ class EnterResults(BrowserView):
             if not value == '':
                 try:
                     value_int = int(value)
+                    if long(key) in home_ids:
+                        home_score += value_int
+                    else:
+                        visitor_score += value_int
                 except ValueError:
                     continue
                 for count in range(0, value_int):
                     goal = Goal(key, game.id_, False)
                     session.add(goal)
+        game.score_nation1 = home_score
+        game.score_nation2 = visitor_score
         for key, value in saves.items():
             if not value == '':
                 try:
