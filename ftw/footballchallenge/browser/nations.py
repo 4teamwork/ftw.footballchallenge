@@ -78,7 +78,8 @@ class NationsView(BrowserView):
                 position=player.position,
                 age=player.age,
                 club=player.club,
-                value=player.value,
+                league=player.league,
+                value=player.pretty_value(),
             )
             results.append(info)
         return results

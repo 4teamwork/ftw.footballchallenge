@@ -23,6 +23,7 @@
                     <th i18n:translate="label_position">Position</th>
                     <th i18n:translate="label_age">Age</th>
                     <th i18n:translate="label_club">Club</th>
+                    <th i18n:translate="label_league">League</th>
                     <th i18n:translate="label_value">Value</th>
                 </tr>
             </thead>
@@ -32,6 +33,7 @@
                     <td tal:content="player/position"></td>
                     <td tal:content="player/age"></td>
                     <td tal:content="player/club"></td>
+                    <td tal:content="player/league"></td>
                     <td tal:content="player/value"></td>
                 </tr>
             </tbody>

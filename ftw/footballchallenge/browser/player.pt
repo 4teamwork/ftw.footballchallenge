@@ -25,10 +25,6 @@
                     <th>Original Name</th>
                     <td tal:content="player/original_name"></td>
                 </tr>
-                <tr>
-                    <th>Club</th>
-                    <td tal:content="player/club"></td>
-                </tr>
                 <tr tal:define="nation player/nation">
                     <th>Nation</th>
                     <td>
@@ -36,6 +32,14 @@
                            tal:content="nation/name"
                            tal:attributes="href string:${context/absolute_url}/@@nations/${nation/id_}"></a>
                     </td>
+                </tr>
+                <tr>
+                    <th>Club</th>
+                    <td tal:content="player/club"></td>
+                </tr>
+                <tr>
+                    <th>League</th>
+                    <td tal:content="player/league"></td>
                 </tr>
                 <tr>
                     <th>Position</th>
@@ -46,12 +50,12 @@
                     <td tal:content="player/age"></td>
                 </tr>
                 <tr>
-                    <th>Size</th>
-                    <td tal:content="player/size"></td>
+                    <th>Size [m]</th>
+                    <td><span tal:content="player/size" /></td>
                 </tr>
                 <tr>
-                    <th>Value</th>
-                    <td>CHF <span tal:content="player/value" /></td>
+                    <th>Value [CHF]</th>
+                    <td><span tal:content="player/pretty_value" /></td>
                 </tr>
                 <tr>
                     <th>Nominations</th>
