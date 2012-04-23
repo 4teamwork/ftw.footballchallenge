@@ -36,8 +36,9 @@ class Player(Base):
     age = Column(Integer)
     foot = Column(String(10))
     value = Column(Integer)
-    size = Column(Numeric(2, 2))
+    size = Column(Numeric(3,2))
     club = Column(String(45))
+    league = Column(String(64))
     image = Column(BLOB)
     nation_id = Column(Integer, ForeignKey('nations.id'), nullable=False)
     event_id = Column(Integer, ForeignKey('events.id'), nullable=False)
@@ -63,6 +64,16 @@ class Player(Base):
 
     def __repr__(self):
         return '<Player %s>' % self.name
+
+    def pretty_value(self):
+        """The value with thousands separators.
+        """
+        value = '%d' % self.value
+        groups = []
+        while value and value[-1].isdigit():
+            groups.append(value[-3:])
+            value = value[:-3]
+        return value + "'".join(reversed(groups))
 
     def get_points(self, session):
         """Gets the Current Total Points for this Player"""

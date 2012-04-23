@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """Defines some Globals"""
 
 #Pointmappings for every event. We need four because the Points
@@ -69,5 +70,26 @@ POSITION_MAPPING={
     u'Sturm - H\xe4ngende Spitze': 'striker',
     u'Mittelfeld - Linkes Mittelfeld': 'midfield',
     u'Mittelfeld - Rechtes Mittelfeld': 'midfield'}
+
+COUNTRY_CODE_MAPPING = {
+    u'Deutschland': 'de',
+    u'Dänemark': 'dk',
+    u'England': 'uk',
+    u'Frankreich': 'fr',
+    u'Griechenland': 'gr',
+    u'Irland': 'ir',
+    u'Italien': 'it',
+    u'Kroatien': 'hr',
+    u'Niederlande': 'nl',
+    u'Polen': 'pl',
+    u'Portugal': 'pt',
+    u'Russland': 'ru',
+    u'Schweden': 'se',
+    u'Spanien': 'es',
+    u'Tschechien': 'cz',
+    u'Ukraine': 'ua',
+}
+
+
 
 PROJECTNAME = 'ftw.footballchallenge'

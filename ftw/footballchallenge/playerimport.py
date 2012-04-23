@@ -7,7 +7,7 @@ from PIL import Image
 from datetime import date
 import time
 from ftw.footballchallenge.config import POSITION_MAPPING
-import transaction
+from ftw.footballchallenge.config import COUNTRY_CODE_MAPPING
 
 
 def import_team(rootpage, session, event):
@@ -16,69 +16,71 @@ def import_team(rootpage, session, event):
 
     """
     for page in rootpage:
-        query = PyQuery(url=page)
-        content = query("#content")
-        Nationname = content("table.tabelle_spieler a#vereinsinfo").text()
-        #check if the nation allready exists
-        existing_nation = session.query(Nation).filter(
-            Nation.name==Nationname).first()
-        if existing_nation:
-            nation_id = existing_nation.id_
-        else:
-            nation = Nation(Nationname)
+        f = urllib2.urlopen(page)
+        nationpage = f.read()
+        nationpage = PyQuery(nationpage.decode('utf8'))
+        content = nationpage("#content")
+        nation_name = content("table.tabelle_spieler a#vereinsinfo").text()
+        country_code = COUNTRY_CODE_MAPPING[nation_name]
+
+        # Lookup nation
+        nation = session.query(Nation).filter(
+            Nation.country==country_code).first()
+        # Create a new nation if we didn't find one
+        if nation is None:
+            nation = Nation(nation_name)
+            nation.country = country_code
             session.add(nation)
-            nation_id = session.query(Nation).filter(
-                Nation.name==Nationname).first().id_
+
         playertable = content("table#spieler")
         playerlist = playertable("tbody:first")
         for item in playerlist("tbody > tr"):
-                name = PyQuery(item)("a.fb:first").text()
-                link = PyQuery(item)("a.fb:first").attr("href")
-                link = "http://www.transfermarkt.ch" + link
-                playerpage = PyQuery(url=link)
-                clubname = playerpage(
-                    "table.tabelle_spieler img:first").attr('title')
-                i=0
-                if 'Name im Heimatland' in playerpage(
-                    "table.tabelle_spieler.s10 tr").eq(0)("td:first").text():
-                    original_name = playerpage(
-                        "table.tabelle_spieler.s10 tr").eq(0)("td:last").text()
-                    i=1
-                else:
-                    original_name = u''
-                date_of_birth = playerpage(
-                    "table.tabelle_spieler.s10 tr").eq(0+i)("td:last").text()
-                age = playerpage(
-                    "table.tabelle_spieler.s10 tr").eq(2+i)("td:last").text()
-                size = playerpage(
-                    "table.tabelle_spieler.s10 tr").eq(3+i)("td:last").text()
-                size = size.replace(',', '.')
-                position = PyQuery(playerpage(
-                    "table.tabelle_spieler.s10 tr")[5+i])("td:last").text()
-                try:
-                    position = POSITION_MAPPING[position]
-                except:
-                    pass
-                foot = playerpage(
-                    "table.tabelle_spieler.s10 tr").eq(6+i)("td:last").text()
-                value = playerpage(
-                    "table.tabelle_spieler.s10 tr").eq(7+i)("td:last").text()
-                img_src = playerpage("img.minifoto").attr("src")
-                img = urllib2.urlopen(img_src).read()
-                date_of_birth = date.fromtimestamp(
-                    time.mktime(time.strptime(date_of_birth, '%d.%m.%Y')))
-                try:
-                    im = Image.open(StringIO.StringIO(img))
-                    im.verify()
+            name = PyQuery(item)("a.fb:first").text()
+            link = PyQuery(item)("a.fb:first").attr("href")
+            link = "http://www.transfermarkt.ch" + link
+            f = urllib2.urlopen(link)
+            playerpage = f.read()
+            playerpage = PyQuery(playerpage.decode('utf8'))
+            clubname = playerpage(
+                "table.tabelle_spieler img:first").attr('title')
+            league = playerpage(
+                "table.tabelle_spieler tr").eq(1)("a").eq(1).text()
 
-                except Exception:
-                    img = None
-                if not session.query(Player).filter(
-                    Player.name==name and Player.event.id_==event).all():
-                    player = Player(name, position, nation_id, event,
-                                    original_name=original_name,
-                                    date_of_birth=date_of_birth, age=age,
-                                    foot=foot, value=value, size=size,
-                                    club=clubname, image=img)
-                    session.add(player)
-    transaction.commit()
+            tds = [PyQuery(td) for td in playerpage(
+                   "table.tabelle_spieler.s10 td")]
+            player_props = dict([(k.text(), v.text()) for k,v in zip(
+                                 tds[::2], tds[1::2])])
+
+            img_src = playerpage("img.minifoto").attr("src")
+            img = urllib2.urlopen(img_src).read()
+            try:
+                im = Image.open(StringIO.StringIO(img))
+                im.verify()
+            except Exception:
+                img = None
+
+            # Conversions
+            position = POSITION_MAPPING.get(player_props.get('Position:'))
+            value = int(player_props.get('Marktwert:').split()[0].replace(
+                '.', ''))
+            size = player_props.get(u'Gr\xf6\xdfe:').replace(',', '.')
+            date_of_birth = date.fromtimestamp(time.mktime(time.strptime(
+                player_props.get('Geburtsdatum:'), '%d.%m.%Y')))
+
+            # Lookup player
+            player = session.query(Player).filter(
+                Player.name==name and Player.nation_id==nation.id_).first()
+            # Create a new player if we didn't find one.
+            if player is None:
+                player = Player(name, position, nation.id_, event)
+                session.add(player)
+            # Set/update player properties
+            player.original_name = player_props.get('Name im Heimatland:')
+            player.date_of_birth = date_of_birth
+            player.age = player_props.get('Alter:')
+            player.foot = player_props.get(u'Fu\xdf:')
+            player.value = value
+            player.size = size
+            player.club = clubname
+            player.league = league
+            player.image = img
