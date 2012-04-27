@@ -1,8 +1,7 @@
-from z3c.form import form, field, button, value
+from z3c.form import form, field, button, group
 from zope import interface, schema
 from ftw.footballchallenge import _
 from z3c.saconfig import named_scoped_session
-from zope.schema import vocabulary
 from Products.CMFCore.utils import getToolByName
 from ftw.footballchallenge.team import Team
 from ftw.footballchallenge.player import Player
@@ -14,7 +13,8 @@ from zope.interface import implements
 from ftw.footballchallenge.interfaces import IEditTeam
 from zope.interface import invariant
 from zope.interface import Invalid
-from zope import component
+from zope.app.pagetemplate.viewpagetemplatefile import ViewPageTemplateFile
+
 
 class EditTeamSchema(interface.Interface):
     """Schemadefinition of EditteamSchema"""
@@ -133,10 +133,14 @@ class EditTeamSchema(interface.Interface):
 
 class EditTeamForm(form.Form):
     fields = field.Fields(EditTeamSchema)
+
     label = _(u'heading_edit_team', 'Edit Team')
     implements(IEditTeam)
 
     ignoreContext = True
+
+    template = ViewPageTemplateFile("edit_team.pt")
+
 
     def updateWidgets(self):
         membershiptool = getToolByName(self.context, 'portal_membership')
@@ -146,6 +150,7 @@ class EditTeamForm(form.Form):
         if not len(session.query(Team).filter_by(user_id=userid).filter_by(event_id=event_id).all()):
             super(EditTeamForm, self).updateWidgets()
             return
+
         team = session.query(Team).filter_by(user_id=userid).filter_by(event_id=event_id).one()
         starters = session.query(Teams_Players).filter_by(team_id=team.id_).filter_by(is_starter=True).all()
         substitutes = session.query(Teams_Players).filter_by(team_id=team.id_).filter_by(is_starter=False).all()
@@ -167,12 +172,13 @@ class EditTeamForm(form.Form):
                 count[substitute.player.position] += 1
             else:
                 self.fields["substitute_keeper"].field.default = substitute.player.id_
-
-
         super(EditTeamForm, self).updateWidgets()
+
+
+
         
     @button.buttonAndHandler(_(u'Save'))
-    def handleEdit(self, action):
+    def handleSave(self, action):
         """Handles the Edit action of the form"""
         data, errors = self.extractData()
         #If all validators are ok: proceed
@@ -192,17 +198,28 @@ class EditTeamForm(form.Form):
                 team = session.query(Team).filter_by(user_id=userid).filter_by(event_id=event_id).one()
             session.query(Teams_Players).filter(Teams_Players.team_id==\
             team.id_).delete()
+            nations = []
+            sub_nations = []
             for k, v in data.items():
                 if not k == 'name' and v:
-                    player = session.query(Player).filter(Player.id_==v).one()
+                    player = session.query(Player).filter(Player.id_ == v).one()
                     #Create relationsship between Team and Player
+                    if bool(not 'substitute' in k):
+                        if not player.nation_id in nations:
+                            nations.append(player.nation_id)
+                    else:
+                        if not player.nation_id in sub_nations and not player.nation_id in nations:
+                            sub_nations.append(player.nation_id)
+ 
                     team.players.append(Teams_Players(team.id_, player,
                                         bool(not 'substitute' in k)))
+            
+            if len(nations) == 6 and len(sub_nations) == 6:
+                team.valid = True
             transaction.commit()
             return self.request.RESPONSE.redirect(self.context.absolute_url())
 
     @button.buttonAndHandler(_(u'Cancel'))
     def handleCancel(self, action):
         return self.request.RESPONSE.redirect(self.context.absolute_url())
-
 

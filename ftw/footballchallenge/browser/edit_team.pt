@@ -1,0 +1,87 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="context/main_template/macros/master"
+      i18n:domain="ftw.footballchallenge">
+<body>
+    
+    <metal:content-core fill-slot="content-core">
+    <metal:content-core define-macro="content-core">
+
+    <form tal:define="form_name view/form_name | nothing;
+                                                form_class view/css_class | string:;
+                                                "
+        tal:attributes="action view/action|request/getURL; 
+                        enctype view/enctype;
+                        class python:'enableFormTabbing enableUnloadProtection %s kssattr-formname-%s' % (form_class, request.getURL().split('/')[-1]);
+                        id view/id;
+                        method view/method|string:'post'
+                        ">
+        
+        <tal:widget tal:replace="structure view/widgets/name/@@ploneform-render-widget"/>
+        
+        <fieldset id="fieldset-starters">
+            <legend id="fieldsetlegend-starters">Starters</legend>
+            <div id="starters" class="players">
+                <div class="strikersRow">
+                    <tal:widget tal:replace="structure view/widgets/striker1/@@ploneform-render-widget"/>
+                    <tal:widget tal:replace="structure view/widgets/striker2/@@ploneform-render-widget"/>
+                </div>
+                <div class="midfield2Row">
+                    <tal:widget tal:replace="structure view/widgets/midfield1/@@ploneform-render-widget"/>
+                    <tal:widget tal:replace="structure view/widgets/midfield2/@@ploneform-render-widget"/>
+                    <tal:widget tal:replace="structure view/widgets/midfield3/@@ploneform-render-widget"/>                                        
+                </div>
+                <div class="midfield1Row">
+                    <tal:widget tal:replace="structure view/widgets/midfield4/@@ploneform-render-widget"/>
+                    <tal:widget tal:replace="structure view/widgets/midfield5/@@ploneform-render-widget"/>                                        
+                </div>
+                <div class="defenderRow">
+                    <tal:widget tal:replace="structure view/widgets/defender1/@@ploneform-render-widget"/>
+                    <tal:widget tal:replace="structure view/widgets/defender2/@@ploneform-render-widget"/>
+                    <tal:widget tal:replace="structure view/widgets/defender3/@@ploneform-render-widget"/>                                        
+                </div>
+                <div class="keeperRow">
+                    <tal:widget tal:replace="structure  view/widgets/keeper/@@ploneform-render-widget"/>
+                </div>
+        </div>
+    </fieldset>
+    <fieldset id="fieldset-substitutes">
+        <legend id="fieldsetlegend-substitutes">Substitutes</legend>
+        <div id="subsitutes" class="players">
+            <div class="strikersRow">
+                <tal:widget tal:replace="structure view/widgets/substitute_striker1/@@ploneform-render-widget"/>
+                <tal:widget tal:replace="structure view/widgets/substitute_striker2/@@ploneform-render-widget"/>
+            </div>
+            <div class="midfield2Row">
+                <tal:widget tal:replace="structure view/widgets/substitute_midfield1/@@ploneform-render-widget"/>
+                <tal:widget tal:replace="structure view/widgets/substitute_midfield2/@@ploneform-render-widget"/>
+                <tal:widget tal:replace="structure view/widgets/substitute_midfield3/@@ploneform-render-widget"/>                                        
+            </div>
+            <div class="midfield1Row">
+                <tal:widget tal:replace="structure view/widgets/substitute_midfield4/@@ploneform-render-widget"/>
+                <tal:widget tal:replace="structure view/widgets/substitute_midfield5/@@ploneform-render-widget"/>                                        
+            </div>
+            <div class="defenderRow">
+                <tal:widget tal:replace="structure view/widgets/substitute_defender1/@@ploneform-render-widget"/>
+                <tal:widget tal:replace="structure view/widgets/substitute_defender2/@@ploneform-render-widget"/>
+                <tal:widget tal:replace="structure view/widgets/substitute_defender3/@@ploneform-render-widget"/>                                        
+            </div>
+            <div class="keeperRow">
+                <tal:widget tal:replace="structure  view/widgets/substitute_keeper/@@ploneform-render-widget"/>
+            </div>
+        </div>
+    </fieldset>
+    <div class="formControls" tal:condition="view/actions/values|nothing">
+        <tal:block repeat="action view/actions/values">
+            <input type="submit" tal:replace="structure action/render" />
+        </tal:block>
+    </div>
+    
+    </form>
+    </metal:content-core>
+    </metal:content-core>
+    </body>
+    </html>

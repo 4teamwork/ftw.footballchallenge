@@ -37,7 +37,7 @@ class Teamstatistics(Base):
 def calculate_team_points(game):
     """recalculates the team points after a game"""
     session = named_scoped_session('footballchallenge')
-    teams = session.query(Team).filter(Team.event_id == game.events_id).all()
+    teams = session.query(Team).filter_by(event_id = game.events_id).filter_by(valid = True).all()
     points = {}
     for team in teams:
         for player in game.players:

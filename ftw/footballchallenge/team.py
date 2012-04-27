@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Table
+from sqlalchemy import Column, Integer, String, Table, Boolean
 from ftw.footballchallenge import Base
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship, backref
@@ -31,6 +31,7 @@ class Team(Base):
     players = relationship('Teams_Players', backref='team')
     event = relationship('Event', backref='teams')
 
+    valid = Column(Boolean)
     def __init__(self, name, user_id, event_id, league_id=None):
         self.name = name
         self.user_id = user_id
