@@ -7,7 +7,8 @@ from ftw.footballchallenge.player import Player
 from ftw.footballchallenge.card import Card
 from ftw.footballchallenge.save import Save
 from ftw.footballchallenge.goal import Goal
-
+from ftw.footballchallenge.playerstatistics import calculate_player_points
+from ftw.footballchallenge.teamstatistics import calculate_team_points
 from z3c.saconfig import named_scoped_session
 from zope.interface import implements
 from zope.publisher.interfaces import IPublishTraverse
@@ -120,7 +121,8 @@ class EnterResults(BrowserView):
                 for count in range(0, value_int):
                     save = Save(key, game.id_)
                     session.add(save)
-
+        calculate_player_points(game)
+        calculate_team_points(game)
 
     def write_cards(self, player_ids, color, game, session):
         for player_id in player_ids:
