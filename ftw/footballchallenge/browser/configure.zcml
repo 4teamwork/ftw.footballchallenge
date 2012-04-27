@@ -7,35 +7,35 @@
         for="*"
         name="import_players"
         class=".player_import.PlayerImportForm"
-        permission="zope2.View"
+        permission="ftw.footballchallenge.manage_event"
         />
 
     <browser:page
         for="*"
         name="create_event"
         class=".event_creation.CreateEventForm"
-        permission="zope2.View"
+        permission="ftw.footballchallenge.manage_event"
         />
 
     <browser:page
         for="*"
         name="create_league"
         class=".league_creation.CreateLeagueForm"
-        permission="zope2.View"
+        permission="ftw.footballchallenge.manage_event"
         />
 
     <browser:page
         for="*"
         name="edit_team"
         class=".edit_team.EditTeamForm"
-        permission="zope2.View"
+        permission="ftw.footballchallenge.play"
         />
 
     <browser:page
         for="*"
         name="enter_results"
         class=".enter_results.EnterResults"
-        permission="zope2.View"
+        permission="ftw.footballchallenge.manage_event"
         />
 
 
@@ -43,18 +43,18 @@
         for="*"
         name="assign_teams"
         class=".assign_league.AssignLeagueForm"
-        permission="zope2.View"
+        permission="ftw.footballchallenge.manage_event"
         />
 
     <browser:page
         for="*"
         name="create_game"
         class=".create_game.CreateGameForm"
-        permission="zope2.View"
+        permission="ftw.footballchallenge.manage_event"
         />
 
     <browser:page
-        for="ftw.footballchallenge.interfaces.ILeague"
+        for="*"
         name="ranking"
         class=".ranking.Ranking"
         permission="zope2.View"
@@ -102,16 +102,22 @@
         permission="zope2.View"
         />
 
-
+    <browser:page
+        for="*"
+        name="calculate_games"
+        class=".recalculate_game.CalculateGameView"
+        permission="ftw.footballchallenge.manage_event"
+        />
 
     <browser:page
-        name="ploneform-macros"
-        for="ftw.footballchallenge.interfaces.IEditTeam"
-        layer="ftw.footballchallenge.interfaces.IFootballchallengeLayer"
-        class="plone.app.z3cform.templates.Macros"
-        template="./macros.pt"
-        allowed_interface="zope.interface.common.mapping.IItemMapping"
-        permission="zope.Public"
+        for="*"
+        name="playing_schedule"
+        class=".playing_schedule.PlayingScheduleView"
+        permission="zope2.View"
         />
+
+    <browser:resourceDirectory
+        name='ftw.footballchallenge-resources'
+        directory="resources" />
 
 </configure>
