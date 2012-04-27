@@ -36,12 +36,13 @@ class Game(Base):
                            primaryjoin="Nation.id_==Game.nation2_id",
                            backref='games.nation2_id')
 
+    round_ = Column('round', String(20), nullable=False)
     calculated = Column(Boolean)
     nation1_dummy = Column(String(45))
     nation2_dummy = Column(String(45))
     players = relationship('Player', secondary=players_played, backref='games')
 
-    def __init__(self, date, events_id,
+    def __init__(self, date, events_id, round_,
                  nation1_dummy=None, nation2_dummy=None, nation1_id=None, nation2_id=None, calculated=False):
         self.nation1_id = nation1_id
         self.nation2_id = nation2_id
@@ -49,6 +50,7 @@ class Game(Base):
         self.events_id = events_id
         self.nation1_dummy = nation1_dummy
         self.nation2_dummy = nation2_dummy
+        self.round_ = round_
         self.calculated = calculated
     def __repr__(self):
         return '<Game %s vs. %s>' % (self.nation1.name, self.nation2.name)
