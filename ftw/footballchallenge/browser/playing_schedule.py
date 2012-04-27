@@ -15,13 +15,13 @@ class PlayingScheduleView(BrowserView):
     def get_games(self):
         session = named_scoped_session('footballchallenge')
         event_id = session.query(Event).filter(Event.LockDate > datetime.date.today()).one().id_
-        games = session.query(Game).filter(Game.events_id == event_id).order_by(Game.date).group_by(Game.round).all()
+        games = session.query(Game).filter(Game.events_id == event_id).order_by(Game.date).group_by(Game.round_).all()
         game_dict = {}
         for game in games:
-            if game_dict.get(game.stage, None):
-                game_dict[game.round].append(game)
+            if game_dict.get(game.round_, None):
+                game_dict[game.round_].append(game)
             else:
-                game_dict[game.round] = [game]
+                game_dict[game.round_] = [game]
         return game_dict
 
     def __call__(self):
