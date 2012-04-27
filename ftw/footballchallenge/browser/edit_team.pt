@@ -50,7 +50,7 @@
     </fieldset>
     <fieldset id="fieldset-substitutes">
         <legend id="fieldsetlegend-substitutes">Substitutes</legend>
-        <div id="subsitutes" class="players">
+        <div id="substitutes" class="players">
             <div class="strikersRow">
                 <tal:widget tal:replace="structure view/widgets/substitute_striker1/@@ploneform-render-widget"/>
                 <tal:widget tal:replace="structure view/widgets/substitute_striker2/@@ploneform-render-widget"/>
