@@ -225,14 +225,14 @@ def get_player_term(context, position=None, nation=None):
         Event.LockDate > date.today()).one().id_
     if not position and not nation:
         players = session.query(Player).filter(
-            Player.event_id == event_id).all()
+            Player.event_id == event_id).order_by(Player.name).all()
     elif position and not nation:
         players = session.query(Player).filter(
             Player.position==position and \
-                Player.event_id == event_id).all()
+                Player.event_id == event_id).order_by(Player.name).all()
     for player in players:
         terms.append(vocabulary.SimpleTerm(player.id_, player.id_,
-                                           player.name))
+                                           player.name+' [%s]' % player.nation.country))
     return vocabulary.SimpleVocabulary(terms)
 
 
