@@ -33,9 +33,11 @@ class CreateGameSchema(interface.Interface):
                             source=u"NationFactory",
                             required=False)
 
+
     nation1_dummy = schema.TextLine(title=_('label_nation1_dummy', default="Home Dummy"),required=False)
     nation2_dummy = schema.TextLine(title=_('label_nation2_dummy', default="Visitor Dummy"),required=False)
     
+    round_ = schema.TextLine(title=_(u'label_round', default='Round'), required=True)
 
 class CreateGameForm(form.Form):
     """Defines the Form and the behavior."""
@@ -45,6 +47,7 @@ class CreateGameForm(form.Form):
     fields = field.Fields(CreateGameSchema)
     fields['date'].widgetFactory = DatePickerFieldWidget
     label = _(u'heading_create_game', 'Add Game')
+    game_id = None
     # fields['date'].widgetFactory = DatePickerFieldWidget
     #The ignoreContext flag tells the Form not to try to get defaults
     #  from context, since we don't have a request this will fail
@@ -80,7 +83,7 @@ class CreateGameForm(form.Form):
                 nation2 = int(data['nation2'])
             session = named_scoped_session('footballchallenge')
             if not self.game_id:
-                game = Game(data['date'], data['event'], data['nation1_dummy'],
+                game = Game(data['date'], data['event'], data['round_'], data['nation1_dummy'],
                             data['nation2_dummy'], nation1, nation2)
                 session.add(game)
             else:
