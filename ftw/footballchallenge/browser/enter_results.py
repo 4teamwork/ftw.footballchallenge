@@ -82,7 +82,10 @@ class EnterResults(BrowserView):
             for save in game.saves:
                 session.delete(save)
         if playing_players:
-            players = playing_players.keys()
+            players = []
+            for player_id in playing_players:
+                player = session.query(Player).filter(Player.id_ == player_id).one()
+                players.append(player)
             game.players = players
         if yellow:
             players = yellow.keys()
