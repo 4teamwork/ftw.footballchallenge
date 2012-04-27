@@ -35,7 +35,6 @@ class Ranking(BrowserView):
 
     
     def __call__(self):
-        self.context.Title = _(u"Ranking", default=u"Rangliste").encode('utf-8')
         self.request['disable_plone.leftcolumn'] = True
         self.request['disable_plone.rightcolumn'] = True
         return self.template()
