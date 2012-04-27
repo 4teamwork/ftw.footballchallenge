@@ -43,7 +43,7 @@ class CreateLeagueForm(form.Form):
             cat = portal_actions['portal_tabs']
             urltool = getToolByName(self.context, 'portal_url')
             portal = urltool.getPortalObject()
-            url_expr = 'string: '+portal.absolute_url()+'/++league++'+str(league.id_)+'/ranking'
+            url_expr = 'string: '+portal.absolute_url()+'/ranking/'+str(league.id_)
             action = Action(league.id_, **{'title':name,'url_expr':url_expr, 'visible':True})
             cat[str(league.id_)] = action
 
