@@ -14,3 +14,4 @@ src/
 var/
 eggs/
 *.egg-info
+.DS_Store
