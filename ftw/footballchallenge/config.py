@@ -71,23 +71,25 @@ POSITION_MAPPING={
     u'Mittelfeld - Linkes Mittelfeld': 'midfield',
     u'Mittelfeld - Rechtes Mittelfeld': 'midfield'}
 
+# Official UEFA country codes
+# These are *not* the same as ISO-3155-1-alpha3
 COUNTRY_CODE_MAPPING = {
-    u'Deutschland': 'de',
-    u'Dänemark': 'dk',
-    u'England': 'uk',
-    u'Frankreich': 'fr',
-    u'Griechenland': 'gr',
-    u'Irland': 'ir',
-    u'Italien': 'it',
-    u'Kroatien': 'hr',
-    u'Niederlande': 'nl',
-    u'Polen': 'pl',
-    u'Portugal': 'pt',
-    u'Russland': 'ru',
-    u'Schweden': 'se',
-    u'Spanien': 'es',
-    u'Tschechien': 'cz',
-    u'Ukraine': 'ua',
+    u'Deutschland': 'GER',
+    u'Dänemark': 'DEN',
+    u'England': 'ENG',
+    u'Frankreich': 'FRA',
+    u'Griechenland': 'GRE',
+    u'Irland': 'IRL',
+    u'Italien': 'ITA',
+    u'Kroatien': 'CRO',
+    u'Niederlande': 'NED',
+    u'Polen': 'POL',
+    u'Portugal': 'POR',
+    u'Russland': 'RUS',
+    u'Schweden': 'SWE',
+    u'Spanien': 'ESP',
+    u'Tschechien': 'CZE',
+    u'Ukraine': 'UKR',
 }
 
 

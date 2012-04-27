@@ -16,8 +16,7 @@ class Nation(Base):
     implements(INation)
     id_ = Column('id', Integer, primary_key=True)
     name = Column(String(45))
-    # 2-letter country code http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
-    country = Column(String(2))
+    country = Column(String(3))
     coach = Column(String(64))
     participations = Column(Integer)
     fifa_rank = Column(Integer)
