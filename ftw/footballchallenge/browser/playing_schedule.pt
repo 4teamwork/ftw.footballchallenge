@@ -21,7 +21,7 @@
                     <th i18n:translate="">edit</th>
                     <th i18n:translate="">enter result</th>
                 </tr>
-                <tr tal:repeat="game group">
+                <tr tal:repeat="game group1">
                     <td tal:content="python: game.date.strftime('%a, %d %b %Y %H:%M:%S')" />
                     <td tal:content="string: ${game/nation1/name} vs. ${game/nation2/name}" />
                     <td tal:content="string: ${game/score_nation1} : ${game/score_nation2}" />
@@ -41,7 +41,7 @@
                         <th i18n:translate="">edit</th>
                         <th i18n:translate="">enter result</th>
                     </tr>
-                    <tr tal:repeat="game group">
+                    <tr tal:repeat="game group2">
                         <td tal:content="python: game.date.strftime('%a, %d %b %Y %H:%M:%S')" />
                         <td tal:content="string: ${game/nation1/name} vs. ${game/nation2/name}" />
                         <td tal:content="string: ${game/score_nation1} : ${game/score_nation2}" />
@@ -61,7 +61,7 @@
                             <th i18n:translate="">edit</th>
                             <th i18n:translate="">enter result</th>
                         </tr>
-                        <tr tal:repeat="game group">
+                        <tr tal:repeat="game group3">
                             <td tal:content="python: game.date.strftime('%a, %d %b %Y %H:%M:%S')" />
                             <td tal:content="string: ${game/nation1/name} vs. ${game/nation2/name}" />
                             <td tal:content="string: ${game/score_nation1} : ${game/score_nation2}" />
