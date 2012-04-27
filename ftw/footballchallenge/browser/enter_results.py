@@ -23,6 +23,9 @@ class EnterResults(BrowserView):
     
     def __call__(self):
         if self.request.form.get('form.submited'):
+            authenticator = getMultiAdapter((self.context, self.request), name=u"authenticator")
+            if not authenticator.verify():
+                raise Forbidden()
             playing_players = self.request.form.get('played', {})
             yellow = self.request.form.get('yellow', {})
             second_yellow = self.request.form.get('2ndyellow', {})
@@ -31,9 +34,6 @@ class EnterResults(BrowserView):
             saves = self.request.form.get('saves', {})
             self.write_to_db(playing_players, yellow, second_yellow, red, goals, saves)
             self.request.set('disable_border', True)
-            authenticator = getMultiAdapter((self.context, self.request), name=u"authenticator")
-            if not authenticator.verify():
-                raise Forbidden()
 
         else:
             session = named_scoped_session('footballchallenge')
@@ -72,11 +72,18 @@ class EnterResults(BrowserView):
         visitor_score = 0
         session = named_scoped_session('footballchallenge')
         game = session.query(Game).filter(Game.id_ == self.game_id).one()
+        if game.cards:
+            for card in game.cards:
+                session.delete(card)
+        if game.goals:
+            for goal in game.goals:
+                session.delete(goal)
+        if game.saves:
+            for save in game.saves:
+                session.delete(save)
         if playing_players:
             players = playing_players.keys()
-            for player_id in players:
-                player = session.query(Player).filter(Player.id_ == player_id).one()
-                game.players.append(player)
+            game.players = players
         if yellow:
             players = yellow.keys()
             self.write_cards(players, "yellow", game, session)
