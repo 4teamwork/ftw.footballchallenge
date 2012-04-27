@@ -61,9 +61,9 @@ def import_team(rootpage, session, event):
 
             # Conversions
             position = POSITION_MAPPING.get(player_props.get('Position:'))
-            value = int(player_props.get('Marktwert:').split()[0].replace(
+            value = int(player_props.get('Marktwert:', '0').split()[0].replace(
                 '.', ''))
-            size = player_props.get(u'Gr\xf6\xdfe:').replace(',', '.')
+            size = player_props.get(u'Gr\xf6\xdfe:', '0.00').replace(',', '.')
             date_of_birth = date.fromtimestamp(time.mktime(time.strptime(
                 player_props.get('Geburtsdatum:'), '%d.%m.%Y')))
 
