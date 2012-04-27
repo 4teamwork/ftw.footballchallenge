@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<rolemap>
+    <permissions>
+        <!-- -*- extra stuff goes here -*- -->
+        <permission name="ftw.footballchallenge: Manage Event" acquire="True">
+            <role name="Manager" />
+            <role name="Contributor" />
+        </permission>
+
+        <permission name="ftw.footballchallenge: Play" acquire="True">
+            <role name="Member" />
+        </permission>
+
+    </permissions>
+</rolemap>
+
+

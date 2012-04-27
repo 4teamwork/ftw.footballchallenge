@@ -1,0 +1,14 @@
+<configure
+  xmlns="http://namespaces.zope.org/zope">
+
+  <permission
+    id="ftw.footballchallenge.play"
+    title="ftw.footballchallenge: Play"
+    />
+
+    <permission
+      id="ftw.footballchallenge.manage_event"
+      title="ftw.footballchallenge: Manage Event"
+      />
+
+</configure>
