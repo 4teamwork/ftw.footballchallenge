@@ -1,0 +1,119 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="context/main_template/macros/master"
+      i18n:domain="ftw.footballchallenge">
+<body>
+
+<metal:content-core fill-slot="content-core">
+    <metal:content-core define-macro="content-core">
+        <metal:game-define tal:define="games view/get_games">
+        <div tal:define="group python: games.get('group')" tal:condition="group">
+            <h2 i18n:translate="">Groupstage</h2>
+        <table class="listing">
+            <thead>
+                <tr>
+                    <th i18n:translate="">date</th>
+                    <th i18n:translate="">fixture</th>
+                    <th i18n:translate="">result</th>
+                    <th i18n:translate="">edit</th>
+                    <th i18n:translate="">enter result</th>
+                </tr>
+                <tr tal:repeat="game group">
+                    <td tal:content="python: game.date.strftime('%a, %d %b %Y %H:%M:%S')" />
+                    <td tal:content="string: ${game/nation1/name} vs. ${game/nation2/name}" />
+                    <td tal:content="string: ${game/score_nation1} : ${game/score_nation2}" />
+                    <td><a tal:attributes="href string:${portal_url}/create_game/${game/id_}" i18n:translate="">Edit</a></td>
+                    <td>Enter result</td>
+                </tr>
+            </table>
+            </div>
+            <div tal:define="eigthfinals python: games.get('eighthfinals', None)" tal:condition="eigthfinals">
+            <h2 i18n:translate="">Eigthfinals</h2>
+            <table class="listing">
+                <thead>
+                    <tr>
+                        <th i18n:translate="">date</th>
+                        <th i18n:translate="">fixture</th>
+                        <th i18n:translate="">result</th>
+                        <th i18n:translate="">edit</th>
+                        <th i18n:translate="">enter result</th>
+                    </tr>
+                    <tr tal:repeat="game eighthfinals">
+                        <td tal:content="python: game.date.strftime('%a, %d %b %Y %H:%M:%S')" />
+                        <td tal:content="string: ${game/nation1/name} vs. ${game/nation2/name}" />
+                        <td tal:content="string: ${game/score_nation1} : ${game/score_nation2}" />
+                        <td><a tal:attributes="href string:${portal_url}/create_game/${game/id_}" i18n:translate="">Edit</a></td>
+                        <td>Enter result</td>
+                    </tr>
+                </table>
+                </div>
+                <div tal:define="quarterfinals python: games.get('quarterfinals')" tal:condition="python: quarterfinals">
+                <h2 i18n:translate="">Quarterfinals</h2>
+                <table class="listing">
+                    <thead>
+                        <tr>
+                            <th i18n:translate="">date</th>
+                            <th i18n:translate="">fixture</th>
+                            <th i18n:translate="">result</th>
+                            <th i18n:translate="">edit</th>
+                            <th i18n:translate="">enter result</th>
+                        </tr>
+                        <tr tal:repeat="game quarterfinals">
+                            <td tal:content="python: game.date.strftime('%a, %d %b %Y %H:%M:%S')" />
+                            <td tal:content="string: ${game/nation1/name} vs. ${game/nation2/name}" />
+                            <td tal:content="string: ${game/score_nation1} : ${game/score_nation2}" />
+                            <td><a tal:attributes="href string:${portal_url}/create_game/${game/id_}" i18n:translate="">Edit</a></td>
+                            <td>Enter result</td>
+                        </tr>
+                    </table>
+                    </div>
+                    <div tal:define="semifinals python: games.get('semifinals')" tal:condition="semifinals">
+                    <h2 i18n:translate="">Semifinals</h2>
+                    <table class="listing">
+                        <thead>
+                            <tr>
+                                <th i18n:translate="">date</th>
+                                <th i18n:translate="">fixture</th>
+                                <th i18n:translate="">result</th>
+                                <th i18n:translate="">edit</th>
+                                <th i18n:translate="">enter result</th>
+                            </tr>
+                            <tr tal:repeat="game semifinals">
+                                <td tal:content="python: game.date.strftime('%a, %d %b %Y %H:%M:%S')" />
+                                <td tal:content="string: ${game/nation1/name} vs. ${game/nation2/name}" />
+                                <td tal:content="string: ${game/score_nation1} : ${game/score_nation2}" />
+                                <td><a tal:attributes="href string:${portal_url}/create_game/${game/id_}" i18n:translate="">Edit</a></td>
+                                <td>Enter result</td>
+                            </tr>
+                        </table>
+                        </div>
+                        <div tal:define="finals python: games.get('finals')" tal:condition="finals">
+                        <h2 i18n:translate="">Finals</h2>
+                        <table class="listing">
+                            <thead>
+                                <tr>
+                                    <th i18n:translate="">date</th>
+                                    <th i18n:translate="">fixture</th>
+                                    <th i18n:translate="">result</th>
+                                    <th i18n:translate="">edit</th>
+                                    <th i18n:translate="">enter result</th>
+                                </tr>
+                                <tr tal:repeat="game finals">
+                                    <td tal:content="python: game.date.strftime('%a, %d %b %Y %H:%M:%S')" />
+                                    <td tal:content="string: ${game/nation1/name} vs. ${game/nation2/name}" />
+                                    <td tal:content="string: ${game/score_nation1} : ${game/score_nation2}" />
+                                    <td><a tal:attributes="href string:${portal_url}/create_game/${game/id_}" i18n:translate="">Edit</a></td>
+                                    <td>Enter result</td>
+                                </tr>
+                            </table>
+                        </div>
+        </metal:game-define>
+    </metal:content-core>
+</metal:content-core>
+
+</body>
+</html>
+
