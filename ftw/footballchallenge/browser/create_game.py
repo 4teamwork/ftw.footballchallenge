@@ -14,6 +14,10 @@ from ftw.footballchallenge.save import Save
 from ftw.footballchallenge.teamstatistics import calculate_team_points
 from ftw.footballchallenge.playerstatistics import calculate_player_points
 from ftw.footballchallenge.interfaces import IGame
+from zope.publisher.interfaces import IPublishTraverse
+from zope.interface import implements
+import datetime
+
 
 class CreateGameSchema(interface.Interface):
     """defines which Fields we will schow in the create Form."""
@@ -36,6 +40,8 @@ class CreateGameSchema(interface.Interface):
 class CreateGameForm(form.Form):
     """Defines the Form and the behavior."""
     #this sets the Schema as Fields
+    implements(IPublishTraverse)
+    
     fields = field.Fields(CreateGameSchema)
     fields['date'].widgetFactory = DatePickerFieldWidget
     label = _(u'heading_create_game', 'Add Game')
@@ -44,16 +50,23 @@ class CreateGameForm(form.Form):
     #  from context, since we don't have a request this will fail
     ignoreContext = True
 
+    def publishTraverse(self, request, name):
+        self.game_id = name
+        return self
 
-    # def updateWidgets(self):
-    #     try:
-    #         IGame(self.context)
-    #     except TypeError:
-    #         pass
-    #     if IGame.providedBy(self.context):
-    #         session = named_scoped_session('footballchallenge')
-    #         game = session.query(Game.id_ == self.context.id_).one()
-    #         
+
+    def updateWidgets(self):
+        if self.game_id:
+            session = named_scoped_session('footballchallenge')
+            game = session.query(Game).filter(Game.id_ == self.game_id).one()
+            self.fields['date'].field.default = datetime.date(game.date.year, game.date.month, game.date.day)
+            self.fields['event'].field.default = game.events_id
+            self.fields['nation1'].field.default = game.nation1_id
+            self.fields['nation2'].field.default = game.nation2_id
+            self.fields['nation1_dummy'].field.default = game.nation1_dummy
+            self.fields['nation2_dummy'].field.default = game.nation2_dummy
+        super(CreateGameForm, self).updateWidgets()
+
 
     @button.buttonAndHandler(_(u'Save'))
     def handleSave(self, action):
@@ -66,11 +79,18 @@ class CreateGameForm(form.Form):
             if data['nation2']:
                 nation2 = int(data['nation2'])
             session = named_scoped_session('footballchallenge')
-            game = Game(data['date'], data['event'], data['nation1_dummy'],
-                        data['nation2_dummy'], nation1, nation2)
-            session.add(game)
-            transaction.commit()
-            
+            if not self.game_id:
+                game = Game(data['date'], data['event'], data['nation1_dummy'],
+                            data['nation2_dummy'], nation1, nation2)
+                session.add(game)
+            else:
+                session = named_scoped_session('footballchallenge')
+                game = session.query(Game).filter(Game.id_ == self.game_id).one()
+                game.date = data['date']
+                game.nation1_id = data['nation1']
+                game.nation2_id = data['nation2']
+                game.nation1_dummy = data['nation1_dummy']
+                game.nation2_dummy = data['nation2_dummy']
             #After creating a game we need to update our statstables
 
             self.request.response.redirect(self.context.absolute_url())
