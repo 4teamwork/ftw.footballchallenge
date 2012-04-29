@@ -20,7 +20,7 @@
         <div tal:define="games python: games_per_round.get(round, None)"
              tal:condition="games">
         <h2 i18n:translate="" tal:content="string:label_${round}">Group Matches Round 1</h2>
-        <table class="listing">
+        <table class="listing nosort">
             <thead>
                 <tr>
                     <th i18n:translate="">Date</th>
