@@ -53,4 +53,4 @@ class Game(Base):
         self.round_ = round_
         self.calculated = calculated
     def __repr__(self):
-        return '<Game %s vs. %s>' % (self.nation1.name, self.nation2.name)
+        return '<Game %s-%s>' % (self.nation1.country, self.nation2.country)
