@@ -90,6 +90,11 @@ def calculate_player_points(game):
             saves = player.get_saves(session, game.id_)
             points += mapping['save']*len(saves)
 
-        #get last entry. We need it to calculate the total
-        stats = Playerstatistics(player.id_, game.id_, points)
-        session.add(stats)
+        # Store player statistics
+        stats = session.query(Playerstatistics).filter(
+            Playerstatistics.player_id==player.id_).filter(
+            Playerstatistics.game_id==game.id_).first()
+        if stats is None:
+            stats = Playerstatistics(player.id_, game.id_, points)
+            session.add(stats)
+        stats.points = points
