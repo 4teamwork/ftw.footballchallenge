@@ -111,8 +111,8 @@
 
     <browser:page
         for="*"
-        name="playing_schedule"
-        class=".playing_schedule.PlayingScheduleView"
+        name="schedule"
+        class=".schedule.ScheduleView"
         permission="zope2.View"
         />
 

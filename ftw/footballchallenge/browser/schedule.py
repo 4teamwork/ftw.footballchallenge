@@ -6,10 +6,10 @@ from ftw.footballchallenge.event import Event
 from ftw.footballchallenge.game import Game
 
 
-class PlayingScheduleView(BrowserView):
-    """Defines a view for the league which displays the ranking."""
+class ScheduleView(BrowserView):
+    """Shows the game schedule"""
     
-    template = ViewPageTemplateFile("playing_schedule.pt")
+    template = ViewPageTemplateFile("schedule.pt")
 
 
     def get_games(self):
