@@ -1,3 +1,5 @@
+from Acquisition import aq_inner
+from Products.CMFCore.utils import getToolByName
 from zope.publisher.browser import BrowserView
 from z3c.saconfig import named_scoped_session
 from zope.app.pagetemplate.viewpagetemplatefile import ViewPageTemplateFile
@@ -23,6 +25,12 @@ class ScheduleView(BrowserView):
             else:
                 games_per_round[game.round_] = [game]
         return games_per_round
+
+    def can_edit(self):
+        context = aq_inner(self.context)
+        mtool = getToolByName(context, 'portal_membership')
+        return bool(mtool.checkPermission('ftw.footballchallenge: Edit games',
+                                          context))
 
     def __call__(self):
         return self.template()

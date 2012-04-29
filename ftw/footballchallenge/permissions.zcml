@@ -11,4 +11,9 @@
       title="ftw.footballchallenge: Manage Event"
       />
 
+    <permission
+      id="ftw.footballchallenge.edit_games"
+      title="ftw.footballchallenge: Edit games"
+      />
+
 </configure>
