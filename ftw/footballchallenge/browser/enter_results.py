@@ -10,8 +10,9 @@ from ftw.footballchallenge.goal import Goal
 from ftw.footballchallenge.playerstatistics import calculate_player_points
 from ftw.footballchallenge.teamstatistics import calculate_team_points
 from z3c.saconfig import named_scoped_session
+from sqlalchemy.orm.exc import NoResultFound
 from zope.interface import implements
-from zope.publisher.interfaces import IPublishTraverse
+from zope.publisher.interfaces import IPublishTraverse, NotFound
 
 
 class EnterResults(BrowserView):
@@ -20,9 +21,14 @@ class EnterResults(BrowserView):
     implements(IPublishTraverse)
     
     template = ViewPageTemplateFile("enter_results.pt")
-    
-    
+
+    def __init__(self, context, request):
+        super(EnterResults, self).__init__(context, request)
+        self.game_id = None
+
     def __call__(self):
+        self.request.set('disable_border', True)
+
         if self.request.form.get('form.submited'):
             authenticator = getMultiAdapter((self.context, self.request), name=u"authenticator")
             if not authenticator.verify():
@@ -34,11 +40,12 @@ class EnterResults(BrowserView):
             goals = self.request.form.get('goals', {})
             saves = self.request.form.get('saves', {})
             self.write_to_db(playing_players, yellow, second_yellow, red, goals, saves)
-            self.request.set('disable_border', True)
-
         else:
             session = named_scoped_session('footballchallenge')
-            game = session.query(Game).filter(Game.id_ == self.game_id).one()
+            try:
+                game = session.query(Game).filter(Game.id_==self.game_id).one()
+            except NoResultFound:
+                raise NotFound(self, self.game_id, self.request)
             for player in game.players:
                 self.request.form[str(player.id_)+'_played'] = "checked"
             for card in game.cards:
