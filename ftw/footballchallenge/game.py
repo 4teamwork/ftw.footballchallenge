@@ -5,6 +5,8 @@ from sqlalchemy.orm import relationship, backref
 from sqlalchemy import Table
 from zope.interface import implements
 from ftw.footballchallenge.interfaces import IGame
+from zope.schema.vocabulary import SimpleVocabulary, SimpleTerm
+from ftw.footballchallenge import _
 
 
 players_played = Table('players_played', Base.metadata,
@@ -54,3 +56,13 @@ class Game(Base):
         self.calculated = calculated
     def __repr__(self):
         return '<Game %s-%s>' % (self.nation1.country, self.nation2.country)
+
+
+RoundVocabulary = SimpleVocabulary(
+    [SimpleTerm(value=u'group1', title=_(u'label_group1', default=u'Group1')),
+     SimpleTerm(value=u'group2', title=_(u'label_group2', default=u'Group2')),
+     SimpleTerm(value=u'group3', title=_(u'label_group3', default=u'Group3')),
+     SimpleTerm(value=u'roundof16', title=_(u'label_group1', default=u'Round of Sixteen')),
+     SimpleTerm(value=u'quarterfinals', title=_(u'label_quarterfinal', default=u'Quarterfinals')),
+     SimpleTerm(value=u'semifinals', title=_(u'label_semifinals', default=u'Semifinals')),
+     SimpleTerm(value=u'finals', title=_(u'label_finals', default=u'Finals'))])
