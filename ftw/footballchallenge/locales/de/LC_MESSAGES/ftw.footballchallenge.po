@@ -73,7 +73,7 @@ msgstr "Importieren"
 
 #: ./ftw/footballchallenge/browser/edit_team.pt:31
 msgid "Info"
-msgstr "Info"
+msgstr "Information"
 
 #: ./ftw/footballchallenge/browser/player_view.pt:25
 msgid "Log:"

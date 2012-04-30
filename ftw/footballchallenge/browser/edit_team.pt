@@ -13,7 +13,7 @@
     
     <metal:content-core fill-slot="content-title">
     <metal:content-core define-macro="content-title">
-        <h1 class="documentFirstHeading">Edit Team</h1>
+        <h1 class="documentFirstHeading" i18n:translate="">Edit Team</h1>
     </metal:content-core>
     </metal:content-core>
     
@@ -58,7 +58,7 @@
         <tal:widget tal:replace="structure view/widgets/name/@@ploneform-render-widget"/>
 
         <fieldset id="fieldset-starters">   
-            <legend id="fieldsetlegend-starters">Starters</legend>
+            <legend id="fieldsetlegend-starters" i18n:translate="">Starters</legend>
             <div id="starters" class="players">
                 <div class="strikersRow">
                     <tal:widget tal:replace="structure view/widgets/striker1/@@ploneform-render-widget"/>
@@ -84,7 +84,7 @@
         </div>
     </fieldset>
     <fieldset id="fieldset-substitutes">
-        <legend id="fieldsetlegend-substitutes">Substitutes</legend>
+        <legend id="fieldsetlegend-substitutes" i18n:translate="">Substitutes</legend>
         <div id="substitutes" class="players">
             <div class="strikersRow">
                 <tal:widget tal:replace="structure view/widgets/substitute_striker1/@@ploneform-render-widget"/>
