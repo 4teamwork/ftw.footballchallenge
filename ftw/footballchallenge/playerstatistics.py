@@ -31,8 +31,8 @@ class Playerstatistics(Base):
         self.points = points
 
     def __repr__(self):
-        return '<Statistics for Player %s. Total Points: %s>' % (
-            self.player.name, self.total_points)
+        return '<Statistics for Player %s. Points: %s>' % (
+            self.player.name, self.points)
 
 
 def calculate_player_points(game):
@@ -91,10 +91,11 @@ def calculate_player_points(game):
             points += mapping['save']*len(saves)
 
         # Store player statistics
-        stats = session.query(Playerstatistics).filter(
-            Playerstatistics.player_id==player.id_).filter(
-            Playerstatistics.game_id==game.id_).first()
-        if stats is None:
+        stats = session.query(Playerstatistics).filter_by(
+            player_id=player.id_).filter_by(
+            game_id=game.id_).all()
+        if len(stats) == 0:
             stats = Playerstatistics(player.id_, game.id_, points)
             session.add(stats)
-        stats.points = points
+        else:
+            stats[0].points = points
