@@ -6,6 +6,7 @@ from ftw.footballchallenge.team import Team
 from ftw.footballchallenge.league import League
 from zope.interface import implements
 from zope.publisher.interfaces import IPublishTraverse
+from Products.statusmessages.interfaces import IStatusMessage
 
 
 class AssignLeagueSchema(interface.Interface):
@@ -46,7 +47,10 @@ class AssignLeagueForm(form.Form):
                 team = session.query(Team).filter(Team.id_ == team_id).one()
                 teams.append(team)
             league.teams = teams
-            return self.request.RESPONSE.redirect(self.context.absolute_url())
+            msg = _(u'label_teams_assigne', default=u'Teams were assigned successfully.')
+            IStatusMessage(self.request).addStatusMessage(
+                msg, type='information')
+            return self.request.RESPONSE.redirect(self.context.absolute_url() + '/ranking/' + str(league.id_))
 
     @button.buttonAndHandler(_(u'Cancel'))
     def handleCancel(self, action):
