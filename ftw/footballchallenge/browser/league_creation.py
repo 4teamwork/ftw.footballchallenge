@@ -6,6 +6,7 @@ from ftw.footballchallenge.league import League
 from Products.CMFCore.ActionInformation import Action
 from Products.CMFCore.utils import getToolByName
 from ftw.footballchallenge.interfaces import ILeague
+from Products.statusmessages.interfaces import IStatusMessage
 import transaction
 
 
@@ -28,7 +29,7 @@ class CreateLeagueForm(form.Form):
         self.request['disable_plone.rightcolumn'] = True
         super(CreateLeagueForm, self).update()
         
-    @button.buttonAndHandler(_(u'Import'))
+    @button.buttonAndHandler(_(u'Save'))
     def handleImport(self, action):
         data, errors = self.extractData()
         if len(errors) == 0:
@@ -39,15 +40,10 @@ class CreateLeagueForm(form.Form):
             session.add(league)
             portal_actions = getToolByName(self.context, 'portal_actions')
             transaction.commit()
-            league = session.query(League).filter(League.name==data['name']).all()[-1]
-            cat = portal_actions['portal_tabs']
-            urltool = getToolByName(self.context, 'portal_url')
-            portal = urltool.getPortalObject()
-            url_expr = 'string: '+portal.absolute_url()+'/ranking/'+str(league.id_)
-            action = Action(league.id_, **{'title':name,'url_expr':url_expr, 'visible':True})
-            cat[str(league.id_)] = action
-
-            return self.request.RESPONSE.redirect(self.context.absolute_url())
+            msg = _(u'league_created', default=u'League created successfully')
+            IStatusMessage(self.request).addStatusMessage(
+                msg, type='information')
+            return self.request.RESPONSE.redirect(self.context.absolute_url()+'/ranking/'+str(league.id_))
 
     @button.buttonAndHandler(_(u'Cancel'))
     def handleCancel(self, action):
