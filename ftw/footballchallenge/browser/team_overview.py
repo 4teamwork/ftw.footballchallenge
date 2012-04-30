@@ -5,7 +5,7 @@ from zope.app.component.hooks import getSite
 from zope.app.pagetemplate.viewpagetemplatefile import ViewPageTemplateFile
 from zope.interface import implements
 from zope.publisher.interfaces import IPublishTraverse
-
+from ftw.footballchallenge.playerstatistics import Playerstatistics
 
 class TeamOverview(BrowserView):
     """Defines a view for the league which displays the ranking."""
@@ -32,8 +32,8 @@ class TeamOverview(BrowserView):
     def generate_link(self, player):
         portal = getSite()
         base_url = portal.absolute_url()
-        url = base_url + '/++player++'+str(player.id_)+'/player_view'
-        return '<a href="'+url+'">'+player.name+'</a>'
+        url = base_url + '/player_view/' + str(player.id_)
+        return '<a href="' + url + '">' + player.name + '</a>'
     
     def get_starters(self):
         return self.get_players(True)
@@ -56,3 +56,11 @@ class TeamOverview(BrowserView):
                 if not player.nation_id in nations and not player.nation_id in sub_nations:
                     sub_nations.append(player.nation_id)
         return {'starter_nations': len(nations), 'sub_nations': len(sub_nations)+len(nations)}
+
+    def get_player_points(self, player):
+        session = named_scoped_session('footballchallenge')
+        playerstats = session.query(Playerstatistics).filter(Playerstatistics.player_id == player.id_).all()
+        points = 0
+        for playerstat in playerstats:
+            points += playerstat.points
+        return points

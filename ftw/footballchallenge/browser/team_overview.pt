@@ -26,11 +26,13 @@
             <th i18n:translate="">Name</th>
             <th i18n:translate="">Nationalität</th>
             <th i18n:translate="">Position</th>
+            <th i18n:translate="">Punkte</th>
         </tr>
         <tr tal:repeat="player view/get_starters">
             <td tal:content="structure python:view.generate_link(player)" />
             <td tal:content="player/nation/name" />
             <td i18n:translate="" tal:content="player/position" />
+            <td i18n:translate="" tal:content="python: view.get_player_points(player)" />
         </tr>
     </table>
     <h2 i18n:translate="">Substitutes</h2>
@@ -39,11 +41,13 @@
             <th i18n:translate="">Name</th>
             <th i18n:translate="">Nationalität</th>
             <th i18n:translate="">Position</th>
+            <th i18n:translate="">Punkte</th>
         </tr>
         <tr tal:repeat="player view/get_substitutes">
             <td tal:content="structure python:view.generate_link(player)" />
             <td tal:content="player/nation/name" />
             <td i18n:translate="" tal:content="player/position" />
+            <td i18n:translate="" tal:content="python: view.get_player_points(player)/2" />
         </tr>
     </table>
 </div>
