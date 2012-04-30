@@ -17,7 +17,7 @@ from ftw.footballchallenge.interfaces import IGame
 from zope.publisher.interfaces import IPublishTraverse
 from zope.interface import implements
 import datetime
-
+from ftw.footballchallenge.game import RoundVocabulary
 
 class CreateGameSchema(interface.Interface):
     """defines which Fields we will schow in the create Form."""
@@ -37,7 +37,9 @@ class CreateGameSchema(interface.Interface):
     nation1_dummy = schema.TextLine(title=_('label_nation1_dummy', default="Home Dummy"),required=False)
     nation2_dummy = schema.TextLine(title=_('label_nation2_dummy', default="Visitor Dummy"),required=False)
     
-    round_ = schema.TextLine(title=_(u'label_round', default='Round'), required=True)
+    round_ = schema.Choice(title=_(u'label_round', default='Round'),
+                           vocabulary=RoundVocabulary,
+                           required=True)
 
 class CreateGameForm(form.Form):
     """Defines the Form and the behavior."""
@@ -68,6 +70,7 @@ class CreateGameForm(form.Form):
             self.fields['nation2'].field.default = game.nation2_id
             self.fields['nation1_dummy'].field.default = game.nation1_dummy
             self.fields['nation2_dummy'].field.default = game.nation2_dummy
+            self.fields['round_'].field.default = game.round_
         super(CreateGameForm, self).updateWidgets()
 
 
@@ -94,9 +97,10 @@ class CreateGameForm(form.Form):
                 game.nation2_id = data['nation2']
                 game.nation1_dummy = data['nation1_dummy']
                 game.nation2_dummy = data['nation2_dummy']
+                game.round_ = data['round_']
             #After creating a game we need to update our statstables
 
-            self.request.response.redirect(self.context.absolute_url())
+            self.request.response.redirect(self.context.absolute_url()+'/schedule')
 
     @button.buttonAndHandler(_(u'Cancel'))
     def handleCancel(self, action):
