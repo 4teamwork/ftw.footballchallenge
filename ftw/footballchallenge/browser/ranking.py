@@ -49,7 +49,7 @@ class Ranking(BrowserView):
         portal_url = getToolByName(self.context, 'portal_url')
         portal = portal_url.getPortalObject()
         url = portal.absolute_url()
-        link = '<a href="%s/++team++%s/team_overview">%s</a>' % (url, team.id_, team.name)
+        link = '<a href="%s/team_overview/%s">%s</a>' % (url, team.id_, team.name)
         return link
 
     def get_userimg(self, team_id):
