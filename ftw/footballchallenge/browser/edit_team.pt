@@ -11,6 +11,12 @@
 </head>
 <body>
     
+    <metal:content-core fill-slot="content-title">
+    <metal:content-core define-macro="content-title">
+        <h1 class="documentFirstHeading">Edit Team</h1>
+    </metal:content-core>
+    </metal:content-core>
+    
     <metal:content-core fill-slot="content-core">
     <metal:content-core define-macro="content-core">
 
@@ -25,8 +31,8 @@
                         ">
         
         <tal:widget tal:replace="structure view/widgets/name/@@ploneform-render-widget"/>
-        
-        <fieldset id="fieldset-starters">
+
+        <fieldset id="fieldset-starters">   
             <legend id="fieldsetlegend-starters">Starters</legend>
             <div id="starters" class="players">
                 <div class="strikersRow">
