@@ -20,6 +20,31 @@
     <metal:content-core fill-slot="content-core">
     <metal:content-core define-macro="content-core">
 
+    <tal:status define="status view/status" condition="status">
+        <dl class="portalMessage error" tal:condition="view/widgets/errors">
+            <dt i18n:translate="">
+                Error
+            </dt>
+            <dd tal:content="status" />
+        </dl>
+        <dl class="portalMessage info" tal:condition="not: view/widgets/errors">
+            <dt i18n:translate="">
+                Info
+            </dt>
+            <dd tal:content="status" />
+        </dl>
+    </tal:status>
+
+    <div tal:define="errors view/widgets/errors" tal:condition="errors">
+        <di tal:repeat="error errors">
+            <tal:block
+                condition="not:nocall:error/widget"
+                replace="structure error/render"
+                />
+        </div>
+    </div>
+
+
     <form tal:define="form_name view/form_name | nothing;
                                                 form_class view/css_class | string:;
                                                 "
@@ -28,8 +53,8 @@
                         class python:'enableFormTabbing enableUnloadProtection %s kssattr-formname-%s' % (form_class, request.getURL().split('/')[-1]);
                         id view/id;
                         method view/method|string:'post'
-                        ">
-        
+                        ">        
+
         <tal:widget tal:replace="structure view/widgets/name/@@ploneform-render-widget"/>
 
         <fieldset id="fieldset-starters">   

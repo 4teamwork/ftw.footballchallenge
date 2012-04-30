@@ -14,6 +14,7 @@ from ftw.footballchallenge.interfaces import IEditTeam
 from zope.interface import invariant
 from zope.interface import Invalid
 from zope.app.pagetemplate.viewpagetemplatefile import ViewPageTemplateFile
+from Products.statusmessages.interfaces import IStatusMessage
 
 
 class EditTeamSchema(interface.Interface):
@@ -128,6 +129,7 @@ class EditTeamSchema(interface.Interface):
             if player_id:
                 playernames += session.query(Player).filter(
                     Player.id_ == player_id).one().name
+
         raise Invalid(_(u"You can't use the player "+playernames+" multiple times"))
 
 
@@ -210,14 +212,23 @@ class EditTeamForm(form.Form):
                     else:
                         if not player.nation_id in sub_nations and not player.nation_id in nations:
                             sub_nations.append(player.nation_id)
- 
+
                     team.players.append(Teams_Players(team.id_, player,
                                         bool(not 'substitute' in k)))
-            
-            if len(nations) == 6 and len(sub_nations) == 6:
+
+            if len(nations) >= 6 and len(sub_nations) + len(nations) >=12 and len(team.players) == 22:
                 team.valid = True
-            transaction.commit()
-            return self.request.RESPONSE.redirect(self.context.absolute_url())
+            else:
+                msg = _(u'label_not_valid', default=u'Your Team is not valid and will not receive any points')
+                IStatusMessage(self.request).addStatusMessage(
+                    msg, type='warning')
+                team.valid = False
+
+            msg = _(u'label_changes_saved', default=u'Your changes are saved successfully')
+            IStatusMessage(self.request).addStatusMessage(
+                msg, type='info')
+
+            return self.request.RESPONSE.redirect(self.context.absolute_url()+'/team_overview/' + str(team.id_))
 
     @button.buttonAndHandler(_(u'Cancel'))
     def handleCancel(self, action):
