@@ -89,8 +89,13 @@
             <input type="submit" tal:replace="structure action/render" />
         </tal:block>
     </div>
-    
     </form>
+    <script type="text/javascript" charset="utf-8">
+    jQuery(function($) {
+        $('#starters select').chosen();
+        $('#fieldsetlegend-substitutes').click(function() {$('#substitutes select').not('.chzn-done').chosen();});
+    });
+    </script>
     </metal:content-core>
     </metal:content-core>
     </body>
