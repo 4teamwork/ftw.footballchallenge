@@ -1,0 +1,396 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2012-04-30 14:03+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+"Preferred-Encodings: utf-8 latin1\n"
+"Domain: DOMAIN\n"
+
+#: ./ftw/footballchallenge/browser/assign_league.py:55
+#: ./ftw/footballchallenge/browser/create_game.py:105
+#: ./ftw/footballchallenge/browser/edit_team.py:233
+msgid "Cancel"
+msgstr ""
+
+#: ./ftw/footballchallenge/browser/player_view.pt:18
+msgid "Club"
+msgstr "Club"
+
+#: ./ftw/footballchallenge/browser/ranking.pt:22
+msgid "Coach"
+msgstr "Trainer"
+
+#: ./ftw/footballchallenge/profiles/default/actions.xml
+msgid "Create Event"
+msgstr "Event erstellen"
+
+#: ./ftw/footballchallenge/browser/schedule.pt:26
+msgid "Date"
+msgstr "Datum"
+
+#: ./ftw/footballchallenge/browser/player_view.pt:16
+msgid "Date of Birth"
+msgstr "Geburtsdatum"
+
+#: ./ftw/footballchallenge/browser/schedule.pt:29
+msgid "Edit"
+msgstr "Bearbeiten"
+
+#: ./ftw/footballchallenge/browser/schedule.pt:30
+msgid "Edit Result"
+msgstr "Resultat bearbeiten"
+
+#: ./ftw/footballchallenge/profiles/default/actions.xml
+msgid "Edit Team"
+msgstr "Team bearbeiten"
+
+#: ./ftw/footballchallenge/browser/schedule.pt:42
+msgid "Edit result"
+msgstr "Resultat bearbeiten"
+
+#: ./ftw/footballchallenge/browser/edit_team.pt:25
+msgid "Error"
+msgstr "Fehler"
+
+#: ./ftw/footballchallenge/browser/schedule.pt:27
+msgid "Fixture"
+msgstr "Spielplan"
+
+#: ./ftw/footballchallenge/browser/enter_results.pt:14
+msgid "Home Team"
+msgstr "Heimteam"
+
+#: ./ftw/footballchallenge/browser/event_creation.py:40
+#: ./ftw/footballchallenge/browser/player_import.py:43
+msgid "Import"
+msgstr "Importieren"
+
+#: ./ftw/footballchallenge/browser/edit_team.pt:31
+msgid "Info"
+msgstr "Info"
+
+#: ./ftw/footballchallenge/browser/player_view.pt:25
+msgid "Log:"
+msgstr "Log:"
+
+#: ./ftw/footballchallenge/browser/player_view.pt:13
+#: ./ftw/footballchallenge/browser/team_overview.pt:26
+msgid "Name"
+msgstr "Name"
+
+#: ./ftw/footballchallenge/browser/team_overview.pt:27
+msgid "Nationality"
+msgstr "Nationalität"
+
+#: ./ftw/footballchallenge/browser/player_view.pt:15
+msgid "Original Name"
+msgstr "Geburtsname"
+
+#: ./ftw/footballchallenge/browser/ranking.pt:20
+#: ./ftw/footballchallenge/browser/team_overview.pt:29
+msgid "Points"
+msgstr "Punkte"
+
+#: ./ftw/footballchallenge/browser/player_view.pt:14
+#: ./ftw/footballchallenge/browser/team_overview.pt:28
+msgid "Position"
+msgstr "Position"
+
+#: ./ftw/footballchallenge/browser/team_overview.pt:44
+msgid "Punkte"
+msgstr "Punkte"
+
+#: ./ftw/footballchallenge/browser/ranking.pt:19
+msgid "Rank"
+msgstr "Rang"
+
+#: ./ftw/footballchallenge/browser/schedule.pt:28
+msgid "Result"
+msgstr "Resultat"
+
+#: ./ftw/footballchallenge/browser/assign_league.py:39
+#: ./ftw/footballchallenge/browser/create_game.py:77
+#: ./ftw/footballchallenge/browser/edit_team.py:182
+msgid "Save"
+msgstr "gehaltene Penalty"
+
+#: ./ftw/footballchallenge/browser/team_overview.pt:23
+msgid "Starters"
+msgstr "Stammelf"
+
+#: ./ftw/footballchallenge/browser/team_overview.pt:38
+msgid "Substitutes"
+msgstr "Auswechselspieler"
+
+#: ./ftw/footballchallenge/browser/ranking.pt:21
+msgid "Team"
+msgstr "Team"
+
+#: ./ftw/footballchallenge/browser/player_view.pt:19
+msgid "Teams"
+msgstr "Teams"
+
+#: ./ftw/footballchallenge/browser/player_view.pt:17
+msgid "Value"
+msgstr "Marktwert"
+
+#: ./ftw/footballchallenge/browser/enter_results.pt:72
+msgid "Visitor Team"
+msgstr "Auswärtsteam"
+
+#: ./ftw/footballchallenge/browser/edit_team.py:133
+msgid "You can't use the player  multiple times"
+msgstr "Sie können den Spieler  nicht mehrmals verwenden"
+
+#. Default: "Assign Teams"
+#: ./ftw/footballchallenge/browser/assign_league.py:22
+msgid "heading_assign_teams"
+msgstr "Teams zuweisen"
+
+#. Default: "Add Event"
+#: ./ftw/footballchallenge/browser/event_creation.py:19
+msgid "heading_create_event"
+msgstr "Event hinzufügen"
+
+#. Default: "Add Game"
+#: ./ftw/footballchallenge/browser/create_game.py:51
+msgid "heading_create_game"
+msgstr "Spiel hinzufügen"
+
+#. Default: "Add League"
+#: ./ftw/footballchallenge/browser/league_creation.py:24
+msgid "heading_create_league"
+msgstr "Liga hinzufügen"
+
+#. Default: "Edit Team"
+#: ./ftw/footballchallenge/browser/edit_team.py:139
+msgid "heading_edit_team"
+msgstr "Team bearbeiten"
+
+#. Default: "Import Players"
+#: ./ftw/footballchallenge/browser/player_import.py:40
+msgid "heading_import_players"
+msgstr "Spieler importieren"
+
+#. Default: "2nd Yellow"
+#: ./ftw/footballchallenge/browser/enter_results.pt:21
+msgid "label_2ndyellow"
+msgstr "Gelb-Rote Karte"
+
+#. Default: "Age"
+#: ./ftw/footballchallenge/browser/nation.pt:24
+msgid "label_age"
+msgstr "Alter"
+
+#. Default: "Your changes are saved successfully"
+#: ./ftw/footballchallenge/browser/edit_team.py:227
+msgid "label_changes_saved"
+msgstr "Ihre Änderungen wurden erfolgreich gespeichert."
+
+#. Default: "Club"
+#: ./ftw/footballchallenge/browser/nation.pt:25
+msgid "label_club"
+msgstr "Club"
+
+#. Default: "Coach"
+#: ./ftw/footballchallenge/browser/nations.pt:17
+msgid "label_coach"
+msgstr "Trainer"
+
+#. Default: "Date"
+#: ./ftw/footballchallenge/browser/create_game.py:24
+#: ./ftw/footballchallenge/browser/event_creation.py:14
+msgid "label_date"
+msgstr "Datum"
+
+#. Default: "defender"
+#: ./ftw/footballchallenge/browser/edit_team.py:29
+msgid "label_defender"
+msgstr "Verteidiger"
+
+#. Default: "FIFA Ranking"
+#: ./ftw/footballchallenge/browser/nations.pt:19
+msgid "label_fifa_ranking"
+msgstr "Rang"
+
+#. Default: "Finals"
+#: ./ftw/footballchallenge/game.py:68
+msgid "label_finals"
+msgstr "Finalrunde"
+
+#. Default: "Goals"
+#: ./ftw/footballchallenge/browser/enter_results.pt:23
+msgid "label_goals"
+msgstr "Tore"
+
+#. Default: "Group1"
+#: ./ftw/footballchallenge/game.py:62
+msgid "label_group1"
+msgstr "1. Runde der Gruppenphase"
+
+#. Default: "Group2"
+#: ./ftw/footballchallenge/game.py:63
+msgid "label_group2"
+msgstr "2. Runde der Gruppenphase"
+
+#. Default: "Group3"
+#: ./ftw/footballchallenge/game.py:64
+msgid "label_group3"
+msgstr "3. Runde der Gruppenphase"
+
+#. Default: "Home Team"
+#: ./ftw/footballchallenge/browser/create_game.py:28
+msgid "label_hometeam"
+msgstr "Heimteam"
+
+#. Default: "Event"
+#: ./ftw/footballchallenge/browser/create_game.py:25
+#: ./ftw/footballchallenge/browser/league_creation.py:18
+#: ./ftw/footballchallenge/browser/player_import.py:33
+msgid "label_import_event"
+msgstr "Meisterschaft"
+
+#. Default: "Urls"
+#: ./ftw/footballchallenge/browser/player_import.py:11
+msgid "label_import_urls"
+msgstr "URLs"
+
+#. Default: "keeper"
+#: ./ftw/footballchallenge/browser/edit_team.py:25
+msgid "label_keeper"
+msgstr "Torwart"
+
+#. Default: "League"
+#: ./ftw/footballchallenge/browser/nation.pt:26
+msgid "label_league"
+msgstr "Liga"
+
+#. Default: "midfield"
+#: ./ftw/footballchallenge/browser/edit_team.py:39
+msgid "label_midfield"
+msgstr "Mittelfeld"
+
+#. Default: "Name"
+#: ./ftw/footballchallenge/browser/edit_team.py:22
+#: ./ftw/footballchallenge/browser/event_creation.py:12
+#: ./ftw/footballchallenge/browser/league_creation.py:16
+msgid "label_name"
+msgstr "Name"
+
+#. Default: "Nation"
+#: ./ftw/footballchallenge/browser/nations.pt:16
+msgid "label_nation"
+msgstr "Nation"
+
+#. Default: "Home Dummy"
+#: ./ftw/footballchallenge/browser/create_game.py:37
+msgid "label_nation1_dummy"
+msgstr "Platzhalter fürs Heimteam"
+
+#. Default: "Visitor Dummy"
+#: ./ftw/footballchallenge/browser/create_game.py:38
+msgid "label_nation2_dummy"
+msgstr "Platzhalter fürs Auswärtsteam"
+
+#. Default: "Your Team is not valid and will not receive any points"
+#: ./ftw/footballchallenge/browser/edit_team.py:222
+msgid "label_not_valid"
+msgstr "Ihr Team ist nicht valid und wird keine Punkte erhalten."
+
+#. Default: "Participations"
+#: ./ftw/footballchallenge/browser/nations.pt:18
+msgid "label_participations"
+msgstr "Teilnahmen"
+
+#. Default: "Played"
+#: ./ftw/footballchallenge/browser/enter_results.pt:19
+msgid "label_played"
+msgstr "Eingesetzt"
+
+#. Default: "Player"
+#: ./ftw/footballchallenge/browser/enter_results.pt:18
+msgid "label_player"
+msgstr "Spieler"
+
+#. Default: "Position"
+#: ./ftw/footballchallenge/browser/nation.pt:23
+msgid "label_position"
+msgstr "Position"
+
+#. Default: "Quarterfinals"
+#: ./ftw/footballchallenge/game.py:66
+msgid "label_quarterfinal"
+msgstr "Viertelsfinal"
+
+#. Default: "Red"
+#: ./ftw/footballchallenge/browser/enter_results.pt:22
+msgid "label_red"
+msgstr "Rote Karte"
+
+#. Default: "Round"
+#: ./ftw/footballchallenge/browser/create_game.py:40
+msgid "label_round"
+msgstr "Runde"
+
+#. Default: "Round of Sixteen"
+#: ./ftw/footballchallenge/game.py:65
+msgid "label_roundof16"
+msgstr "Achtelsfinal"
+
+#. Default: "Save"
+#: ./ftw/footballchallenge/browser/enter_results.pt:132
+msgid "label_save"
+msgstr "gehaltene Penalty"
+
+#. Default: "Penalty Saves"
+#: ./ftw/footballchallenge/browser/enter_results.pt:24
+msgid "label_saves"
+msgstr "gehaltene Penalty"
+
+#. Default: "Semifinals"
+#: ./ftw/footballchallenge/game.py:67
+msgid "label_semifinals"
+msgstr "Halbfinal"
+
+#. Default: "striker"
+#: ./ftw/footballchallenge/browser/edit_team.py:56
+msgid "label_striker"
+msgstr "Stürmer"
+
+#. Default: "Teams"
+#: ./ftw/footballchallenge/browser/assign_league.py:14
+msgid "label_teams"
+msgstr "Teams"
+
+#. Default: "Teams were assigned successfully."
+#: ./ftw/footballchallenge/browser/assign_league.py:50
+msgid "label_teams_assigne"
+msgstr "Die Teams wurden erfolgreich zugewiesen."
+
+#. Default: "Value"
+#: ./ftw/footballchallenge/browser/nation.pt:27
+msgid "label_value"
+msgstr "Marktwert"
+
+#. Default: "Visitor Team"
+#: ./ftw/footballchallenge/browser/create_game.py:31
+msgid "label_visitorteam"
+msgstr "Auswärtsteam"
+
+#. Default: "Yellow"
+#: ./ftw/footballchallenge/browser/enter_results.pt:20
+msgid "label_yellow"
+msgstr "Gelbe Karte"
+
+#. Default: "League created successfully"
+#: ./ftw/footballchallenge/browser/league_creation.py:43
+msgid "league_created"
+msgstr "Die Liga wurd erfolgreich erstellt"
+
+
