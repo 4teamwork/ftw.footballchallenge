@@ -40,6 +40,7 @@ class EnterResults(BrowserView):
             goals = self.request.form.get('goals', {})
             saves = self.request.form.get('saves', {})
             self.write_to_db(playing_players, yellow, second_yellow, red, goals, saves)
+            self.request.response.redirect(self.context.absolute_url() + '/schedule')
         else:
             session = named_scoped_session('footballchallenge')
             try:
@@ -53,7 +54,7 @@ class EnterResults(BrowserView):
             for goal in game.goals:
                 self.request.form[str(goal.player_id)+'_goals'] = 1 + self.request.form.get(str(goal.player_id)+'_goals', 0)
             for save in game.saves:
-                self.request.form[str(save.player_id)+'_goals'] = 1 + self.request.form.get(str(save.player_id)+'_saves', 0)
+                self.request.form[str(save.player_id)+'_saves'] = 1 + self.request.form.get(str(save.player_id)+'_saves', 0)
         return self.template()
     
     def publishTraverse(self, request, name):
