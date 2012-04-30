@@ -103,8 +103,8 @@ class Player(Base):
     def get_cards(self, session, game_id=None):
         """Gets all Card or the Cards for one game"""
         if game_id:
-            cards = session.query(Card).filter(
-                Card.player_id==self.id_ and Card.game_id==game_id).order_by(
+            cards = session.query(Card).filter_by(
+                player_id=self.id_).filter_by(game_id=game_id).order_by(
                     Card.game_id).all()
         else:
             cards = session.query(Card).filter(
@@ -115,8 +115,8 @@ class Player(Base):
     def get_saves(self, session, game_id=None):
         """Gets all Saves or the Saves for one game"""
         if game_id:
-            saves = session.query(Save).filter(
-                Save.player_id==self.id_ and Save.game_id==game_id).order_by(
+            saves = session.query(Save).filter_by(
+                player_id=self.id_).filter_by(game_id=game_id).order_by(
                     Save.game_id).all()
         else:
             saves = session.query(Save).filter(
@@ -151,22 +151,17 @@ class Player(Base):
                 enemy = game.nation1
 
             #get his cards for this game
-            cards = session.query(Card).filter(
-                Card.game_id==game.id_ and Card.player==self).all()
+            cards = self.get_cards(session, game.id_)
             if cards:
                 log.append([cards[0], mapping[cards[0].color.lower()],
                            cards[0].color.encode('utf-8')+ ' Card'])
-            goals = session.query(Goal).filter(
-                Goal.game_id==game.id_ and Goal.player==self).all()
-
+            goals = self.get_goals(session, game.id_)
             #get his goals
             if goals:
                 for goal in goals:
                     log.append([goal, mapping['goal'],
                                'Goal vs %s' % enemy.name])
-            saves = session.query(Save).filter(
-                Save.game_id==game.id_ and Save.player==self).all()
-
+            saves = self.get_saves(session, game.id_)
             #the player only can have saves if hes keeper
             if saves:
                 for save in saves:
@@ -191,7 +186,7 @@ class Player(Base):
                     if game.score_nation2 == 0:
                         log.append([game, mapping['no_goals'],
                                    'No Goals recieved'])
-                    elif game.score_nation2 >3:
+                    elif game.score_nation2 >=3:
                         log.append([game, mapping['3_goals'],
                                    '3 Goals recieved'])
             else:
@@ -211,7 +206,7 @@ class Player(Base):
                     if game.score_nation1 == 0:
                         log.append([game, mapping['no_goals'],
                                    'No Goals recieved'])
-                    elif game.score_nation2 >1:
+                    elif game.score_nation2 >=3:
                         log.append([game, mapping['3_goals'],
                                    '3 Goals recieved'])
         return log
