@@ -7,31 +7,33 @@
       i18n:domain="ftw.footballchallenge">
 
 <metal:content-core fill-slot="content-core">
+    <tal:define tal:define="player view/get_player">
     <div style="float:left">
-        <ul>
-            <li><span i18n:translate="">Name:</span><span tal:content="context/name" /></li>
-            <li><span i18n:translate="">Position:</span><span tal:content="context/position" /></li>
-            <li><span i18n:translate="">Original Name:</span><span tal:content="context/original_name" /></li>
-            <li><span i18n:translate="">Date of Birth:</span><span tal:content="context/date_of_birth" /></li>
-            <li><span i18n:translate="">Value:</span><span tal:content="context/value" /></li>
-            <li><span i18n:translate="">Club:</span><span tal:content="context/club" /></li>
-            <li><span i18n:translate="">Teams:</span><span>
+        <table class="listing">
+            <tr><td i18n:translate="">Name</td><td tal:content="player/name" /></tr>
+            <tr><td i18n:translate="">Position</td><td tal:content="player/position" /></tr>
+            <tr><td i18n:translate="">Original Name</td><td tal:content="player/original_name" /></tr>
+            <tr><td i18n:translate="">Date of Birth</td><td tal:content="player/date_of_birth" /></tr>
+            <tr><td i18n:translate="">Value</td><td tal:content="player/value" /></tr>
+            <tr><td i18n:translate="">Club</td><td tal:content="player/club" /></tr>
+            <tr><td i18n:translate="">Teams</td><td>
                 <ul>
-                    <li tal:repeat="team context/teams" tal:content="team/team/name" />
+                    <li tal:repeat="team player/teams" tal:content="team/team/name" />
                 </ul>
-            </span>
-            </li>
-            <li><span i18n:translate="">Log:</span><span>
+            </td>
+            </tr>
+            <tr><td i18n:translate="">Log:</td><td>
                 <ul>
-                    <li tal:repeat="log context/get_log" tal:content="python: log[2]+':'+str(log[1])+'points'" />
+                    <li tal:repeat="log player/get_log" tal:content="python: log[2]+': '+str(log[1])+' points'" />
                 </ul>
-            </span>
-            </li>
+            </td>
+            </tr>
 
-        </ul>
+        </table>
     </div>
-    <div style="padding-left:1em" tal:define="url python: context.absolute_url()+'/++player++'+str(context.id_)+'/player_img'">
+    <div style="padding-left:1em" tal:define="url python: context.absolute_url()+'/++player++'+str(player.id_)+'/player_img'">
         <img style="padding-left:1em" tal:attributes="src url" />
     </div>
+    </tal:define>
 </metal:content-core>
 </html>
