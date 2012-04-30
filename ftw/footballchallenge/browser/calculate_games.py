@@ -12,7 +12,7 @@ class CalculateGameView(BrowserView):
         games = session.query(Game).filter(Game.calculated == False).all()
         for game in games:
             calculate_player_points(game)
-            calculate_team_points(game)
+            # calculate_team_points(game)
             game.calculated = True
         transaction.commit()
         return self.request.response.redirect(self.context.absolute_url())
