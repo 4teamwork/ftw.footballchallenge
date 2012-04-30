@@ -30,8 +30,8 @@ class Teamstatistics(Base):
         self.points = points
 
     def __repr__(self):
-        return '<Statistics for Team %s. Total Points: %s>' % (self.team.name,
-            self.total_points)
+        return '<Statistics for Team %s. Points: %s>' % (self.team.name,
+            self.points)
 
 
 def calculate_team_points(game):
@@ -56,5 +56,9 @@ def calculate_team_points(game):
                         points[team.id_]+= playerstats.points
 
     for key, value in points.items():
-        stats=Teamstatistics(key, game.id_, value)
-        session.add(stats)
+        old_entry = session.query(Teamstatistics).filter_by(team_id=key).filter_by(game_id=game.id_).all()
+        if len(old_entry):
+            old_entry[0].points = value
+        else:
+            stats=Teamstatistics(key, game.id_, value)
+            session.add(stats)
