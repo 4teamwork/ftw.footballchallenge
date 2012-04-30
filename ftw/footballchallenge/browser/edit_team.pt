@@ -36,7 +36,7 @@
     </tal:status>
 
     <div tal:define="errors view/widgets/errors" tal:condition="errors">
-        <di tal:repeat="error errors">
+        <div tal:repeat="error errors">
             <tal:block
                 condition="not:nocall:error/widget"
                 replace="structure error/render"
