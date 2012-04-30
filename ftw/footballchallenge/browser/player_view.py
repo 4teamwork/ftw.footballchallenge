@@ -2,16 +2,29 @@ from zope.publisher.browser import BrowserView
 from zope.app.pagetemplate.viewpagetemplatefile import ViewPageTemplateFile
 from PIL import Image
 import StringIO
-
+from zope.interface import implements
+from zope.publisher.interfaces import IPublishTraverse
+from z3c.saconfig import named_scoped_session
+from ftw.footballchallenge.player import Player
 
 class PlayerView(BrowserView):
     """Defines a view for the league which displays the ranking."""
+    implements(IPublishTraverse)
 
     template = ViewPageTemplateFile("player_view.pt")
+
 
     def __call__(self):
         self.request['disable_plone.leftcolumn'] = True
         self.request['disable_plone.rightcolumn'] = True
         return self.template()
 
-        
+    def publishTraverse(self, request, name):
+        self.player_id = name
+        return self
+
+    def get_player(self):
+        if self.player_id:
+            session = named_scoped_session('footballchallenge')
+            player = session.query(Player).filter(Player.id_ == self.player_id).one()
+            return player
