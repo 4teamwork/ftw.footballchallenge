@@ -24,9 +24,9 @@
     <table class="listing">
         <tr>
             <th i18n:translate="">Name</th>
-            <th i18n:translate="">Nationalität</th>
+            <th i18n:translate="">Nationality</th>
             <th i18n:translate="">Position</th>
-            <th i18n:translate="">Punkte</th>
+            <th i18n:translate="">Points</th>
         </tr>
         <tr tal:repeat="player view/get_starters">
             <td tal:content="structure python:view.generate_link(player)" />
@@ -39,7 +39,7 @@
     <table class="listing">
         <tr>
             <th i18n:translate="">Name</th>
-            <th i18n:translate="">Nationalität</th>
+            <th i18n:translate="">Nationality</th>
             <th i18n:translate="">Position</th>
             <th i18n:translate="">Punkte</th>
         </tr>
