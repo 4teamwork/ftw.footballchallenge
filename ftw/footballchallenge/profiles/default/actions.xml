@@ -7,14 +7,22 @@
             <property name="title" i18n:translate="">Create Event</property>
             <property name="url_expr">string:./create_event</property>
             <property name="permissions">
-                <element value="View"/>
+                <element value="ftw.footballchallenge.manage_event"/>
             </property>
     </object>
+        <object name="create_game" meta_type="CMF Action" i18n:domain="ftw.footballchallenge">
+            <property name="title" i18n:translate="">Create Game</property>
+            <property name="url_expr">string:${portal_url}/create_game</property>
+            <property name="permissions">
+                <element value="ftw.footballchallenge.manage_event"/>
+            </property>
+    </object>
+
         <object name="edit_team" meta_type="CMF Action" i18n:domain="ftw.footballchallenge">
             <property name="title" i18n:translate="">Edit Team</property>
             <property name="url_expr">string:./edit_team</property>
             <property name="permissions">
-                <element value="View"/>
+                <element value="ftw.footballchallenge.play"/>
             </property>
         </object>
 </object>
