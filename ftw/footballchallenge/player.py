@@ -21,6 +21,8 @@ from zope.interface import implements
 from ftw.footballchallenge.interfaces import IPlayer
 from zope.interface import classProvides
 from zope.schema.interfaces import ISource, IContextSourceBinder
+from ftw.footballchallenge import _
+
 
 class Player(Base):
     """Modeldefinition for Player"""
@@ -153,64 +155,50 @@ class Player(Base):
             #get his cards for this game
             cards = self.get_cards(session, game.id_)
             if cards:
-                log.append([cards[0], mapping[cards[0].color.lower()],
-                           cards[0].color.encode('utf-8')+ ' Card'])
+                log.append([cards[0], mapping[cards[0].color.lower()], cards[0].color.encode('utf-8')+ ' Card'])
             goals = self.get_goals(session, game.id_)
             #get his goals
             if goals:
                 for goal in goals:
                     log.append([goal, mapping['goal'],
-                               'Goal vs %s' % enemy.name])
+                               _(u'label_goal', default=u'Goal vs ${enemy}', mapping=dict(enemy=enemy.name))])
             saves = self.get_saves(session, game.id_)
             #the player only can have saves if hes keeper
             if saves:
                 for save in saves:
                     log.append([save, mapping['save'],
-                               'Save vs %s' % enemy.name])
+                    _(u'label_save_log', default=u'Save vs ${enemy}', mapping=dict(enemy=enemy.name))])
 
             #distribute points for victory, draw and loss
             if game.nation1 == self.nation:
                 if game.score_nation1 > game.score_nation2:
-                    log.append([game, mapping['victory'],
-                               'Victory %s vs. %s' % (game.nation1.name,
-                                                      game.nation2.name)])
+                    log.append([game, mapping['victory'], _(u'label_victory', default=u'Victory vs ${nation}', mapping=dict(nation=game.nation2.name))])
                 elif game.score_nation1 == game.score_nation2:
-                    log.append([game, mapping['draw'],
-                               'Draw %s vs. %s' % (game.nation1.name,
-                                                   game.nation2.name)])
+                    log.append([game, mapping['draw'],_(u'label_draw', default=u'Draw vs ${nation}', mapping=dict(nation=game.nation2.name))])
                 elif game.score_nation1 < game.score_nation2:
-                    log.append([game, mapping['loss'],
-                               'Loss %s vs. %s' % (game.nation1.name,
-                                                   game.nation2.name)])
+                    log.append([game, mapping['loss'], _(u'label_loss', default=u'Loss vs ${nation}', mapping=dict(nation=game.nation2.name))])
                 if self.position == "defender" or self.position == "keeper":
                     if game.score_nation2 == 0:
                         log.append([game, mapping['no_goals'],
-                                   'No Goals recieved'])
+                                   _(u'label_nogoals', default=u'No Goals received')])
                     elif game.score_nation2 >=3:
-                        log.append([game, mapping['3_goals'],
-                                   '3 Goals recieved'])
+                        log.append([game, mapping['3_goals'], _(u'label_3goals', default=u'3 Goals received')])
             else:
                 if game.score_nation1 > game.score_nation2:
-                    log.append([game, mapping['loss'],
-                               'Loss %s vs. %s' % (game.nation1.name,
-                                                   game.nation2.name)])
+                    log.append([game, mapping['loss'], _(u'label_loss', default=u'Loss vs ${nation}', mapping=dict(nation=game.nation1.name))])
                 elif game.score_nation1 == game.score_nation2:
                     log.append([game, mapping['draw'],
-                               'Draw %s vs. %s' % (game.nation1.name,
-                                                   game.nation2.name)])
+                               _(u'label_draw', default=u'Draw vs ${nation}', mapping=dict(nation=game.nation1.name))])
                 elif game.score_nation1 < game.score_nation2:
                     log.append([game, mapping['victory'],
-                               'Victory %s vs. %s' % (game.nation1.name,
-                                                      game.nation2.name)])
+                               _(u'label_victory', default=u'Victory vs ${nation}', mapping=dict(nation=game.nation1.name))])
                 if self.position == "defender" or self.position == "keeper":
                     if game.score_nation1 == 0:
                         log.append([game, mapping['no_goals'],
-                                   'No Goals recieved'])
-                    elif game.score_nation2 >=3:
-                        log.append([game, mapping['3_goals'],
-                                   '3 Goals recieved'])
+                                   _(u'label_nogoals', default=u'No Goals received')])
+                    elif game.score_nation1 >=3:
+                        log.append([game, mapping['3_goals'], _(u'label_3goals', default=u'3 Goals received')])
         return log
-
 
 def get_player_term(context, position=None, nation=None):
     """Returns the players as SimpleVocabulary"""
