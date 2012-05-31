@@ -1,0 +1,24 @@
+<html
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:tal="http://xml.zope.org/namespaces/tal"
+    xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+    tal:omit-tag="python: True"
+    i18n:domain="ftw.footballchallenge">
+
+    <div class="portletWrapper">
+        <dl class="portlet portletLatestGames">
+
+            <dt class="portletHeader">
+                <span i18n:translate="">
+                    Latest Games
+                </span>
+            </dt>
+
+            <dd class="portletItem">
+                <ul>
+                    <li tal:repeat="game view/games" tal:content="structure python: view.get_link(game)" />
+                </ul>
+            </dd>
+    </dl>
+</div>
+</html>

@@ -1,0 +1,25 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    i18n_domain="ftw.blog">
+
+    <include package="plone.app.portlets" />
+
+    <plone:portlet
+        name="latest.games.portlet"
+        interface=".latest_games.ILatestGamesPortlet"
+        assignment=".latest_games.Assignment"
+        renderer=".latest_games.Renderer"
+        addview=".latest_games.AddForm"
+        />
+
+        <plone:portlet
+            name="loser.portlet"
+            interface=".round_loser.IRoundLoserPortlet"
+            assignment=".round_loser.Assignment"
+            renderer=".round_loser.Renderer"
+            addview=".round_loser.AddForm"
+            />
+
+</configure>

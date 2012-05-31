@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<portlets>
+
+  <portlet
+    addview="latest.games.portlet"
+    title="Latest Games Portlet"
+    description="A portlet which displays the latest games.">
+  </portlet>
+
+  <portlet
+    addview="loser.portlet"
+    title="Loser of the Round Portlet"
+    description="A portlet which displays the biggest loser of the current round.">
+  </portlet>
+
+</portlets>
