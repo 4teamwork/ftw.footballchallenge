@@ -2,7 +2,7 @@ from z3c.form import form, field, button
 from zope import interface, schema
 from ftw.footballchallenge import _
 from z3c.saconfig import named_scoped_session
-from ftw.datepicker.widget import DatePickerFieldWidget
+from ftw.datepicker.widget import DateTimePickerFieldWidget
 import transaction
 # from ftw.footballchallenge.player import get_player_term, getKeeperTerm
 from ftw.footballchallenge.goal import Goal
@@ -21,7 +21,7 @@ from ftw.footballchallenge.game import RoundVocabulary
 
 class CreateGameSchema(interface.Interface):
     """defines which Fields we will schow in the create Form."""
-    date = schema.Date(title=_('label_date', default="Date"), required=True)
+    date = schema.Datetime(title=_('label_date', default="Date"), required=True)
     event = schema.Choice(title=_('label_import_event', default="Event"),
                           vocabulary=u"EventFactory")
     
@@ -47,7 +47,7 @@ class CreateGameForm(form.Form):
     implements(IPublishTraverse)
     
     fields = field.Fields(CreateGameSchema)
-    fields['date'].widgetFactory = DatePickerFieldWidget
+    fields['date'].widgetFactory = DateTimePickerFieldWidget
     label = _(u'heading_create_game', 'Add Game')
     game_id = None
     # fields['date'].widgetFactory = DatePickerFieldWidget
