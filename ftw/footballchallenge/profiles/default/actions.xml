@@ -5,7 +5,7 @@
     <object name="user" meta_type="CMF Action Category">
         <object name="create_event" meta_type="CMF Action" i18n:domain="ftw.footballchallenge">
             <property name="title" i18n:translate="">Create Event</property>
-            <property name="url_expr">string:./create_event</property>
+            <property name="url_expr">string:${portal_url}/create_event</property>
             <property name="permissions">
                 <element value="ftw.footballchallenge: Manage Event"/>
             </property>
@@ -28,7 +28,15 @@
     
         <object name="edit_team" meta_type="CMF Action" i18n:domain="ftw.footballchallenge">
             <property name="title" i18n:translate="">Edit Team</property>
-            <property name="url_expr">string:./edit_team</property>
+            <property name="url_expr">string:${portal_url}/edit_team</property>
+            <property name="permissions">
+                <element value="ftw.footballchallenge: Play"/>
+            </property>
+        </object>
+</object>
+        <object name="view_team" meta_type="CMF Action" i18n:domain="ftw.footballchallenge">
+            <property name="title" i18n:translate="">My Team</property>
+            <property name="url_expr">string:${portal_url}/team_overview</property>
             <property name="permissions">
                 <element value="ftw.footballchallenge: Play"/>
             </property>
