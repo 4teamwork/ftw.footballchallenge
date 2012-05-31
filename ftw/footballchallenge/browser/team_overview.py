@@ -6,6 +6,13 @@ from zope.app.pagetemplate.viewpagetemplatefile import ViewPageTemplateFile
 from zope.interface import implements
 from zope.publisher.interfaces import IPublishTraverse
 from ftw.footballchallenge.playerstatistics import Playerstatistics
+from ftw.footballchallenge.event import Event
+import datetime
+from ftw.footballchallenge import _
+from Products.statusmessages.interfaces import IStatusMessage
+from Products.CMFCore.utils import getToolByName
+from ftw.footballchallenge.team import Team
+
 
 class TeamOverview(BrowserView):
     """Defines a view for the league which displays the ranking."""
@@ -15,8 +22,19 @@ class TeamOverview(BrowserView):
     template = ViewPageTemplateFile("team_overview.pt")
 
     def __call__(self):
-        return self.template()
-
+        session = named_scoped_session('footballchallenge')
+        open_events = session.query(Event).filter(Event.LockDate > datetime.date.today()).all()
+        membershiptool = getToolByName(self.context, 'portal_membership')
+        userid = membershiptool.getAuthenticatedMember().getId()
+        team = session.query(Team).filter(Team.user_id == userid).one()
+        if not open_events or team.id_ == int(self.team_id):
+            return self.template()
+        msg = _(u'event_not_started',
+                default=u'The Event has not started yet. You can not see this Team')
+        IStatusMessage(self.request).addStatusMessage(
+            msg, type='information')
+        return self.request.RESPONSE.redirect(self.context.absolute_url())
+        
     def publishTraverse(self, request, name):
         self.team_id = name
         return self
@@ -45,17 +63,19 @@ class TeamOverview(BrowserView):
         session = named_scoped_session('footballchallenge')
         teams_players = session.query(Teams_Players).filter(Teams_Players.team_id==self.team_id).all()
         nations = []
-        sub_nations = []
+        all_nations = []
         for team_player in teams_players:
             if team_player.is_starter == True:
                 player = team_player.player
-                if not player.nation_id in nations and not player.nation_id in sub_nations:
+                if not player.nation_id in nations:
                     nations.append(player.nation_id)
+                    if not player.nation_id in all_nations:
+                        all_nations.append(player.nation_id)
             else:
                 player = team_player.player
-                if not player.nation_id in nations and not player.nation_id in sub_nations:
-                    sub_nations.append(player.nation_id)
-        return {'starter_nations': len(nations), 'sub_nations': len(sub_nations)+len(nations)}
+                if not player.nation_id in nations and not player.nation_id in all_nations:
+                    all_nations.append(player.nation_id)
+        return {'starter_nations': len(nations), 'sub_nations': len(all_nations)}
 
     def get_player_points(self, player):
         session = named_scoped_session('footballchallenge')
