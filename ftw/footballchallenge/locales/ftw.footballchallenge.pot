@@ -1,10 +1,7 @@
-# --- PLEASE EDIT THE LINES BELOW CORRECTLY ---
-# SOME DESCRIPTIVE TITLE.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2012-04-30 14:03+0000\n"
+"POT-Creation-Date: 2012-05-31 07:45+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -15,9 +12,9 @@ msgstr ""
 "Language-Code: en\n"
 "Language-Name: English\n"
 "Preferred-Encodings: utf-8 latin1\n"
-"Domain: ftw.footballchallenge\n"
+"Domain: DOMAIN\n"
 
-#: ./ftw/footballchallenge/browser/assign_league.py:55
+#: ./ftw/footballchallenge/browser/assign_league.py:60
 #: ./ftw/footballchallenge/browser/create_game.py:105
 #: ./ftw/footballchallenge/browser/edit_team.py:233
 msgid "Cancel"
@@ -33,6 +30,10 @@ msgstr ""
 
 #: ./ftw/footballchallenge/profiles/default/actions.xml
 msgid "Create Event"
+msgstr ""
+
+#: ./ftw/footballchallenge/profiles/default/actions.xml
+msgid "Create Game"
 msgstr ""
 
 #: ./ftw/footballchallenge/browser/schedule.pt:26
@@ -80,8 +81,17 @@ msgstr ""
 msgid "Info"
 msgstr ""
 
+#: ./ftw/footballchallenge/portlets/latest_games.pt:12
+#: ./ftw/footballchallenge/portlets/round_loser.pt:12
+msgid "Latest Games"
+msgstr ""
+
 #: ./ftw/footballchallenge/browser/player_view.pt:25
 msgid "Log:"
+msgstr ""
+
+#: ./ftw/footballchallenge/portlets/round_loser.pt:21
+msgid "Loser of the Round"
 msgstr ""
 
 #: ./ftw/footballchallenge/browser/player_view.pt:13
@@ -125,10 +135,12 @@ msgstr ""
 msgid "Save"
 msgstr ""
 
+#: ./ftw/footballchallenge/browser/edit_team.pt:61
 #: ./ftw/footballchallenge/browser/team_overview.pt:23
 msgid "Starters"
 msgstr ""
 
+#: ./ftw/footballchallenge/browser/edit_team.pt:87
 #: ./ftw/footballchallenge/browser/team_overview.pt:38
 msgid "Substitutes"
 msgstr ""
@@ -149,12 +161,24 @@ msgstr ""
 msgid "Visitor Team"
 msgstr ""
 
+#: ./ftw/footballchallenge/portlets/round_loser.pt:18
+msgid "Winner of the Round"
+msgstr ""
+
 #: ./ftw/footballchallenge/browser/edit_team.py:133
 msgid "You can't use the player  multiple times"
 msgstr ""
 
+msgid "defender"
+msgstr ""
+
+#. Default: "The Event has not started yet. You can not see this Team"
+#: ./ftw/footballchallenge/browser/team_overview.py:32
+msgid "event_not_started"
+msgstr ""
+
 #. Default: "Assign Teams"
-#: ./ftw/footballchallenge/browser/assign_league.py:22
+#: ./ftw/footballchallenge/browser/assign_league.py:26
 msgid "heading_assign_teams"
 msgstr ""
 
@@ -183,9 +207,17 @@ msgstr ""
 msgid "heading_import_players"
 msgstr ""
 
+msgid "keeper"
+msgstr ""
+
 #. Default: "2nd Yellow"
 #: ./ftw/footballchallenge/browser/enter_results.pt:21
 msgid "label_2ndyellow"
+msgstr ""
+
+#. Default: "3 Goals received"
+#: ./ftw/footballchallenge/player.py:185
+msgid "label_3goals"
 msgstr ""
 
 #. Default: "Age"
@@ -219,14 +251,24 @@ msgstr ""
 msgid "label_defender"
 msgstr ""
 
+#. Default: "Draw vs ${nation}"
+#: ./ftw/footballchallenge/player.py:177
+msgid "label_draw"
+msgstr ""
+
 #. Default: "FIFA Ranking"
 #: ./ftw/footballchallenge/browser/nations.pt:19
 msgid "label_fifa_ranking"
 msgstr ""
 
 #. Default: "Finals"
-#: ./ftw/footballchallenge/game.py:68
+#: ./ftw/footballchallenge/game.py:69
 msgid "label_finals"
+msgstr ""
+
+#. Default: "Goal vs ${enemy}"
+#: ./ftw/footballchallenge/player.py:164
+msgid "label_goal"
 msgstr ""
 
 #. Default: "Goals"
@@ -235,17 +277,17 @@ msgid "label_goals"
 msgstr ""
 
 #. Default: "Group1"
-#: ./ftw/footballchallenge/game.py:62
+#: ./ftw/footballchallenge/game.py:63
 msgid "label_group1"
 msgstr ""
 
 #. Default: "Group2"
-#: ./ftw/footballchallenge/game.py:63
+#: ./ftw/footballchallenge/game.py:64
 msgid "label_group2"
 msgstr ""
 
 #. Default: "Group3"
-#: ./ftw/footballchallenge/game.py:64
+#: ./ftw/footballchallenge/game.py:65
 msgid "label_group3"
 msgstr ""
 
@@ -276,6 +318,16 @@ msgstr ""
 msgid "label_league"
 msgstr ""
 
+#. Default: "Leagues"
+#: ./ftw/footballchallenge/browser/assign_league.py:16
+msgid "label_leagues"
+msgstr ""
+
+#. Default: "Loss vs ${nation}"
+#: ./ftw/footballchallenge/player.py:179
+msgid "label_loss"
+msgstr ""
+
 #. Default: "midfield"
 #: ./ftw/footballchallenge/browser/edit_team.py:39
 msgid "label_midfield"
@@ -301,6 +353,11 @@ msgstr ""
 #. Default: "Visitor Dummy"
 #: ./ftw/footballchallenge/browser/create_game.py:38
 msgid "label_nation2_dummy"
+msgstr ""
+
+#. Default: "No Goals received"
+#: ./ftw/footballchallenge/player.py:183
+msgid "label_nogoals"
 msgstr ""
 
 #. Default: "Your Team is not valid and will not receive any points"
@@ -329,7 +386,7 @@ msgid "label_position"
 msgstr ""
 
 #. Default: "Quarterfinals"
-#: ./ftw/footballchallenge/game.py:66
+#: ./ftw/footballchallenge/game.py:67
 msgid "label_quarterfinal"
 msgstr ""
 
@@ -344,7 +401,7 @@ msgid "label_round"
 msgstr ""
 
 #. Default: "Round of Sixteen"
-#: ./ftw/footballchallenge/game.py:65
+#: ./ftw/footballchallenge/game.py:66
 msgid "label_roundof16"
 msgstr ""
 
@@ -353,13 +410,18 @@ msgstr ""
 msgid "label_save"
 msgstr ""
 
+#. Default: "Save vs ${enemy}"
+#: ./ftw/footballchallenge/player.py:170
+msgid "label_save_log"
+msgstr ""
+
 #. Default: "Penalty Saves"
 #: ./ftw/footballchallenge/browser/enter_results.pt:24
 msgid "label_saves"
 msgstr ""
 
 #. Default: "Semifinals"
-#: ./ftw/footballchallenge/game.py:67
+#: ./ftw/footballchallenge/game.py:68
 msgid "label_semifinals"
 msgstr ""
 
@@ -369,18 +431,23 @@ msgid "label_striker"
 msgstr ""
 
 #. Default: "Teams"
-#: ./ftw/footballchallenge/browser/assign_league.py:14
+#: ./ftw/footballchallenge/browser/assign_league.py:18
 msgid "label_teams"
 msgstr ""
 
 #. Default: "Teams were assigned successfully."
-#: ./ftw/footballchallenge/browser/assign_league.py:50
-msgid "label_teams_assigne"
+#: ./ftw/footballchallenge/browser/assign_league.py:55
+msgid "label_teams_assign"
 msgstr ""
 
 #. Default: "Value"
 #: ./ftw/footballchallenge/browser/nation.pt:27
 msgid "label_value"
+msgstr ""
+
+#. Default: "Victory vs ${nation}"
+#: ./ftw/footballchallenge/player.py:175
+msgid "label_victory"
 msgstr ""
 
 #. Default: "Visitor Team"
@@ -396,5 +463,14 @@ msgstr ""
 #. Default: "League created successfully"
 #: ./ftw/footballchallenge/browser/league_creation.py:43
 msgid "league_created"
+msgstr ""
+
+msgid "midfield"
+msgstr ""
+
+msgid "points"
+msgstr ""
+
+msgid "striker"
 msgstr ""
 
