@@ -45,7 +45,7 @@ class NationsView(BrowserView):
 
     def nations(self):
         context = aq_inner(self.context)
-        base_url = self.request.get('ACTUAL_URL', context.absolute_url()) 
+        base_url = self.request.get('ACTUAL_URL', context.absolute_url()+'/nations') 
         session = named_scoped_session('footballchallenge')
         results = []
         for nation in session.query(Nation).order_by(Nation.name).all():
