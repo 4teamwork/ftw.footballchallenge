@@ -21,12 +21,24 @@ class TeamOverview(BrowserView):
     
     template = ViewPageTemplateFile("team_overview.pt")
 
+    def __init__(self, context, request):
+        super(TeamOverview, self).__init__(context, request)
+        self.team_id = None
+
+
     def __call__(self):
         session = named_scoped_session('footballchallenge')
         open_events = session.query(Event).filter(Event.LockDate > datetime.date.today()).all()
         membershiptool = getToolByName(self.context, 'portal_membership')
         userid = membershiptool.getAuthenticatedMember().getId()
+        if not session.query(Team).filter(Team.user_id == userid).all():
+            msg = _(u'msg_no_team', default="You have currently no Teams. Here you can create one.")
+            IStatusMessage(self.request).addStatusMessage(
+                msg, type='info')
+            return self.request.response.redirect(self.context.absolute_url()+'/edit_team')
         team = session.query(Team).filter(Team.user_id == userid).one()
+        if not self.team_id:
+            self.team_id = int(team.id_)
         if not open_events or team.id_ == int(self.team_id):
             return self.template()
         msg = _(u'event_not_started',
