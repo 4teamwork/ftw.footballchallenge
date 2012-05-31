@@ -27,18 +27,20 @@ class Renderer(base.Renderer):
     def update(self):
         session = named_scoped_session('footballchallenge')
         last_game = session.query(Game).filter(Game.calculated == True).order_by(desc(Game.date)).first()
-        round_ = last_game.round_
-        gameids = session.query(Game.id_).filter_by(calculated = True).filter_by(round_ = round_).all()
-        teamstats = session.query(Teamstatistics).filter(Teamstatistics.game_id.in_(gameids)).all()
-        teams = {}
-        for teamstat in teamstats:
-            if not teams.get(teamstat.team_id):
-                teams[teamstat.team_id] = {'team': teamstat.team, 'points':teamstat.points}
-            else:
-                teams[teamstat.team_id]['points'] += teamstat.points
+        if last_game:
+            round_ = last_game.round_
+            gameids = session.query(Game.id_).filter_by(calculated = True).filter_by(round_ = round_).all()
+            teamstats = session.query(Teamstatistics).filter(Teamstatistics.game_id.in_(gameids)).all()
+            teams = {}
+            for teamstat in teamstats:
+                if not teams.get(teamstat.team_id):
+                    teams[teamstat.team_id] = {'team': teamstat.team, 'points':teamstat.points}
+                else:
+                    teams[teamstat.team_id]['points'] += teamstat.points
         
-        self.ranking = sorted(teams.iteritems(), key=lambda (k,v): itemgetter(1)(v))
-    
+            self.ranking = sorted(teams.iteritems(), key=lambda (k,v): itemgetter(1)(v))
+        self.ranking = None
+
     def get_link(self, game):
         portal_url = self.context.absolute_url()
         return '<a href="'+portal_url+'/game_view/'+str(game.id_)+'">'+game.nation1.name +' vs. '+game.nation2.name+'</a>'
@@ -49,7 +51,6 @@ class Renderer(base.Renderer):
     
     def get_winner(self):
         if self.ranking:
-            import pdb; pdb.set_trace( )
             return self.ranking[-1][0].team.manager
     
     def render(self):
