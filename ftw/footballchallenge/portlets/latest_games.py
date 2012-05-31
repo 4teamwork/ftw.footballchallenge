@@ -24,7 +24,9 @@ class Renderer(base.Renderer):
 
     def update(self):
         session = named_scoped_session('footballchallenge')
-        games = session.query(Game).order_by(desc(Game.date)).all()[:3]
+        games = session.query(Game).filter(Game.calculated == True).order_by(desc(Game.date)).all()
+        if len(games) >= 3:
+            games = games[:3]
         self.games = games
     
     render = ViewPageTemplateFile('latest_games.pt')
