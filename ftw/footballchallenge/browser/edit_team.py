@@ -150,7 +150,7 @@ class EditTeamForm(form.Form):
         session = named_scoped_session('footballchallenge')
         event_id = session.query(Event).filter(Event.LockDate > datetime.now()).one().id_
         if not len(session.query(Team).filter_by(user_id=userid).filter_by(event_id=event_id).all()):
-            for field in self.fields:
+            for field in self.fields.values():
                 field.field.default = None
             super(EditTeamForm, self).updateWidgets()
             return
