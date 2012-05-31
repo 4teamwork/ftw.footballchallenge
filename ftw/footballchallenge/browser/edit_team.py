@@ -202,6 +202,7 @@ class EditTeamForm(form.Form):
                 team = session.query(Team).filter_by(user_id=userid).filter_by(event_id=event_id).one()
             session.query(Teams_Players).filter(Teams_Players.team_id==\
             team.id_).delete()
+            team.name = data['name']
             nations = []
             all_nations = []
             for k, v in data.items():
