@@ -13,8 +13,8 @@
             <tr><td i18n:translate="">Name</td><td tal:content="player/name" /></tr>
             <tr><td i18n:translate="">Position</td><td tal:content="player/position" /></tr>
             <tr><td i18n:translate="">Original Name</td><td tal:content="player/original_name" /></tr>
-            <tr><td i18n:translate="">Date of Birth</td><td tal:content="player/date_of_birth" /></tr>
-            <tr><td i18n:translate="">Value</td><td tal:content="player/value" /></tr>
+            <tr><td i18n:translate="">Date of Birth</td><td tal:content="python: player.date_of_birth.strftime('%d.%m.%Y')" /></tr>
+            <tr><td i18n:translate="">Value</td><td tal:content="player/pretty_value" /></tr>
             <tr><td i18n:translate="">Club</td><td tal:content="player/club" /></tr>
             <tr><td i18n:translate="">Teams</td><td>
                 <ul>

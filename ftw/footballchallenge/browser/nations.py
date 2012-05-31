@@ -20,8 +20,6 @@ class NationsView(BrowserView):
     implements(IPublishTraverse)
 
     template_overview = ViewPageTemplateFile("nations.pt")
-    template_nation = ViewPageTemplateFile("nation.pt")
-    template_player = ViewPageTemplateFile("player.pt")
 
     def __init__(self, context, request):
         super(NationsView, self).__init__(context, request)
@@ -30,10 +28,6 @@ class NationsView(BrowserView):
 
     def __call__(self):
         self.request.set('disable_border', True)
-        if self.player_id is not None:
-            return self.template_player()
-        if self.nation_id is not None:
-            return self.template_nation()
         return self.template_overview()
 
     def publishTraverse(self, request, name):
@@ -45,13 +39,13 @@ class NationsView(BrowserView):
 
     def nations(self):
         context = aq_inner(self.context)
-        base_url = self.request.get('ACTUAL_URL', context.absolute_url()+'/nations') 
+        base_url = context.absolute_url()
         session = named_scoped_session('footballchallenge')
         results = []
         for nation in session.query(Nation).order_by(Nation.name).all():
             info = dict(
                 title=nation.name,
-                url='%s/%s' % (base_url.rstrip('/'), nation.id_),
+                url='%s/%s' % (base_url.rstrip('/')+'/nation', nation.id_),
                 coach=nation.coach,
                 participations=nation.participations,
                 rank=nation.fifa_rank,
@@ -59,35 +53,4 @@ class NationsView(BrowserView):
             results.append(info)
         return results
 
-    def nation(self):
-        session = named_scoped_session('footballchallenge')
-        nation = session.query(Nation).filter(
-            Nation.id_ == self.nation_id).first()
-        if nation is None:
-            raise NotFound(self, self.nation_id, self.request)
-        return nation
 
-    def players(self):
-        context = aq_inner(self.context)
-        base_url = self.request.get('ACTUAL_URL', context.absolute_url()) 
-        results = []
-        for player in self.nation().players:
-            info = dict(
-                name=player.name,
-                url='%s/%s' % (base_url.rstrip('/'), player.id_),
-                position=player.position,
-                age=player.age,
-                club=player.club,
-                league=player.league,
-                value=player.pretty_value(),
-            )
-            results.append(info)
-        return results
-
-    def player(self):
-        session = named_scoped_session('footballchallenge')
-        player = session.query(Player).filter(
-            Player.id_ == self.player_id).first()
-        if player is None:
-            raise NotFound(self, self.player_id, self.request)
-        return player

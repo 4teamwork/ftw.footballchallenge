@@ -15,8 +15,6 @@ class PlayerView(BrowserView):
 
 
     def __call__(self):
-        self.request['disable_plone.leftcolumn'] = True
-        self.request['disable_plone.rightcolumn'] = True
         return self.template()
 
     def publishTraverse(self, request, name):
