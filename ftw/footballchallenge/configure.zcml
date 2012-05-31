@@ -36,6 +36,7 @@
     <include file="permissions.zcml" />
 
     <include package=".browser" />
+    <include package=".portlets" />
 
     <adapter
         name="league"
@@ -115,6 +116,11 @@
   <utility
       name="TeamFactory"
       factory=".team.TeamVocabularyFactory"
+      />    
+
+  <utility
+      name="LeagueFactory"
+      factory=".league.LeagueVocabularyFactory"
       />    
 
 
