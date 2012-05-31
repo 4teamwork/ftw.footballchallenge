@@ -24,7 +24,7 @@
             </tr>
             <tr><td i18n:translate="">Log:</td><td>
                 <ul>
-                    <li tal:repeat="log player/get_log" tal:content="python: log[2]+': '+str(log[1])+' points'" />
+                    <li tal:repeat="log player/get_log" tal:content="python: context.translate(log[2])+': '+str(log[1])+ ' '+ context.translate(msgid='points', domain='ftw.footballchallenge')" />
                 </ul>
             </td>
             </tr>
