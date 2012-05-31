@@ -41,8 +41,8 @@
 
     <browser:page
         for="*"
-        name="assign_teams"
-        class=".assign_league.AssignLeagueForm"
+        name="assign_users"
+        class=".assign_user.AssignUserForm"
         permission="ftw.footballchallenge.manage_event"
         />
 
@@ -95,6 +95,14 @@
         class=".nations.NationsView"
         permission="zope2.View"
         />
+
+    <browser:page
+        for="*"
+        name="nation"
+        class=".nation.NationView"
+        permission="zope2.View"
+        />
+
     <browser:page
         for="*"
         name="playerimage"

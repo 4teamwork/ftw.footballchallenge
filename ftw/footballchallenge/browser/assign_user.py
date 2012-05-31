@@ -7,47 +7,52 @@ from ftw.footballchallenge.league import League
 from zope.interface import implements
 from zope.publisher.interfaces import IPublishTraverse
 from Products.statusmessages.interfaces import IStatusMessage
+from ftw.footballchallenge.event import Event
+from datetime import date
 
 
-class AssignLeagueSchema(interface.Interface):
+class AssignUserSchema(interface.Interface):
 
+    leagues = schema.Choice(title=_(u'label_leagues', default="Leagues"),
+                            vocabulary=u"LeagueFactory")
     teams = schema.List(title=_(u'label_teams',
                                      default=u"Teams"),
                           value_type=schema.Choice(
                           vocabulary=u"TeamFactory"))
 
 
-class AssignLeagueForm(form.Form):
-    fields = field.Fields(AssignLeagueSchema)
+class AssignUserForm(form.Form):
+    fields = field.Fields(AssignUserSchema)
     label = _(u'heading_assign_teams', default=u'Assign Teams')
     ignoreContext = True
 
-    implements(IPublishTraverse)
-
-    def publishTraverse(self, request, name):
-        self.league_id = name
-        return self
     
     def updateWidgets(self):
         session = named_scoped_session('footballchallenge')
+        import pdb; pdb.set_trace( )
         league = session.query(League).filter(League.id_ == self.league_id).one()
         if league.teams:
-            teams_ids = [team.id_ for team in league.teams]
-            self.fields['teams'].field.default = teams_ids
-        super(AssignLeagueForm, self).updateWidgets()
+            user_ids = [team.user_id for team in league.teams]
+            self.fields['teams'].field.default = user_ids
+        super(AssignUserForm, self).updateWidgets()
 
     @button.buttonAndHandler(_(u'Save'))
     def handleImport(self, action):
         data, errors = self.extractData()
         if len(errors) == 0:
             session = named_scoped_session('footballchallenge')
-            league = session.query(League).filter(League.id_ == self.league_id).one()
+            league = session.query(League).filter(League.id_ == data['leagues']).one()
             teams = []
-            for team_id in data['teams']:
-                team = session.query(Team).filter(Team.id_ == team_id).one()
+            event_id = session.query(Event).filter(Event.LockDate > date.today()).one().id_
+            for user_id in data['teams']:
+                if session.query(Team).filter(Team.user_id == user_id).all():
+                    team = session.query(Team).filter(Team.user_id == user_id).one()
+                else:
+                    team = Team(user_id, event_id)
+                    session.add(team)
                 teams.append(team)
             league.teams = teams
-            msg = _(u'label_teams_assigne', default=u'Teams were assigned successfully.')
+            msg = _(u'label_teams_assign', default=u'Teams were assigned successfully.')
             IStatusMessage(self.request).addStatusMessage(
                 msg, type='information')
             return self.request.RESPONSE.redirect(self.context.absolute_url() + '/ranking/' + str(league.id_))
