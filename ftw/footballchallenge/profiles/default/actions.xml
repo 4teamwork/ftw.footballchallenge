@@ -33,7 +33,7 @@
                 <element value="ftw.footballchallenge: Play"/>
             </property>
         </object>
-</object>
+
         <object name="view_team" meta_type="CMF Action" i18n:domain="ftw.footballchallenge">
             <property name="title" i18n:translate="">My Team</property>
             <property name="url_expr">string:${portal_url}/team_overview</property>
