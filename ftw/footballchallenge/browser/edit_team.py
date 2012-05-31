@@ -203,7 +203,7 @@ class EditTeamForm(form.Form):
             session.query(Teams_Players).filter(Teams_Players.team_id==\
             team.id_).delete()
             nations = []
-            sub_nations = []
+            all_nations = []
             for k, v in data.items():
                 if not k == 'name' and v:
                     player = session.query(Player).filter(Player.id_ == v).one()
@@ -211,14 +211,16 @@ class EditTeamForm(form.Form):
                     if bool(not 'substitute' in k):
                         if not player.nation_id in nations:
                             nations.append(player.nation_id)
+                        if not player.nation_id in all_nations:
+                            all_nations.append(player.nation_id)
                     else:
-                        if not player.nation_id in sub_nations and not player.nation_id in nations:
-                            sub_nations.append(player.nation_id)
+                        if not player.nation_id in all_nations:
+                            all_nations.append(player.nation_id)
 
                     team.players.append(Teams_Players(team.id_, player,
                                         bool(not 'substitute' in k)))
 
-            if len(nations) >= 6 and len(sub_nations) + len(nations) >=12 and len(team.players) == 22:
+            if len(nations) >= 6 and len(all_nations) >=12 and len(team.players) == 22:
                 team.valid = True
             else:
                 msg = _(u'label_not_valid', default=u'Your Team is not valid and will not receive any points')
