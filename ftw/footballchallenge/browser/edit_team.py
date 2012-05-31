@@ -130,7 +130,7 @@ class EditTeamSchema(interface.Interface):
                 playernames += session.query(Player).filter(
                     Player.id_ == player_id).one().name
 
-        raise Invalid(_(u"You can't use the player "+playernames+" multiple times"))
+        raise Invalid(_(u"You can't use the player ${players} multiple times", mapping={'players':playernames}))
 
 
 class EditTeamForm(form.Form):
@@ -150,6 +150,8 @@ class EditTeamForm(form.Form):
         session = named_scoped_session('footballchallenge')
         event_id = session.query(Event).filter(Event.LockDate > datetime.now()).one().id_
         if not len(session.query(Team).filter_by(user_id=userid).filter_by(event_id=event_id).all()):
+            for field in self.fields:
+                field.field.default = None
             super(EditTeamForm, self).updateWidgets()
             return
 
