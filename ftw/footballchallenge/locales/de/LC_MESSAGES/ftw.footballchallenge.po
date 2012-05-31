@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2012-05-31 07:45+0000\n"
+"POT-Creation-Date: 2012-05-31 09:21+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -50,6 +50,7 @@ msgstr "Bearbeiten"
 msgid "Edit Result"
 msgstr "Resultat bearbeiten"
 
+#: ./ftw/footballchallenge/browser/edit_team.pt:16
 #: ./ftw/footballchallenge/profiles/default/actions.xml
 msgid "Edit Team"
 msgstr "Team bearbeiten"
@@ -101,6 +102,10 @@ msgstr "Name"
 msgid "Nationality"
 msgstr "Nationalität"
 
+#: ./ftw/footballchallenge/browser/team_overview.pt:13
+msgid "Nationcount Starter (6 Required)"
+msgstr "Anzahl Nationen der Stammelf (6 benötigt)"
+
 #: ./ftw/footballchallenge/browser/player_view.pt:15
 msgid "Original Name"
 msgstr "Geburtsname"
@@ -151,6 +156,10 @@ msgstr "Team"
 msgid "Teams"
 msgstr "Teams"
 
+#: ./ftw/footballchallenge/browser/team_overview.pt:17
+msgid "Total Nationcount (12 Required)"
+msgstr "Anzahl Nationen des kompletten Teams (12 benötigt)"
+
 #: ./ftw/footballchallenge/browser/player_view.pt:17
 msgid "Value"
 msgstr "Marktwert"
@@ -164,8 +173,8 @@ msgid "Winner of the Round"
 msgstr "Gewinner der Runde"
 
 #: ./ftw/footballchallenge/browser/edit_team.py:133
-msgid "You can't use the player  multiple times"
-msgstr "Sie können den Spieler  nicht mehrmals verwenden"
+msgid "You can't use the player ${players} multiple times"
+msgstr "Sie können den Spieler ${players} nicht mehrfach verwenden."
 
 msgid "defender"
 msgstr "Verteidigung"

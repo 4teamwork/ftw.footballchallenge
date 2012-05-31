@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2012-05-31 07:45+0000\n"
+"POT-Creation-Date: 2012-05-31 09:21+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -52,6 +52,7 @@ msgstr ""
 msgid "Edit Result"
 msgstr ""
 
+#: ./ftw/footballchallenge/browser/edit_team.pt:16
 #: ./ftw/footballchallenge/profiles/default/actions.xml
 msgid "Edit Team"
 msgstr ""
@@ -101,6 +102,10 @@ msgstr ""
 
 #: ./ftw/footballchallenge/browser/team_overview.pt:27
 msgid "Nationality"
+msgstr ""
+
+#: ./ftw/footballchallenge/browser/team_overview.pt:13
+msgid "Nationcount Starter (6 Required)"
 msgstr ""
 
 #: ./ftw/footballchallenge/browser/player_view.pt:15
@@ -153,6 +158,10 @@ msgstr ""
 msgid "Teams"
 msgstr ""
 
+#: ./ftw/footballchallenge/browser/team_overview.pt:17
+msgid "Total Nationcount (12 Required)"
+msgstr ""
+
 #: ./ftw/footballchallenge/browser/player_view.pt:17
 msgid "Value"
 msgstr ""
@@ -166,7 +175,7 @@ msgid "Winner of the Round"
 msgstr ""
 
 #: ./ftw/footballchallenge/browser/edit_team.py:133
-msgid "You can't use the player  multiple times"
+msgid "You can't use the player ${players} multiple times"
 msgstr ""
 
 msgid "defender"
