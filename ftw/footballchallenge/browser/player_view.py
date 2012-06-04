@@ -6,6 +6,9 @@ from zope.interface import implements
 from zope.publisher.interfaces import IPublishTraverse
 from z3c.saconfig import named_scoped_session
 from ftw.footballchallenge.player import Player
+from ftw.footballchallenge.event import Event
+import datetime
+
 
 class PlayerView(BrowserView):
     """Defines a view for the league which displays the ranking."""
@@ -26,3 +29,10 @@ class PlayerView(BrowserView):
             session = named_scoped_session('footballchallenge')
             player = session.query(Player).filter(Player.id_ == self.player_id).one()
             return player
+
+    def check_teams_public(self):
+        session = named_scoped_session('footballchallenge')
+        open_events = session.query(Event).filter(Event.LockDate > datetime.date.today()).all()
+        if not open_events:
+            return True
+        return False
