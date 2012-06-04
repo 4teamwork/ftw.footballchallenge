@@ -47,7 +47,7 @@ class CreateGameForm(form.Form):
     implements(IPublishTraverse)
     
     fields = field.Fields(CreateGameSchema)
-    fields['date'].widgetFactory = DateTimePickerFieldWidget
+    # fields['date'].widgetFactory = DateTimePickerFieldWidget
     label = _(u'heading_create_game', 'Add Game')
     game_id = None
     # fields['date'].widgetFactory = DatePickerFieldWidget
