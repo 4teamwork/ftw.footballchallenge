@@ -41,7 +41,7 @@ class NationView(BrowserView):
             info = dict(
                 name=player.name,
                 url='%s/%s' % (base_url.rstrip('/')+'/player_view', player.id_),
-                position=player.position,
+                position=context.translate(player.position, domain='ftw.footballchallenge'),
                 age=player.age,
                 club=player.club,
                 league=player.league,
