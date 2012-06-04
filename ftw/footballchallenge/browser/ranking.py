@@ -16,7 +16,6 @@ class Ranking(BrowserView):
     
     template = ViewPageTemplateFile("ranking.pt")
 
-    implements(IPublishTraverse)    
     
     def get_ranking(self):
         """Gets the teams and Totalpoints in right order"""
@@ -33,15 +32,13 @@ class Ranking(BrowserView):
         clean_ranking = sorted(teams_in_ranking.items(), key=lambda k: k[1], reverse=True)
         return clean_ranking
 
+    def __init__(self, context, request, league_id):
+        super(Ranking, self).__init__(context, request)
+        self.league_id = league_id
     
     def __call__(self):
-        self.request['disable_plone.leftcolumn'] = True
-        self.request['disable_plone.rightcolumn'] = True
         return self.template()
 
-    def publishTraverse(self, request, name):
-        self.league_id = name
-        return self
 
     def get_link(self, team_id):
         session = named_scoped_session('footballchallenge')
@@ -59,3 +56,8 @@ class Ranking(BrowserView):
         userid = team.user_id
         portrait = portal_membership.getPersonalPortrait(userid)
         return portrait.tag()
+
+    def checkManageEvent(self):
+        portal_membership = getToolByName(self.context, 'portal_membership')
+        member = portal_membership.getAuthenticatedMember()
+        return member.has_permission('ftw.footballchallenge: Manage Event', self.context)

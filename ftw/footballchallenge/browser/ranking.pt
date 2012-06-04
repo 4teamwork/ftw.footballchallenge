@@ -6,8 +6,10 @@
       metal:use-macro="context/main_template/macros/master"
       i18n:domain="ftw.footballchallenge">
 
-<metal:content-core fill-slot="content-core">
-    <div class="ranking" i18n:domain="ftw.footballchallenge" tal:define="stats view/get_ranking">
+<div class="ranking" i18n:domain="ftw.footballchallenge" tal:define="stats view/get_ranking">
+        <span tal:condition="view/checkManageEvent">
+            <a tal:attributes="href string:${context/absolute_url}/assign_users/${view/league_id}" i18n:translate="">Assign Users</a>
+        </span>
         <table class="listing">
             <colgroup>
                 <col width="25%">
@@ -29,6 +31,4 @@
             </tr>
         </table>
     </div>
-    
-</metal:content-core>
 </html>
