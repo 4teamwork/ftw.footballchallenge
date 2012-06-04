@@ -13,8 +13,6 @@ from datetime import date
 
 class AssignUserSchema(interface.Interface):
 
-    leagues = schema.Choice(title=_(u'label_leagues', default="Leagues"),
-                            vocabulary=u"LeagueFactory")
     teams = schema.List(title=_(u'label_teams',
                                      default=u"Teams"),
                           value_type=schema.Choice(
@@ -26,10 +24,12 @@ class AssignUserForm(form.Form):
     label = _(u'heading_assign_teams', default=u'Assign Teams')
     ignoreContext = True
 
+    def publishTraverse(self, request, name):
+        self.league_id = name
+        return self
     
     def updateWidgets(self):
         session = named_scoped_session('footballchallenge')
-        import pdb; pdb.set_trace( )
         league = session.query(League).filter(League.id_ == self.league_id).one()
         if league.teams:
             user_ids = [team.user_id for team in league.teams]
@@ -41,7 +41,7 @@ class AssignUserForm(form.Form):
         data, errors = self.extractData()
         if len(errors) == 0:
             session = named_scoped_session('footballchallenge')
-            league = session.query(League).filter(League.id_ == data['leagues']).one()
+            league = session.query(League).filter(League.id_ == self.league_id).one()
             teams = []
             event_id = session.query(Event).filter(Event.LockDate > date.today()).one().id_
             for user_id in data['teams']:

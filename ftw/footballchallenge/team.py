@@ -9,6 +9,8 @@ from zope.schema import vocabulary
 from z3c.saconfig import named_scoped_session
 import datetime
 from ftw.footballchallenge.event import Event
+from zope.app.component.hooks import getSite
+from Products.CMFCore.utils import getToolByName
 
 leagues_teams = Table('leagues_teams', Base.metadata,
     Column('team_id', Integer, ForeignKey('teams.id')),
@@ -49,10 +51,11 @@ class TeamVocabularyFactory(object):
 
     def __call__(self, context):
         """a Proxy function which returns keeper term"""
-        session = named_scoped_session('footballchallenge')
-        event_id = session.query(Event).filter(Event.LockDate > datetime.date.today()).one().id_
-        teams = session.query(Team).filter(Team.event_id == event_id).all()
+        portal = getSite()
+        acl_users = portal.acl_users
+        source_users = acl_users.source_users
         terms = []
-        for team in teams:
-            terms.append(vocabulary.SimpleTerm(team.id_, team.id_, team.name))
+        for user in source_users.getUsers():
+            propsheet = user.getPropertysheet('mutable_properties')
+            terms.append(vocabulary.SimpleTerm(user.getId(), user.getId(), propsheet.getProperty('fullname')))
         return vocabulary.SimpleVocabulary(terms)
