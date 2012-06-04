@@ -3,5 +3,6 @@
     <version>1</version>
     <dependencies>
         <dependency>profile-ftw.datepicker:default</dependency>
+        <dependency>profile-ftw.tabbedview:default</dependency>
     </dependencies>
 </metadata>
