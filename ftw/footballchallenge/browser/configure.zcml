@@ -105,6 +105,13 @@
 
     <browser:page
         for="*"
+        name="leagues"
+        class=".leagues.LeaguesView"
+        permission="zope2.View"
+        />
+
+    <browser:page
+        for="*"
         name="playerimage"
         class=".player_image.PlayerImageView"
         permission="zope2.View"
