@@ -55,7 +55,7 @@ class AssignUserForm(form.Form):
             msg = _(u'label_teams_assign', default=u'Teams were assigned successfully.')
             IStatusMessage(self.request).addStatusMessage(
                 msg, type='information')
-            return self.request.RESPONSE.redirect(self.context.absolute_url() + '/ranking/' + str(league.id_))
+            return self.request.RESPONSE.redirect(self.context.absolute_url() + '/assign_users/'+self.league_id)
 
     @button.buttonAndHandler(_(u'Cancel'))
     def handleCancel(self, action):
