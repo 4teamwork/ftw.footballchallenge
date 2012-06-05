@@ -34,7 +34,7 @@ class Team(Base):
     event = relationship('Event', backref='teams')
 
     valid = Column(Boolean)
-    def __init__(self, name, user_id, event_id, league_id=None):
+    def __init__(self, user_id, event_id, name='', league_id=None):
         self.name = name
         self.user_id = user_id
         self.league_id = league_id
