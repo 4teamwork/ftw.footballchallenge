@@ -16,7 +16,7 @@
         <metal:game-define tal:define="games_per_round view/get_games;
                                        can_edit view/can_edit;">
 
-        <tal:round repeat="round python:['group1', 'group2', 'group3', 'roundof16', 'quarterfinals', 'semifinals', 'final']">
+        <tal:round repeat="round python:['group1', 'group2', 'group3', 'roundof16', 'quarterfinals', 'semifinals', 'finals']">
         <div tal:define="games python: games_per_round.get(round, None)"
              tal:condition="games">
         <h2 i18n:translate="" tal:content="string:label_${round}">Group Matches Round 1</h2>
