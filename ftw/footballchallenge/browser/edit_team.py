@@ -196,7 +196,7 @@ class EditTeamForm(form.Form):
             userid = membershiptool.getAuthenticatedMember().getId()
             if not session.query(Team).filter_by(user_id=userid).filter_by(event_id=event_id).all():
                 #create the team if it doesn't exist.
-                team = Team(data['name'], userid, event_id)
+                team = Team(userid, event_id, name=data['name'])
                 session.add(team)                
             else:
                 team = session.query(Team).filter_by(user_id=userid).filter_by(event_id=event_id).one()
