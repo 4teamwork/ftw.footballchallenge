@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2012-05-31 15:19+0000\n"
+"POT-Creation-Date: 2012-06-05 16:22+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,6 +16,10 @@ msgstr ""
 msgid "Assign User"
 msgstr "Benutzer zuweisen"
 
+#: ./ftw/footballchallenge/browser/ranking.pt:3
+msgid "Assign Users"
+msgstr "Benutzer zuweisen"
+
 #: ./ftw/footballchallenge/browser/assign_user.py:60
 #: ./ftw/footballchallenge/browser/create_game.py:105
 #: ./ftw/footballchallenge/browser/edit_team.py:238
@@ -26,7 +30,7 @@ msgstr "Abbrechen"
 msgid "Club"
 msgstr "Club"
 
-#: ./ftw/footballchallenge/browser/ranking.pt:22
+#: ./ftw/footballchallenge/browser/ranking.pt:16
 msgid "Coach"
 msgstr "Trainer"
 
@@ -59,7 +63,7 @@ msgstr "Resultat bearbeiten"
 msgid "Edit Team"
 msgstr "Team bearbeiten"
 
-#: ./ftw/footballchallenge/browser/schedule.pt:42
+#: ./ftw/footballchallenge/browser/schedule.pt:44
 msgid "Edit result"
 msgstr "Resultat bearbeiten"
 
@@ -118,7 +122,7 @@ msgstr "Anzahl Nationen der Stammelf (6 benötigt)"
 msgid "Original Name"
 msgstr "Geburtsname"
 
-#: ./ftw/footballchallenge/browser/ranking.pt:20
+#: ./ftw/footballchallenge/browser/ranking.pt:14
 #: ./ftw/footballchallenge/browser/team_overview.pt:29
 msgid "Points"
 msgstr "Punkte"
@@ -132,7 +136,7 @@ msgstr "Position"
 msgid "Punkte"
 msgstr "Punkte"
 
-#: ./ftw/footballchallenge/browser/ranking.pt:19
+#: ./ftw/footballchallenge/browser/ranking.pt:13
 msgid "Rank"
 msgstr "Rang"
 
@@ -156,7 +160,7 @@ msgstr "Stammelf"
 msgid "Substitutes"
 msgstr "Auswechselspieler"
 
-#: ./ftw/footballchallenge/browser/ranking.pt:21
+#: ./ftw/footballchallenge/browser/ranking.pt:15
 msgid "Team"
 msgstr "Team"
 
@@ -182,7 +186,7 @@ msgstr "Gewinner der Runde"
 
 #: ./ftw/footballchallenge/browser/edit_team.py:133
 msgid "You can't use the player ${players} multiple times"
-msgstr "Sie können den Spieler ${players} nicht mehrfach verwenden."
+msgstr "Du kannst den Spieler ${players} nicht mehrfach verwenden."
 
 msgid "defender"
 msgstr "Verteidigung"
@@ -193,7 +197,8 @@ msgid "event_not_started"
 msgstr "Das Event hat noch nicht gestartet. Sie dürfen dieses Team noch nicht ansehen"
 
 #. Default: "Assign Teams"
-#: ./ftw/footballchallenge/browser/assign_user.py:26
+#: ./ftw/footballchallenge/browser/assign_user.py:24
+#: ./ftw/footballchallenge/browser/remove_user.py:11
 msgid "heading_assign_teams"
 msgstr "Teams zuweisen"
 
@@ -243,7 +248,7 @@ msgstr "Alter"
 #. Default: "Your changes are saved successfully"
 #: ./ftw/footballchallenge/browser/edit_team.py:232
 msgid "label_changes_saved"
-msgstr "Ihre Änderungen wurden erfolgreich gespeichert."
+msgstr "Deine Änderungen wurden erfolgreich gespeichert."
 
 #. Default: "Club"
 #: ./ftw/footballchallenge/browser/nation.pt:25
@@ -277,7 +282,7 @@ msgid "label_fifa_ranking"
 msgstr "FIFA Rang"
 
 #. Default: "Finals"
-#: ./ftw/footballchallenge/game.py:69
+#: ./ftw/footballchallenge/game.py:68
 msgid "label_finals"
 msgstr "Finalrunde"
 
@@ -292,17 +297,17 @@ msgid "label_goals"
 msgstr "Tore"
 
 #. Default: "Group1"
-#: ./ftw/footballchallenge/game.py:63
+#: ./ftw/footballchallenge/game.py:62
 msgid "label_group1"
 msgstr "1. Runde der Gruppenphase"
 
 #. Default: "Group2"
-#: ./ftw/footballchallenge/game.py:64
+#: ./ftw/footballchallenge/game.py:63
 msgid "label_group2"
 msgstr "2. Runde der Gruppenphase"
 
 #. Default: "Group3"
-#: ./ftw/footballchallenge/game.py:65
+#: ./ftw/footballchallenge/game.py:64
 msgid "label_group3"
 msgstr "3. Runde der Gruppenphase"
 
@@ -332,11 +337,6 @@ msgstr "Torwart"
 #: ./ftw/footballchallenge/browser/nation.pt:26
 msgid "label_league"
 msgstr "Liga"
-
-#. Default: "Leagues"
-#: ./ftw/footballchallenge/browser/assign_user.py:16
-msgid "label_leagues"
-msgstr "Ligen"
 
 #. Default: "Loss vs ${nation}"
 #: ./ftw/footballchallenge/player.py:179
@@ -378,7 +378,7 @@ msgstr "Keine Gegentreffer kassiert"
 #. Default: "Your Team is not valid and will not receive any points"
 #: ./ftw/footballchallenge/browser/edit_team.py:227
 msgid "label_not_valid"
-msgstr "Ihr Team ist nicht valid und wird keine Punkte erhalten."
+msgstr "Dein Team ist nicht valid und wird keine Punkte erhalten."
 
 #. Default: "Participations"
 #: ./ftw/footballchallenge/browser/nations.pt:18
@@ -401,8 +401,8 @@ msgid "label_position"
 msgstr "Position"
 
 #. Default: "Quarterfinals"
-#: ./ftw/footballchallenge/game.py:67
-msgid "label_quarterfinal"
+#: ./ftw/footballchallenge/game.py:66
+msgid "label_quarterfinals"
 msgstr "Viertelsfinal"
 
 #. Default: "Red"
@@ -416,7 +416,7 @@ msgid "label_round"
 msgstr "Runde"
 
 #. Default: "Round of Sixteen"
-#: ./ftw/footballchallenge/game.py:66
+#: ./ftw/footballchallenge/game.py:65
 msgid "label_roundof16"
 msgstr "Achtelsfinal"
 
@@ -436,7 +436,7 @@ msgid "label_saves"
 msgstr "gehaltene Penalty"
 
 #. Default: "Semifinals"
-#: ./ftw/footballchallenge/game.py:68
+#: ./ftw/footballchallenge/game.py:67
 msgid "label_semifinals"
 msgstr "Halbfinal"
 
@@ -446,7 +446,8 @@ msgid "label_striker"
 msgstr "Stürmer"
 
 #. Default: "Teams"
-#: ./ftw/footballchallenge/browser/assign_user.py:18
+#: ./ftw/footballchallenge/browser/assign_user.py:16
+#: ./ftw/footballchallenge/browser/remove_user.py:3
 msgid "label_teams"
 msgstr "Teams"
 
@@ -475,10 +476,14 @@ msgstr "Auswärtsteam"
 msgid "label_yellow"
 msgstr "Gelbe Karte"
 
+#: ./ftw/footballchallenge/browser/leagues.py:34
+msgid "league-%i"
+msgstr ""
+
 #. Default: "League created successfully"
 #: ./ftw/footballchallenge/browser/league_creation.py:43
 msgid "league_created"
-msgstr "Die Liga wurd erfolgreich erstellt"
+msgstr "Die Liga wurde erfolgreich erstellt"
 
 msgid "midfield"
 msgstr "Mittelfeld"
@@ -486,7 +491,7 @@ msgstr "Mittelfeld"
 #. Default: "You have currently no Teams. Here you can create one."
 #: ./ftw/footballchallenge/browser/team_overview.py:35
 msgid "msg_no_team"
-msgstr "Sie haben momentan noch kein Team. Hier können sie eines erstellen"
+msgstr "Du hast momentan noch kein Team. Hier kannst eines erstellen"
 
 msgid "points"
 msgstr "Punkte"
