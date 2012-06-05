@@ -64,7 +64,7 @@ class CreateGameForm(form.Form):
         if self.game_id:
             session = named_scoped_session('footballchallenge')
             game = session.query(Game).filter(Game.id_ == self.game_id).one()
-            self.fields['date'].field.default = datetime.date(game.date.year, game.date.month, game.date.day)
+            self.fields['date'].field.default = game.date
             self.fields['event'].field.default = game.events_id
             self.fields['nation1'].field.default = game.nation1_id
             self.fields['nation2'].field.default = game.nation2_id
