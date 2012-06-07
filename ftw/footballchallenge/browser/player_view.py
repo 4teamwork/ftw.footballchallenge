@@ -32,7 +32,7 @@ class PlayerView(BrowserView):
 
     def check_teams_public(self):
         session = named_scoped_session('footballchallenge')
-        open_events = session.query(Event).filter(Event.LockDate > datetime.date.today()).all()
+        open_events = session.query(Event).filter(Event.deadline > datetime.datetime.now()).all()
         if not open_events:
             return True
         return False
