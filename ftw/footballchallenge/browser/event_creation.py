@@ -11,7 +11,7 @@ class CreateEventSchema(interface.Interface):
 
     name = schema.TextLine(title=_(u'label_name', default="Name"),
                                    required=True)
-    date = schema.Date(title=_('label_date', default="Date"), required=True)
+    date = schema.Datetime(title=_('label_date', default="Date"), required=True)
 
 
 class CreateEventForm(form.Form):
@@ -29,7 +29,7 @@ class CreateEventForm(form.Form):
             session = named_scoped_session("footballchallenge")
             event = session.query(Event).filter(Event.id_==self.context.id_).one()
             self.fields['name'].field.default = event.name
-            self.fields['date'].field.default = event.LockDate
+            self.fields['date'].field.default = event.deadline
         super(CreateEventForm, self).updateWidgets()
     
     def update(self):
