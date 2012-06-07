@@ -143,12 +143,22 @@ class EditTeamForm(form.Form):
 
     template = ViewPageTemplateFile("edit_team.pt")
 
+    def __call__(self):
+        session = named_scoped_session('footballchallenge')
+        if not session.query(Event).filter(Event.deadline > datetime.now()).all():
+            msg = _(u'label_not_edit', default="The Event has started. You can't edit your Team now.")
+            IStatusMessage(self.request).addStatusMessage(
+                msg, type='error')
+            return self.request.response.redirect(self.context.absolute_url())
+        else:
+            return super(EditTeamForm, self).__call__()
+            
 
     def updateWidgets(self):
         membershiptool = getToolByName(self.context, 'portal_membership')
         userid = membershiptool.getAuthenticatedMember().getId()
         session = named_scoped_session('footballchallenge')
-        event_id = session.query(Event).filter(Event.LockDate > datetime.now()).one().id_
+        event_id = session.query(Event).filter(Event.deadline > datetime.now()).one().id_
         for field in self.fields.values():
             field.field.default = None
         if not len(session.query(Team).filter_by(user_id=userid).filter_by(event_id=event_id).all()):
@@ -190,7 +200,7 @@ class EditTeamForm(form.Form):
             #get the session from z3c.sacofig
             session = named_scoped_session('footballchallenge')
             event_id = session.query(Event).filter(
-                Event.LockDate > datetime.now()).one().id_
+                Event.deadline > datetime.now()).one().id_
             #get the userid we need it to find the right team
             membershiptool = getToolByName(self.context, 'portal_membership')
             userid = membershiptool.getAuthenticatedMember().getId()
