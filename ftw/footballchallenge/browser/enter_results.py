@@ -13,7 +13,7 @@ from z3c.saconfig import named_scoped_session
 from sqlalchemy.orm.exc import NoResultFound
 from zope.interface import implements
 from zope.publisher.interfaces import IPublishTraverse, NotFound
-
+from ftw.footballchallenge.assist import Assist
 
 class EnterResults(BrowserView):
     """A Form for enter Match Results."""
@@ -28,7 +28,6 @@ class EnterResults(BrowserView):
 
     def __call__(self):
         self.request.set('disable_border', True)
-
         if self.request.form.get('form.submited'):
             authenticator = getMultiAdapter((self.context, self.request), name=u"authenticator")
             if not authenticator.verify():
@@ -39,12 +38,16 @@ class EnterResults(BrowserView):
             red = self.request.form.get('red', {})
             goals = self.request.form.get('goals', {})
             saves = self.request.form.get('saves', {})
-            self.write_to_db(playing_players, yellow, second_yellow, red, goals, saves)
+            penaltys = self.request.form.get('penalty', {})
+            assists = self.request.form.get('assists', {})
+
+            self.write_to_db(playing_players, yellow, second_yellow, red, goals, penaltys, assists, saves)
             self.request.response.redirect(self.context.absolute_url() + '/schedule')
         else:
             session = named_scoped_session('footballchallenge')
             try:
                 game = session.query(Game).filter(Game.id_==self.game_id).one()
+                game.calculated = False
             except NoResultFound:
                 raise NotFound(self, self.game_id, self.request)
             for player in game.players:
@@ -52,7 +55,13 @@ class EnterResults(BrowserView):
             for card in game.cards:
                 self.request.form[str(card.player_id)+'_'+card.color] = "checked"
             for goal in game.goals:
-                self.request.form[str(goal.player_id)+'_goals'] = 1 + self.request.form.get(str(goal.player_id)+'_goals', 0)
+                if goal.is_penalty == False:
+                    self.request.form[str(goal.player_id)+'_goals'] = 1 + self.request.form.get(str(goal.player_id)+'_goals', 0)
+                else:
+                    self.request.form[str(goal.player_id)+'_penalty'] = 1 + self.request.form.get(str(goal.player_id)+'_penalty', 0)                    
+            for assist in game.assists:
+                self.request.form[str(assist.player_id)+'_assists'] = 1 + self.request.form.get(str(assist.player_id)+'_assists', 0)
+                
             for save in game.saves:
                 self.request.form[str(save.player_id)+'_saves'] = 1 + self.request.form.get(str(save.player_id)+'_saves', 0)
         return self.template()
@@ -75,7 +84,7 @@ class EnterResults(BrowserView):
         players = visitor.players
         return players
 
-    def write_to_db(self, playing_players, yellow, second_yellow, red, goals, saves):
+    def write_to_db(self, playing_players, yellow, second_yellow, red, goals, penalty, assists, saves):
         home_ids = [player.id_ for player in self.get_home_team()]
         home_score = 0
         visitor_score = 0
@@ -118,6 +127,29 @@ class EnterResults(BrowserView):
                 for count in range(0, value_int):
                     goal = Goal(key, game.id_, False)
                     session.add(goal)
+        for key, value in penalty.items():
+            if not value == '':
+                try:
+                    value_int = int(value)
+                    if long(key) in home_ids:
+                        home_score += value_int
+                    else:
+                        visitor_score += value_int
+                except ValueError:
+                    continue
+                for count in range(0, value_int):
+                    goal = Goal(key, game.id_, True)
+                    session.add(goal)
+        for key, value in assists.items():
+            if not value == '':
+                try:
+                    value_int = int(value)
+                except ValueError:
+                    continue
+                for count in range(0, value_int):
+                    assist = Assist(key, game.id_)
+                    session.add(assist)
+
         game.score_nation1 = home_score
         game.score_nation2 = visitor_score
         for key, value in saves.items():

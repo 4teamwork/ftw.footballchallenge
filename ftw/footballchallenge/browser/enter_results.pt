@@ -21,6 +21,8 @@
                     <th i18n:translate="label_2ndyellow">2nd Yellow</th>
                     <th i18n:translate="label_red">Red</th>
                     <th i18n:translate="label_goals">Goals</th>
+                    <th i18n:translate="label_penalty">Penalty</th>
+                    <th i18n:translate="label_assists">Assists</th>
                     <th i18n:translate="label_saves">Penalty Saves</th>
                 </tr>
             </thead>
@@ -62,6 +64,20 @@
                            type="text"
                            size="5"
                            maxlength="2"
+                           tal:attributes="name string:penalty.${player/id_}:record; id string: ${player/id_}_penalty;
+                           value python: request.form.get(str(player.id_)+'_penalty')" />
+                    </td>
+                    <td><input class="noborder"
+                           type="text"
+                           size="5"
+                           maxlength="2"
+                           tal:attributes="name string:assists.${player/id_}:record; id string: ${player/id_}_assists;
+                           value python: request.form.get(str(player.id_)+'_assists')" />
+                    </td>
+                    <td><input class="noborder"
+                           type="text"
+                           size="5"
+                           maxlength="2"
                            tal:attributes="name string:saves.${player/id_}:record; id string: ${player/id_}_saves;
                            checked python: request.form.get(str(player.id_)+'_saves')" />
                     </td>
@@ -79,6 +95,8 @@
                     <th i18n:translate="label_2ndyellow">2nd Yellow</th>
                     <th i18n:translate="label_red">Red</th>
                     <th i18n:translate="label_goals">Goals</th>
+                    <th i18n:translate="label_penalty">Penalty</th>
+                    <th i18n:translate="label_assists">Assists</th>
                     <th i18n:translate="label_saves">Penalty Saves</th>
                 </tr>
             </thead>
@@ -116,6 +134,21 @@
                            tal:attributes="name string:goals.${player/id_}:record; id string: ${player/id_}_goals;
                            value python: request.form.get(str(player.id_)+'_goals')" />
                     </td>
+                    <td><input class="noborder"
+                           type="text"
+                           size="5"
+                           maxlength="2"
+                           tal:attributes="name string:penalty.${player/id_}:record; id string: ${player/id_}_penalty;
+                           value python: request.form.get(str(player.id_)+'_penalty')" />
+                    </td>
+                    <td><input class="noborder"
+                           type="text"
+                           size="5"
+                           maxlength="2"
+                           tal:attributes="name string:assists.${player/id_}:record; id string: ${player/id_}_assists;
+                           value python: request.form.get(str(player.id_)+'_assists')" />
+                    </td>
+
                     <td><input class="noborder"
                            type="text"
                            size="5"
