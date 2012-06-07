@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2012-06-05 16:22+0000\n"
+"POT-Creation-Date: 2012-06-07 13:36+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -24,7 +24,7 @@ msgstr ""
 
 #: ./ftw/footballchallenge/browser/assign_user.py:60
 #: ./ftw/footballchallenge/browser/create_game.py:105
-#: ./ftw/footballchallenge/browser/edit_team.py:238
+#: ./ftw/footballchallenge/browser/edit_team.py:248
 msgid "Cancel"
 msgstr ""
 
@@ -108,11 +108,11 @@ msgid "My Team"
 msgstr ""
 
 #: ./ftw/footballchallenge/browser/player_view.pt:13
-#: ./ftw/footballchallenge/browser/team_overview.pt:26
+#: ./ftw/footballchallenge/browser/team_overview.pt:29
 msgid "Name"
 msgstr ""
 
-#: ./ftw/footballchallenge/browser/team_overview.pt:27
+#: ./ftw/footballchallenge/browser/team_overview.pt:30
 msgid "Nationality"
 msgstr ""
 
@@ -125,16 +125,16 @@ msgid "Original Name"
 msgstr ""
 
 #: ./ftw/footballchallenge/browser/ranking.pt:14
-#: ./ftw/footballchallenge/browser/team_overview.pt:29
+#: ./ftw/footballchallenge/browser/team_overview.pt:32
 msgid "Points"
 msgstr ""
 
 #: ./ftw/footballchallenge/browser/player_view.pt:14
-#: ./ftw/footballchallenge/browser/team_overview.pt:28
+#: ./ftw/footballchallenge/browser/team_overview.pt:31
 msgid "Position"
 msgstr ""
 
-#: ./ftw/footballchallenge/browser/team_overview.pt:44
+#: ./ftw/footballchallenge/browser/team_overview.pt:47
 msgid "Punkte"
 msgstr ""
 
@@ -148,17 +148,17 @@ msgstr ""
 
 #: ./ftw/footballchallenge/browser/assign_user.py:39
 #: ./ftw/footballchallenge/browser/create_game.py:77
-#: ./ftw/footballchallenge/browser/edit_team.py:184
+#: ./ftw/footballchallenge/browser/edit_team.py:194
 msgid "Save"
 msgstr ""
 
 #: ./ftw/footballchallenge/browser/edit_team.pt:61
-#: ./ftw/footballchallenge/browser/team_overview.pt:23
+#: ./ftw/footballchallenge/browser/team_overview.pt:26
 msgid "Starters"
 msgstr ""
 
 #: ./ftw/footballchallenge/browser/edit_team.pt:87
-#: ./ftw/footballchallenge/browser/team_overview.pt:38
+#: ./ftw/footballchallenge/browser/team_overview.pt:41
 msgid "Substitutes"
 msgstr ""
 
@@ -174,11 +174,15 @@ msgstr ""
 msgid "Total Nationcount (12 Required)"
 msgstr ""
 
+#: ./ftw/footballchallenge/browser/team_overview.pt:21
+msgid "Total Playercount (22 Required)"
+msgstr ""
+
 #: ./ftw/footballchallenge/browser/player_view.pt:17
 msgid "Value"
 msgstr ""
 
-#: ./ftw/footballchallenge/browser/enter_results.pt:72
+#: ./ftw/footballchallenge/browser/enter_results.pt:88
 msgid "Visitor Team"
 msgstr ""
 
@@ -238,7 +242,7 @@ msgid "label_2ndyellow"
 msgstr ""
 
 #. Default: "3 Goals received"
-#: ./ftw/footballchallenge/player.py:185
+#: ./ftw/footballchallenge/player.py:205
 msgid "label_3goals"
 msgstr ""
 
@@ -247,8 +251,18 @@ msgstr ""
 msgid "label_age"
 msgstr ""
 
+#. Default: "Assist vs ${enemy}"
+#: ./ftw/footballchallenge/player.py:185
+msgid "label_assist"
+msgstr ""
+
+#. Default: "Assists"
+#: ./ftw/footballchallenge/browser/enter_results.pt:25
+msgid "label_assists"
+msgstr ""
+
 #. Default: "Your changes are saved successfully"
-#: ./ftw/footballchallenge/browser/edit_team.py:232
+#: ./ftw/footballchallenge/browser/edit_team.py:242
 msgid "label_changes_saved"
 msgstr ""
 
@@ -274,7 +288,7 @@ msgid "label_defender"
 msgstr ""
 
 #. Default: "Draw vs ${nation}"
-#: ./ftw/footballchallenge/player.py:177
+#: ./ftw/footballchallenge/player.py:197
 msgid "label_draw"
 msgstr ""
 
@@ -289,7 +303,7 @@ msgid "label_finals"
 msgstr ""
 
 #. Default: "Goal vs ${enemy}"
-#: ./ftw/footballchallenge/player.py:164
+#: ./ftw/footballchallenge/player.py:176
 msgid "label_goal"
 msgstr ""
 
@@ -341,7 +355,7 @@ msgid "label_league"
 msgstr ""
 
 #. Default: "Loss vs ${nation}"
-#: ./ftw/footballchallenge/player.py:179
+#: ./ftw/footballchallenge/player.py:199
 msgid "label_loss"
 msgstr ""
 
@@ -373,18 +387,33 @@ msgid "label_nation2_dummy"
 msgstr ""
 
 #. Default: "No Goals received"
-#: ./ftw/footballchallenge/player.py:183
+#: ./ftw/footballchallenge/player.py:203
 msgid "label_nogoals"
 msgstr ""
 
+#. Default: "The Event has started. You can't edit your Team now."
+#: ./ftw/footballchallenge/browser/edit_team.py:149
+msgid "label_not_edit"
+msgstr ""
+
 #. Default: "Your Team is not valid and will not receive any points"
-#: ./ftw/footballchallenge/browser/edit_team.py:227
+#: ./ftw/footballchallenge/browser/edit_team.py:237
 msgid "label_not_valid"
 msgstr ""
 
 #. Default: "Participations"
 #: ./ftw/footballchallenge/browser/nations.pt:18
 msgid "label_participations"
+msgstr ""
+
+#. Default: "Penalty"
+#: ./ftw/footballchallenge/browser/enter_results.pt:24
+msgid "label_penalty"
+msgstr ""
+
+#. Default: "Penalty vs ${enemy}"
+#: ./ftw/footballchallenge/player.py:179
+msgid "label_penalty_log"
 msgstr ""
 
 #. Default: "Played"
@@ -423,17 +452,17 @@ msgid "label_roundof16"
 msgstr ""
 
 #. Default: "Save"
-#: ./ftw/footballchallenge/browser/enter_results.pt:132
+#: ./ftw/footballchallenge/browser/enter_results.pt:166
 msgid "label_save"
 msgstr ""
 
 #. Default: "Save vs ${enemy}"
-#: ./ftw/footballchallenge/player.py:170
+#: ./ftw/footballchallenge/player.py:190
 msgid "label_save_log"
 msgstr ""
 
 #. Default: "Penalty Saves"
-#: ./ftw/footballchallenge/browser/enter_results.pt:24
+#: ./ftw/footballchallenge/browser/enter_results.pt:26
 msgid "label_saves"
 msgstr ""
 
@@ -464,7 +493,7 @@ msgid "label_value"
 msgstr ""
 
 #. Default: "Victory vs ${nation}"
-#: ./ftw/footballchallenge/player.py:175
+#: ./ftw/footballchallenge/player.py:195
 msgid "label_victory"
 msgstr ""
 
