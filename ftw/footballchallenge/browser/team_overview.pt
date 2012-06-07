@@ -17,6 +17,9 @@
                 <td i18n:translate="">Total Nationcount (12 Required)</td>
                 <td tal:content="nations/sub_nations" />
             </tr>
+            <tr>
+            <td i18n:translate="">Total Playercount (22 Required)</td>
+            <td tal:content="python: len(view.get_starters()) + len(view.get_substitutes())" />
         </table>
     </div>
     <div>
