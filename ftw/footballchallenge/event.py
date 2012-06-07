@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Date
+from sqlalchemy import Column, Integer, String, DateTime
 from ftw.footballchallenge import Base
 from zope.schema import vocabulary
 from z3c.saconfig import named_scoped_session
@@ -17,11 +17,11 @@ class Event(Base):
 
     id_ = Column('id', Integer, primary_key=True)
     name = Column(String(45))
-    LockDate = Column(Date)
+    deadline = Column(DateTime)
 
-    def __init__(self, name, lockdate):
+    def __init__(self, name, deadline):
         self.name = name
-        self.LockDate = lockdate
+        self.deadline = deadline
 
     def __repr__(self):
         return '<Event %s>' % self.name
