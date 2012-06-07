@@ -8,7 +8,7 @@ from zope.interface import implements
 from zope.publisher.interfaces import IPublishTraverse
 from Products.statusmessages.interfaces import IStatusMessage
 from ftw.footballchallenge.event import Event
-from datetime import date
+from datetime import datetime
 
 
 class AssignUserSchema(interface.Interface):
@@ -43,7 +43,7 @@ class AssignUserForm(form.Form):
             session = named_scoped_session('footballchallenge')
             league = session.query(League).filter(League.id_ == self.league_id).one()
             teams = []
-            event_id = session.query(Event).filter(Event.LockDate > date.today()).one().id_
+            event_id = session.query(Event).filter(Event.deadline > datetime.now()).one().id_
             for user_id in data['teams']:
                 if session.query(Team).filter(Team.user_id == user_id).all():
                     team = session.query(Team).filter(Team.user_id == user_id).one()
