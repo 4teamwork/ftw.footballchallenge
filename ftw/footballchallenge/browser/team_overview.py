@@ -28,7 +28,7 @@ class TeamOverview(BrowserView):
 
     def __call__(self):
         session = named_scoped_session('footballchallenge')
-        open_events = session.query(Event).filter(Event.LockDate > datetime.date.today()).all()
+        open_events = session.query(Event).filter(Event.deadline > datetime.datetime.now()).all()
         membershiptool = getToolByName(self.context, 'portal_membership')
         userid = membershiptool.getAuthenticatedMember().getId()
         if not session.query(Team).filter(Team.user_id == userid).all():
