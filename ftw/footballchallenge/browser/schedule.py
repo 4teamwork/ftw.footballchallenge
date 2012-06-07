@@ -6,7 +6,7 @@ from zope.app.pagetemplate.viewpagetemplatefile import ViewPageTemplateFile
 import datetime
 from ftw.footballchallenge.event import Event
 from ftw.footballchallenge.game import Game
-
+from sqlalchemy import desc
 
 class ScheduleView(BrowserView):
     """Shows the game schedule"""
@@ -16,7 +16,7 @@ class ScheduleView(BrowserView):
 
     def get_games(self):
         session = named_scoped_session('footballchallenge')
-        event_id = session.query(Event).filter(Event.LockDate > datetime.date.today()).one().id_
+        event_id = session.query(Event).order_by(desc(Event.deadline)).first().id_
         games = session.query(Game).filter(Game.events_id == event_id).order_by(Game.date).all()
         games_per_round = {}
         for game in games:
