@@ -5,7 +5,7 @@ from sqlalchemy.orm import relationship, backref
 from zope.interface import implements
 from ftw.footballchallenge.interfaces import ILeague
 from Acquisition.interfaces import IAcquirer
-from datetime import date
+from datetime import datetime
 from ftw.footballchallenge.event import Event
 from z3c.saconfig import named_scoped_session
 from zope.schema.interfaces import IVocabularyFactory
@@ -40,7 +40,7 @@ class LeagueVocabularyFactory(object):
     def __call__(self, context):
         """a Proxy function which returns keeper term"""
         session = named_scoped_session("footballchallenge")
-        event_id = session.query(Event).filter(Event.LockDate > date.today()).one().id_s
+        event_id = session.query(Event).filter(Event.deadline > datetime.now()).one().id_
         leagues = session.query(League).filter(League.event_id == event_id).all()
         terms = []
         for league in leagues:
