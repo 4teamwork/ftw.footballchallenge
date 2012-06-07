@@ -12,7 +12,7 @@ from ftw.footballchallenge.config import POINT_MAPPING_STRIKER
 from ftw.footballchallenge.config import POINT_MAPPING_MIDFIELD
 from ftw.footballchallenge.config import POINT_MAPPING_DEFENDER
 from ftw.footballchallenge.config import POINT_MAPPING_KEEPER
-from datetime import date
+from datetime import datetime
 from zope.schema.interfaces import IVocabularyFactory
 from zope.schema import vocabulary
 from z3c.saconfig import named_scoped_session
@@ -22,7 +22,7 @@ from ftw.footballchallenge.interfaces import IPlayer
 from zope.interface import classProvides
 from zope.schema.interfaces import ISource, IContextSourceBinder
 from ftw.footballchallenge import _
-
+from ftw.footballchallenge.assist import Assist
 
 class Player(Base):
     """Modeldefinition for Player"""
@@ -102,6 +102,17 @@ class Player(Base):
                 Goal.player_id==self.id_).order_by(Goal.game_id).all()
         return goals
 
+    def get_assists(self, session, game_id=None):
+        """Gets all goals or the goals for one game"""
+        if game_id:
+            assists = session.query(Assist).filter_by(
+                player_id=self.id_).filter_by(game_id=game_id).order_by(
+                    Assist.game_id).all()
+        else:
+            assists = session.query(Assist).filter(
+                Assist.player_id==self.id_).order_by(Assist.game_id).all()
+        return assists
+
     def get_cards(self, session, game_id=None):
         """Gets all Card or the Cards for one game"""
         if game_id:
@@ -160,10 +171,19 @@ class Player(Base):
             #get his goals
             if goals:
                 for goal in goals:
-                    log.append([goal, mapping['goal'],
-                               _(u'label_goal', default=u'Goal vs ${enemy}', mapping=dict(enemy=enemy.name))])
+                    if goal.is_penalty == False:
+                        log.append([goal, mapping['goal'],
+                                   _(u'label_goal', default=u'Goal vs ${enemy}', mapping=dict(enemy=enemy.name))])
+                    else:
+                        log.append([goal, mapping['penalty'],
+                                   _(u'label_penalty_log', default=u'Penalty vs ${enemy}', mapping=dict(enemy=enemy.name))])
+                        
+            assists = self.get_assists(session, game.id_)
+            if assists:
+                for assist in assists:
+                    log.append([assist, mapping['assist'],
+                                _(u'label_assist', default=u'Assist vs ${enemy}', mapping=dict(enemy=enemy.name))])
             saves = self.get_saves(session, game.id_)
-            #the player only can have saves if hes keeper
             if saves:
                 for save in saves:
                     log.append([save, mapping['save'],
@@ -205,7 +225,7 @@ def get_player_term(context, position=None, nation=None):
     terms=[]
     session = named_scoped_session('footballchallenge')
     event_id = session.query(Event).filter(
-        Event.LockDate > date.today()).one().id_
+        Event.deadline > datetime.now()).one().id_
     if not position and not nation:
         players = session.query(Player).filter(
             Player.event_id == event_id).order_by(Player.name).all()
