@@ -99,6 +99,9 @@ class EnterResults(BrowserView):
         if game.saves:
             for save in game.saves:
                 session.delete(save)
+        if game.assists:
+            for assist in game.assists:
+                session.delete(assist)
         if playing_players:
             players = []
             for player_id in playing_players:

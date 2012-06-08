@@ -40,6 +40,8 @@ def calculate_player_points(game):
        and rewrites it to a playerstatistics instance
 
     """
+    session = named_scoped_session("footballchallenge")
+    session.query(Playerstatistics).filter(Playerstatistics.game_id == game.id_).delete()
     for player in game.players:
         points = 0
         #get right mapping
@@ -68,10 +70,15 @@ def calculate_player_points(game):
             else:
                 points += mapping['loss']
 
-        session = named_scoped_session('footballchallenge')
         #get points for playerspecific events like cards or goals
         goals = player.get_goals(session, game.id_)
-        points += mapping['goal']*len(goals)
+        for goal in goals:
+            if goal.is_penalty == False:
+                points +=mapping['goal']
+            else:
+                points += mapping['penalty']
+        assists = player.get_assists(session, game.id_)
+        points += mapping['assist']*len(assists)
         card = player.get_cards(session, game.id_)
         if card:
             points += mapping[card[0].color]

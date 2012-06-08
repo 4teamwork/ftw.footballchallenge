@@ -38,6 +38,7 @@ def calculate_team_points(game):
     """recalculates the team points after a game"""
     session = named_scoped_session('footballchallenge')
     teams = session.query(Team).filter_by(event_id = game.events_id).filter_by(valid = True).all()
+    session.query(Teamstatistics).filter(Teamstatistics.game_id == game.id_).delete()
     points = {}
     for team in teams:
         for player in game.players:
@@ -54,7 +55,10 @@ def calculate_team_points(game):
                         points[team.id_]+= playerstats.points/2
                     else:
                         points[team.id_]+= playerstats.points
-
+        if not points.get(team.id_):
+            stats=Teamstatistics(team.id_, game.id_, 0)
+            session.add(stats)
+            
     for key, value in points.items():
         old_entry = session.query(Teamstatistics).filter_by(team_id=key).filter_by(game_id=game.id_).all()
         if len(old_entry):
@@ -62,3 +66,4 @@ def calculate_team_points(game):
         else:
             stats=Teamstatistics(key, game.id_, value)
             session.add(stats)
+    game.calculated = True
