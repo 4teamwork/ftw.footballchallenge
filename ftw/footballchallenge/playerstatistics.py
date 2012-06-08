@@ -86,12 +86,12 @@ def calculate_player_points(game):
             if player.nation_id == game.nation1_id:
                 if game.score_nation2 == 0:
                     points += mapping['no_goals']
-                elif game.score_nation2 <= 3:
+                elif game.score_nation2 >= 3:
                     points += mapping['3_goals']
             else:
                 if game.score_nation1 == 0:
                     points += mapping['no_goals']
-                elif game.score_nation1 <= 3:
+                elif game.score_nation1 >= 3:
                     points += mapping['3_goals']
         if player.position == "keeper":
             saves = player.get_saves(session, game.id_)
