@@ -169,7 +169,7 @@ class EnterResults(BrowserView):
 
     def write_cards(self, player_ids, color, game, session):
         for player_id in player_ids:
-            card = Card(player_id, game.id_, "yellow")
+            card = Card(player_id, game.id_, color)
             session.add(card)
             
         
