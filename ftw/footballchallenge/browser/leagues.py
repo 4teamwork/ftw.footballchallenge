@@ -23,6 +23,11 @@ class LeaguesView(TabbedView):
     /@@nations/1   -> player listing for national team with id 1
     /@@nations/1/2 -> detail view for player with id 2
     """
+
+    def __init__(self, context, request):
+        super(LeaguesView, self).__init__(context, request)
+        self.request.set('disable_border', True)
+
     def get_tabs(self):
         tabs = []
         session = named_scoped_session("footballchallenge")
