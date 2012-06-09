@@ -2,7 +2,6 @@ from z3c.form import form, field, button
 from zope import interface, schema
 from ftw.footballchallenge import _
 from z3c.saconfig import named_scoped_session
-from ftw.datepicker.widget import DateTimePickerFieldWidget
 import transaction
 # from ftw.footballchallenge.player import get_player_term, getKeeperTerm
 from ftw.footballchallenge.goal import Goal
@@ -47,7 +46,6 @@ class CreateGameForm(form.Form):
     implements(IPublishTraverse)
     
     fields = field.Fields(CreateGameSchema)
-    # fields['date'].widgetFactory = DateTimePickerFieldWidget
     label = _(u'heading_create_game', 'Add Game')
     game_id = None
     # fields['date'].widgetFactory = DatePickerFieldWidget
