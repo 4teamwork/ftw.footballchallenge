@@ -1,17 +1,21 @@
 <div class="ranking" i18n:domain="ftw.footballchallenge" tal:define="stats view/get_ranking">
     <table class="listing">
-        <tr>
-            <th i18n:translate="">Rank</th>
-            <th i18n:translate="">Team</th>
-            <th i18n:translate="">Coach</th>
-            <th i18n:translate="">Points</th>
-        </tr>
-        <tr tal:repeat="stat stats">
-            <td tal:content="python: stats.index(stat) + 1"/>
-            <td tal:content="structure python: view.get_link(stat[0])" />
-            <td tal:content="structure python: view.coach(stat[0])" />
-            <td tal:content="python: stat[1]"/>
-        </tr>
+        <thead>
+            <tr>
+                <th i18n:translate="">Rank</th>
+                <th i18n:translate="">Team</th>
+                <th i18n:translate="">Coach</th>
+                <th i18n:translate="">Points</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr tal:repeat="stat stats">
+                <td tal:content="python: stats.index(stat) + 1"/>
+                <td tal:content="structure python: view.get_link(stat[0])" />
+                <td tal:content="structure python: view.coach(stat[0])" />
+                <td tal:content="python: stat[1]"/>
+            </tr>
+        </tbody>
     </table>
 
     <span tal:condition="view/checkManageEvent">
