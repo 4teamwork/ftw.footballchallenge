@@ -31,7 +31,7 @@ class Ranking(BrowserView):
         clean_ranking = sorted(teams_in_ranking.items(), key=lambda k: k[1], reverse=True)
         correct_ranks = []
         rank = 3
-        last_rank = 2
+        last_rank = 1
         for index, team in enumerate(clean_ranking):
             if index >= 1:
                 if clean_ranking[index-1][1] == team[1]:
@@ -43,6 +43,7 @@ class Ranking(BrowserView):
                     rank += 1
             else:
                 correct_ranks.append([last_rank, team])
+                last_rank += 2
         return correct_ranks
             
         
