@@ -31,11 +31,6 @@ class TeamOverview(BrowserView):
         open_events = session.query(Event).filter(Event.deadline > datetime.datetime.now()).all()
         membershiptool = getToolByName(self.context, 'portal_membership')
         userid = membershiptool.getAuthenticatedMember().getId()
-        if not session.query(Team).filter(Team.user_id == userid).all() and userid:
-            msg = _(u'msg_no_team', default="You have currently no Teams. Here you can create one.")
-            IStatusMessage(self.request).addStatusMessage(
-                msg, type='info')
-            return self.request.response.redirect(self.context.absolute_url()+'/edit_team')
         if not self.team_id:
             team = session.query(Team).filter(Team.user_id == userid).one()
             self.team_id = int(team.id_)
