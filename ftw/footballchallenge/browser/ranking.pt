@@ -10,10 +10,9 @@
         </thead>
         <tbody>
             <tr tal:repeat="stat stats">
-                <td tal:content="python: stats.index(stat) + 1"/>
-                <td tal:content="structure python: view.get_link(stat[0])" />
-                <td tal:content="structure python: view.coach(stat[0])" />
-                <td tal:content="python: stat[1]"/>
+                <td tal:content="python: stat[0]"/>
+                <td tal:content="structure python: view.get_link(stat[1][0])" />
+                <td tal:content="structure python: view.coach(stat[1][0])" />
             </tr>
         </tbody>
     </table>

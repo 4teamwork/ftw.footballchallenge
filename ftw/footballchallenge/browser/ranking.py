@@ -24,12 +24,29 @@ class Ranking(BrowserView):
         league = session.query(League).filter(League.id_ == self.league_id).one()
         teams = league.teams
         team_ids = [team.id_ for team in teams]
-        
         ranking = session.query(Teamstatistics).filter(Teamstatistics.team_id.in_(team_ids)).order_by(desc(Teamstatistics.game_id)).all()
         teams_in_ranking = {}
         for rank in ranking:
             teams_in_ranking[rank.team_id] = teams_in_ranking.get(rank.team_id, 0) + rank.points
         clean_ranking = sorted(teams_in_ranking.items(), key=lambda k: k[1], reverse=True)
+        correct_ranks = []
+        rank = 2
+        last_rank = 1
+        for index, team in enumerate(clean_ranking):
+            if index >= 1:
+                if clean_ranking[index-1][1] == team[1]:
+                    correct_ranks.append([last_rank, team])
+                    rank += 1
+                else:
+                    correct_ranks.append([last_rank, team])
+                    last_rank = rank
+                    rank += 1
+            else:
+                correct_ranks.append([last_rank, team])
+                last_rank += 1
+        return correct_ranks
+            
+        
         return clean_ranking
 
     def __init__(self, context, request, league_id):
