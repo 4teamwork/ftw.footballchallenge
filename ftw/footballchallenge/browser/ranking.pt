@@ -1,25 +1,21 @@
 <div class="ranking" i18n:domain="ftw.footballchallenge" tal:define="stats view/get_ranking">
-        <span tal:condition="view/checkManageEvent">
-            <a tal:attributes="href string:${context/absolute_url}/assign_users/${view/league_id}" i18n:translate="">Assign Users</a>
-        </span>
-        <table class="listing">
-            <colgroup>
-                <col width="25%">
-                <col width="25%">
-                <col width="25%">
-                <col width="25%">
-            </colgroup>
-            <tr>
+    <table class="listing">
+        <tr>
             <th i18n:translate="">Rank</th>
-            <th i18n:translate="">Points</th>
             <th i18n:translate="">Team</th>
             <th i18n:translate="">Coach</th>
-            </tr>
-            <tr tal:repeat="stat stats">
-                <td tal:content="python: stats.index(stat) + 1"/>
-                <td tal:content="python: stat[1]"/>
-                <td tal:content="structure python: view.get_link(stat[0])" />
-                <td tal:content="structure python: view.get_userimg(stat[0])" />
-            </tr>
-        </table>
-    </div>
+            <th i18n:translate="">Points</th>
+        </tr>
+        <tr tal:repeat="stat stats">
+            <td tal:content="python: stats.index(stat) + 1"/>
+            <td tal:content="structure python: view.get_link(stat[0])" />
+            <td tal:content="structure python: view.coach(stat[0])" />
+            <td tal:content="python: stat[1]"/>
+        </tr>
+    </table>
+
+    <span tal:condition="view/checkManageEvent">
+        <a tal:attributes="href string:${context/absolute_url}/assign_users/${view/league_id}" i18n:translate="">Assign Users</a>
+    </span>
+
+</div>

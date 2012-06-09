@@ -57,6 +57,14 @@ class Ranking(BrowserView):
         portrait = portal_membership.getPersonalPortrait(userid)
         return portrait.tag()
 
+    def coach(self, team_id):
+        session = named_scoped_session('footballchallenge')
+        team = session.query(Team).filter(Team.id_ == team_id).one()
+        mtool = getToolByName(self.context, 'portal_membership')
+        user = mtool.getMemberById(team.user_id)
+        return user.getProperty('fullname')
+        
+
     def checkManageEvent(self):
         portal_membership = getToolByName(self.context, 'portal_membership')
         member = portal_membership.getAuthenticatedMember()
