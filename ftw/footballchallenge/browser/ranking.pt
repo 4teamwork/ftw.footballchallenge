@@ -13,6 +13,7 @@
                 <td tal:content="python: stat[0]"/>
                 <td tal:content="structure python: view.get_link(stat[1][0])" />
                 <td tal:content="structure python: view.coach(stat[1][0])" />
+                <td tal:content="python: stat[1][1]"/>
             </tr>
         </tbody>
     </table>
