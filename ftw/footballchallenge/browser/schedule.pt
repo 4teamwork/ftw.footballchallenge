@@ -37,8 +37,8 @@
                     <td tal:condition="python: not game.nation1 and not game.nation2" tal:content="string: ${game/nation1_dummy} - ${game/nation2_dummy}" />
 
                     <td>
-                        <tal:score condition="game/score_nation1" content="string: ${game/score_nation1} : ${game/score_nation2}" />
-                        <tal:noscore condition="not:game/score_nation1">-:-</tal:noscore>
+                        <tal:score condition="python: game.score_nation1 is not None" content="string: ${game/score_nation1} : ${game/score_nation2}" />
+                        <tal:noscore condition="python: game.score_nation1 is None">-:-</tal:noscore>
                     </td>
                     <td tal:condition="can_edit"><a tal:attributes="href string:${portal_url}/create_game/${game/id_}" i18n:translate="">Edit</a></td>
                     <td tal:condition="can_edit"><a tal:attributes="href string:${portal_url}/enter_results/${game/id_}" i18n:translate="">Edit result</a></td>
