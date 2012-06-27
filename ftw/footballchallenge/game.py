@@ -57,7 +57,23 @@ class Game(Base):
     def __repr__(self):
         return '<Game %s-%s>' % (self.nation1.country, self.nation2.country)
 
+    def has_penalty(self):
+        penaltys = []
+        for goal in self.goals:
+            if goal.is_penalty:
+                penaltys.append(goal)
+        return bool(penaltys)
 
+    def get_penalty(self):
+        total_nation1_score = self.score_nation1
+        total_nation2_score = self.score_nation2
+        for goal in self.goals:
+            if goal.is_penalty:
+                if goal.player.nation_id == self.nation1_id:
+                    total_nation1_score += 1
+                else:
+                    total_nation2_score += 1
+        return '('+str(total_nation1_score)+':'+str(total_nation2_score)+' n.P.)'
 RoundVocabulary = SimpleVocabulary(
     [SimpleTerm(value=u'group1', title=_(u'label_group1', default=u'Group1')),
      SimpleTerm(value=u'group2', title=_(u'label_group2', default=u'Group2')),

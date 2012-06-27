@@ -134,10 +134,6 @@ class EnterResults(BrowserView):
             if not value == '':
                 try:
                     value_int = int(value)
-                    if long(key) in home_ids:
-                        home_score += value_int
-                    else:
-                        visitor_score += value_int
                 except ValueError:
                     continue
                 for count in range(0, value_int):
