@@ -16,7 +16,7 @@ class Nation(Base):
     implements(INation)
     id_ = Column('id', Integer, primary_key=True)
     name = Column(String(45))
-    country = Column(String(3))
+    country = Column(String(3), nullable=False)
     coach = Column(String(64))
     participations = Column(Integer)
     fifa_rank = Column(Integer)
@@ -24,9 +24,10 @@ class Nation(Base):
     event = relationship("Event", backref=backref('nations', order_by=id_))
 
 
-    def __init__(self, name, event_id):
+    def __init__(self, name, event_id, country):
         self.name = name
         self.event_id = event_id
+        self.country = country
 
     def __repr__(self):
         return '<Nation %s>' % self.name
