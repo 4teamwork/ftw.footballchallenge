@@ -8,7 +8,7 @@ import unittest2
 from datetime import datetime, date, timedelta
 
 
-class TestGoalsModel(unittest2.TestCase):
+class TestCardsModel(unittest2.TestCase):
     
     layer = DATABASE_LAYER
     
@@ -20,25 +20,31 @@ class TestGoalsModel(unittest2.TestCase):
     def test_creation(self):
         event1 = Event('TheEvent', date.today() + timedelta(days=1))
         self.session.add(event1)
-        nation1 = Nation('Nation1')
+        # self.layer.commit()
+        event1 = self.session.query(Event).one()
+        nation1 = Nation('Nation1', event1.id_, 'SWE')
         self.session.add(nation1)
-        nation2 = Nation('Nation2')
+        nation2 = Nation('Nation2', event1.id_, 'GBR')
         self.session.add(nation2)
         nations = self.session.query(Nation).all()
         event = self.session.query(Event).one()
-        game = Game(nations[0].id_, nations[1].id_, datetime.now(), event.id_, 3, 0)
+        game = Game(datetime.now(), event.id_, 'group1', nation1_id=nations[0].id_, nation2_id=nations[1].id_)
+        game.score_nation1 = 3
+        game.score_nation2 = 0
         self.session.add(game)
-        self.layer.commit()
+        # self.layer.commit()
         nations = self.session.query(Nation).all()
-        player1 = Player('Freddy', 'Midfield', nations[0].id_)
+        event1 = self.session.query(Event).one()
+        
+        player1 = Player('Freddy', 'Midfield', nations[0].id_, event1.id_)
         self.session.add(player1)
-        self.layer.commit()
+        # self.layer.commit()
         
         game = self.session.query(Game).one()
         player1 = self.session.query(Player).one()
         card1 = Card(player1.id_, game.id_, 'Red')
         self.session.add(card1)
-        self.layer.commit()
+        # self.layer.commit()
         cards = self.session.query(Card).all()
         self.assertEqual(len(cards),1)
         self.assertEqual(cards[0].id_, 1)

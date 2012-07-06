@@ -14,7 +14,7 @@ class TestEventModel(unittest2.TestCase):
     def test_creation(self):
         event1 = Event('TheEvent', date.today()+timedelta(days=1))
         self.session.add(event1)
-        self.layer.commit()
+        # self.layer.commit()
 
         events = self.session.query(Event).all()
         self.assertEquals(len(events), 1)

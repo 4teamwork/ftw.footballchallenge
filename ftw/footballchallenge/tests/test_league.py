@@ -16,14 +16,14 @@ class TestLeagueModel(unittest2.TestCase):
         
         event1 = Event('TheEvent', date.today()+timedelta(days=1))
         self.session.add(event1)
-        self.layer.commit()
+        # self.layer.commit()
         myevent = self.session.query(Event).one()
         # can't take the event directly because it's not assigned to a session.
         # Without session sqlalchemy cant get any information
 
         league1 = League('TheLeague', myevent.id_)
         self.session.add(league1)
-        self.layer.commit()
+        # self.layer.commit()
 
         leagues = self.session.query(League).all()
         self.assertEquals(len(leagues), 1)

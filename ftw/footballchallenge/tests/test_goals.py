@@ -7,6 +7,8 @@ from ftw.footballchallenge.testing import DATABASE_LAYER
 from datetime import datetime
 import unittest2
 from datetime import date, timedelta
+import transaction
+
 
 class TestGoalsModel(unittest2.TestCase):
     
@@ -18,31 +20,35 @@ class TestGoalsModel(unittest2.TestCase):
 
     
     def test_creation(self):
-        event1 = Event('TheEvent', date.today()+ timedelta(days=1))
-        self.session.add(event1)
-        nation1 = Nation('Nation1')
+        event1 = Event('TheEvent', date.today()+timedelta(days=1))
+        self.session.add(event1)        
+        # self.layer.commit()
+        event1 = self.session.query(Event).one()
+        nation1 = Nation('Nation1', event1.id_, 'SWE')
         self.session.add(nation1)
-        nation2 = Nation('Nation2')
+        nation2 = Nation('Nation2', event1.id_, 'GBR')
         self.session.add(nation2)
-        self.layer.commit()
         
         nations = self.session.query(Nation).all()
         event = self.session.query(Event).one()
-        game = Game(nations[0].id_, nations[1].id_, datetime.now(), event.id_, 3, 0)
+        game = Game(datetime.now(), event.id_,'group1', nation1_id=nations[0].id_, nation2_id=nations[1].id_)
+        game.nation1_score = 3
+        game.nation2_score = 0
         self.session.add(game)
-        self.layer.commit()
+        # self.layer.commit()
 
+        event = self.session.query(Event).one()
         nation = self.session.query(Nation).first()
-        player1 = Player('Freddy', 'Midfield', nation.id_)
+        player1 = Player('Freddy', 'Midfield', nation.id_, event.id_)
         self.session.add(player1)
-        self.layer.commit()
+        # self.layer.commit()
         
         player1 = self.session.query(Player).one()
         game = self.session.query(Game).one()
         game.players.append(player1)
         goal1 = Goal(player1.id_, game.id_, False)
         self.session.add(goal1)
-        self.layer.commit()
+        # self.layer.commit()
         player1 = self.session.query(Player).one()
         goals = self.session.query(Goal).all()
         self.assertEqual(len(goals),1)

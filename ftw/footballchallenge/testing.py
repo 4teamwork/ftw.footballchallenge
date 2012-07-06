@@ -1,7 +1,14 @@
 from ftw.footballchallenge import Base
 from plone.testing import Layer
 from sqlalchemy import create_engine
-from sqlalchemy.orm import scoped_session, sessionmaker
+from sqlalchemy.orm import sessionmaker
+from z3c.saconfig.zcml import engine, session
+from zope.configuration import xmlconfig
+from z3c.saconfig import named_scoped_session
+from StringIO import StringIO
+import z3c.saconfig
+from z3c.saconfig.interfaces import IEngineFactory
+from zope import component
 
 
 class DatabaseLayer(Layer):
@@ -12,6 +19,7 @@ class DatabaseLayer(Layer):
         self._session = None
 
     def testSetUp(self):
+        xmlconfig.XMLConfig('meta.zcml', z3c.saconfig)()
         self.disconnect()
         self.get_connection()
 
@@ -20,11 +28,15 @@ class DatabaseLayer(Layer):
 
     def get_connection(self):
         if not self._engine:
-            self._engine = create_engine('sqlite://', encoding='utf-8')
-
+            xmlconfig.xmlconfig(StringIO("""
+               <configure xmlns="http://namespaces.zope.org/db">
+                 <engine name="footballchallenge.db" url="sqlite:///:memory:"
+                     />
+              </configure>"""))
+            Factory = component.getUtility(IEngineFactory, name="footballchallenge.db")
+            self._engine = Factory()
             Base.metadata.bind = self._engine
             Base.metadata.create_all()
-
         return self._engine
 
     def disconnect(self):
@@ -34,8 +46,12 @@ class DatabaseLayer(Layer):
     @property
     def session(self):
         if not self._session:
-            self._session = scoped_session(sessionmaker(
-                    bind=self.get_connection()))
+            xmlconfig.xmlconfig(StringIO("""
+             <configure xmlns="http://namespaces.zope.org/db">
+               <session name="footballchallenge" engine="footballchallenge.db" />
+             </configure>"""))
+            
+            self._session = named_scoped_session("footballchallenge")
 
         return self._session
 
