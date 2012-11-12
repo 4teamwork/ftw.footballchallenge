@@ -1,4 +1,5 @@
 from setuptools import setup, find_packages
+import os
 
 version = '1.0'
 maintainer = 'Timon Tschanz'
@@ -11,8 +12,8 @@ tests_require = [
 setup(name='ftw.footballchallenge',
       version=version,
       description="Some sort of Footballmanagergame based on Plone",
-      # long_description=open('README.rst').read() + '\n' + \
-      #   open(os.path.join('docs', 'HISTORY.txt')).read(),
+      long_description=open('README.rst').read() + '\n' + \
+          open(os.path.join('docs', 'HISTORY.txt')).read(),
 
       # Get more strings from
       # http://pypi.python.org/pypi?%3Aaction=list_classifiers
@@ -33,14 +34,14 @@ setup(name='ftw.footballchallenge',
       zip_safe=False,
 
       install_requires=[
-          'setuptools',
-          'SQLAlchemy',
-          'pyquery',
-          'z3c.saconfig',
-          'ftw.datepicker',
-          'ftw.tabbedview'
-          # -*- Extra requirements: -*-
-      ],
+        'setuptools',
+        'SQLAlchemy',
+        'pyquery',
+        'z3c.saconfig',
+        'ftw.datepicker',
+        'ftw.tabbedview'
+        # -*- Extra requirements: -*-
+        ],
 
       tests_require=tests_require,
       extras_require=dict(tests=tests_require),
