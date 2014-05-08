@@ -1,5 +1,5 @@
 from zope.publisher.browser import BrowserView
-from zope.app.pagetemplate.viewpagetemplatefile import ViewPageTemplateFile
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from PIL import Image
 import StringIO
 from zope.interface import implements

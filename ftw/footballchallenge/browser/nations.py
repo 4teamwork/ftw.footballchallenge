@@ -1,7 +1,7 @@
 from Acquisition import aq_inner
 from zope.interface import implements
 from zope.publisher.browser import BrowserView
-from zope.app.pagetemplate.viewpagetemplatefile import ViewPageTemplateFile
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from zope.publisher.interfaces import IPublishTraverse, NotFound
 from z3c.saconfig import named_scoped_session
 from ftw.footballchallenge.nation import Nation

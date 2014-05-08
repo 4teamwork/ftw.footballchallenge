@@ -13,7 +13,7 @@ from zope.interface import implements
 from ftw.footballchallenge.interfaces import IEditTeam
 from zope.interface import invariant
 from zope.interface import Invalid
-from zope.app.pagetemplate.viewpagetemplatefile import ViewPageTemplateFile
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.statusmessages.interfaces import IStatusMessage
 
 

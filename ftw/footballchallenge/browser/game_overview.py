@@ -1,6 +1,6 @@
 from zope.publisher.browser import BrowserView
 from z3c.saconfig import named_scoped_session
-from zope.app.pagetemplate.viewpagetemplatefile import ViewPageTemplateFile
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
 
 class GameOverview(BrowserView):

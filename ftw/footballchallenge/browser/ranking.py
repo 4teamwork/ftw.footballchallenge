@@ -2,7 +2,7 @@ from zope.publisher.browser import BrowserView
 from z3c.saconfig import named_scoped_session
 from ftw.footballchallenge.teamstatistics import Teamstatistics
 from ftw.footballchallenge.team import Team
-from zope.app.pagetemplate.viewpagetemplatefile import ViewPageTemplateFile
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.CMFCore.utils import getToolByName
 from sqlalchemy import desc
 from ftw.footballchallenge import _
