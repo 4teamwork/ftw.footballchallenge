@@ -40,11 +40,13 @@ setup(name='ftw.footballchallenge',
 
       install_requires=[
         'setuptools',
+        'MySQL-python',
         'SQLAlchemy',
         'pyquery',
         'z3c.saconfig',
         'ftw.datepicker',
-        'ftw.tabbedview'
+        'ftw.tabbedview',
+        'requests'
         # -*- Extra requirements: -*-
         ],
 
