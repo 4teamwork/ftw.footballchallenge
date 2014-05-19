@@ -155,12 +155,11 @@ class EditTeamForm(form.Form):
             
 
     def updateWidgets(self):
+        super(EditTeamForm, self).updateWidgets()
         membershiptool = getToolByName(self.context, 'portal_membership')
         userid = membershiptool.getAuthenticatedMember().getId()
         session = named_scoped_session('footballchallenge')
         event_id = session.query(Event).filter(Event.deadline > datetime.now()).one().id_
-        for field in self.fields.values():
-            field.field.default = None
         if not len(session.query(Team).filter_by(user_id=userid).filter_by(event_id=event_id).all()):
             super(EditTeamForm, self).updateWidgets()
             return
@@ -173,20 +172,19 @@ class EditTeamForm(form.Form):
         count = {'defender':1, 'midfield':1, 'striker':1}    
         for starter in starters:
             if not starter.player.position=="keeper":
-                self.fields[(starter.player.position + str(count[starter.player.position])).encode('utf-8')].field.default = starter.player.id_
+                self.widgets[(starter.player.position + str(count[starter.player.position])).encode('utf-8')].value = str(starter.player.id_)
                 count[starter.player.position] += 1
             else:
-                self.fields["keeper"].field.default = starter.player.id_
+                self.widgets["keeper"].value = str(starter.player.id_)
         
         
         count = {'defender':1, 'midfield':1, 'striker':1}
         for substitute in substitutes:
             if not substitute.player.position=="keeper":
-                self.fields["substitute_"+(substitute.player.position + str(count[substitute.player.position])).encode('utf-8')].field.default = substitute.player.id_
+                self.widgets["substitute_"+(substitute.player.position + str(count[substitute.player.position])).encode('utf-8')].value = str(substitute.player.id_)
                 count[substitute.player.position] += 1
             else:
-                self.fields["substitute_keeper"].field.default = substitute.player.id_
-        super(EditTeamForm, self).updateWidgets()
+                self.widgets["substitute_keeper"].value = str(substitute.player.id_)
 
 
 

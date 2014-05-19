@@ -34,6 +34,8 @@ class TeamOverview(BrowserView):
         if not self.team_id:
             team = session.query(Team).filter(Team.user_id == userid).one()
             self.team_id = int(team.id_)
+        else:
+            team = session.query(Team).filter(Team.id_ == self.team_id).one()
         if not open_events or team.id_ == int(self.team_id):
             return self.template()
         msg = _(u'event_not_started',
