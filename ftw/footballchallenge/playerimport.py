@@ -76,30 +76,33 @@ def import_team(rootpage, session, event):
                 club_url = playerpage(
                     ".box-personeninfos th:contains('Aktueller Verein')"
                 ).nextAll()("a").attr("href")
-                club_url = "http://www.transfermarkt.ch" + club_url
-                resp = requests.get(club_url, headers=headers)
-                club_page = PyQuery(resp.content)
-                club_data_trs = club_page(
-                    ".box-personeninfos table.profilheader tr")
-                club_data = {}
-                for tr in club_data_trs:
-                    key = ' '.join(PyQuery(tr)("th").text().split())
-                    value = ' '.join(PyQuery(tr)("td").text().split())
-                    club_data[key] = value
-                club_league_mapping[club] = ['Wettbewerb:']
+                if club_url:
+                    club_url = "http://www.transfermarkt.ch" + club_url
+                    resp = requests.get(club_url, headers=headers)
+                    club_page = PyQuery(resp.content)
+                    club_data_trs = club_page(
+                        ".box-personeninfos table.profilheader tr")
+                    club_data = {}
+                    for tr in club_data_trs:
+                        key = ' '.join(PyQuery(tr)("th").text().split())
+                        value = ' '.join(PyQuery(tr)("td").text().split())
+                        club_data[key] = value
+                    club_league_mapping[club] = club_data.get('Wettbewerb:')
 
             # Conversions
             position = POSITION_MAPPING.get(player_data.get('Position:'))
 
-            market_value = player_data.get('Marktwert:')
+            market_value = player_data.get('Marktwert:', '')
             if 'Mio.' in market_value:
                 market_value = int(re.sub("\D", "", market_value)) * 10000
 
             size = player_data.get(u'Gr\xf6\xdfe:', '0.00').replace(
                 ',', '.').split()[0]
 
-            date_of_birth = date.fromtimestamp(time.mktime(time.strptime(
-                player_data.get('Geburtsdatum:'), '%d.%m.%Y')))
+            date_of_birth = player_data.get('Geburtsdatum:')
+            if date_of_birth:
+                date_of_birth = date.fromtimestamp(time.mktime(time.strptime(
+                    player_data.get('Geburtsdatum:'), '%d.%m.%Y')))
 
             # Lookup player
             player = session.query(Player).filter(
@@ -111,12 +114,12 @@ def import_team(rootpage, session, event):
             # Set/update player properties
             player.original_name = player_data.get('Name im Heimatland:')
             player.date_of_birth = date_of_birth
-            player.age = int(player_data.get('Alter:'))
+            player.age = int(player_data.get('Alter:', '0'))
             player.foot = player_data.get(u'Fu\xdf:')
             player.value = value
             player.size = size
             player.club = player_data.get('Aktueller Verein:')
-            player.league = club_league_mapping[club]
+            player.league = club_league_mapping.get(club)
             player.image = img
 
     requests_cache.uninstall_cache()
