@@ -116,7 +116,7 @@ def import_team(rootpage, session, event):
             player.date_of_birth = date_of_birth
             player.age = int(player_data.get('Alter:', '0'))
             player.foot = player_data.get(u'Fu\xdf:')
-            player.value = value
+            player.value = market_value
             player.size = size
             player.club = player_data.get('Aktueller Verein:')
             player.league = club_league_mapping.get(club)
