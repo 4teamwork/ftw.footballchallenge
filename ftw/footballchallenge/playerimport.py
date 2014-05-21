@@ -95,6 +95,8 @@ def import_team(rootpage, session, event):
             market_value = player_data.get('Marktwert:', '')
             if 'Mio.' in market_value:
                 market_value = int(re.sub("\D", "", market_value)) * 10000
+            elif 'Tsd.' in market_value:
+                market_value = int(re.sub("\D", "", market_value)) * 1000
 
             size = player_data.get(u'Gr\xf6\xdfe:', '0.00').replace(
                 ',', '.').split()[0]
