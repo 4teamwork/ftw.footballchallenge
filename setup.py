@@ -46,8 +46,8 @@ setup(name='ftw.footballchallenge',
         'z3c.saconfig',
         'ftw.datepicker',
         'ftw.tabbedview',
-        'requests'
-        # -*- Extra requirements: -*-
+        'requests',
+        'requests-cache',
         ],
 
       tests_require=tests_require,
