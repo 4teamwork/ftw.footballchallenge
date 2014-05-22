@@ -61,6 +61,8 @@ def import_team(rootpage, session, event):
 
             img_src = playerpage(".headerfoto > img").attr("src")
             if img_src:
+                if not img_src.startswith('http://'):
+                    img_src = "http://www.transfermarkt.ch" + img_src
                 img = requests.get(img_src, headers=headers).content
                 try:
                     im = Image.open(StringIO.StringIO(img))
