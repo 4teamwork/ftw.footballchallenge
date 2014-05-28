@@ -168,7 +168,7 @@ class EditTeamForm(form.Form):
         starters = session.query(Teams_Players).filter_by(team_id=team.id_).filter_by(is_starter=True).all()
         substitutes = session.query(Teams_Players).filter_by(team_id=team.id_).filter_by(is_starter=False).all()
 
-        self.fields['name'].field.default = team.name
+        self.widgets['name'].value = team.name
         count = {'defender':1, 'midfield':1, 'striker':1}    
         for starter in starters:
             if not starter.player.position=="keeper":
