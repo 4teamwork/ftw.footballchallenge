@@ -243,50 +243,75 @@ class PlayerVocabularyFactory(object):
     
     implements(IVocabularyFactory)
 
+    def __init__(self):
+        self._voc = None
+
     def __call__(self, context):
         """a Proxy function which returns keeper term"""
-        return get_player_term(context)
-    
-    
+        if self._voc is None:
+            self._voc = get_player_term(None)
+        return self._voc
+
+
 class KeeperVocabularyFactory(object):
 
     implements(IVocabularyFactory)
 #    implements(ISource)
 #    classProvides(IContextSourceBinder)
 
+    def __init__(self):
+        self._voc = None
+
     def __call__(self, context):
         """a Proxy function which returns keeper term"""
-        return get_player_term(context, position="keeper")
+        if self._voc is None:
+            self._voc = get_player_term(None, position="keeper")
+        return self._voc
+
 
 class DefenderVocabularyFactory(object):
 
-        implements(IVocabularyFactory)
+    implements(IVocabularyFactory)
     #    implements(ISource)
     #    classProvides(IContextSourceBinder)
 
-        def __call__(self, context):
-            """a Proxy function which returns keeper term"""
-            return get_player_term(context, position="defender")
+    def __init__(self):
+        self._voc = None
+
+    def __call__(self, context):
+        """a Proxy function which returns keeper term"""
+        if self._voc is None:
+            self._voc = get_player_term(None, position="defender")
+        return self._voc
+
 
 class MidfieldVocabularyFactory(object):
 
-        implements(IVocabularyFactory)
+    implements(IVocabularyFactory)
     #    implements(ISource)
     #    classProvides(IContextSourceBinder)
 
-        def __call__(self, context):
-            """a Proxy function which returns keeper term"""
-            return get_player_term(context, position="midfield")
+    def __init__(self):
+        self._voc = None
 
+    def __call__(self, context):
+        """a Proxy function which returns keeper term"""
+        if self._voc is None:
+            self._voc = get_player_term(None, position="midfield")
+        return self._voc
 
 
 class StrikerVocabularyFactory(object):
 
-        implements(IVocabularyFactory)
+    implements(IVocabularyFactory)
     #    implements(ISource)
     #    classProvides(IContextSourceBinder)
 
-        def __call__(self, context):
-            """a Proxy function which returns keeper term"""
-            return get_player_term(context, position="striker")
+    def __init__(self):
+        self._voc = None
 
+    def __call__(self, context):
+        """a Proxy function which returns keeper term"""
+        if self._voc is None:
+            self._voc = get_player_term(None, position="striker")
+        return self._voc
