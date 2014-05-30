@@ -1,22 +1,12 @@
-from z3c.form import form, field, button
-from zope import interface, schema
 from ftw.footballchallenge import _
-from z3c.saconfig import named_scoped_session
-import transaction
-# from ftw.footballchallenge.player import get_player_term, getKeeperTerm
-from ftw.footballchallenge.goal import Goal
-from ftw.footballchallenge.card import Card
 from ftw.footballchallenge.game import Game
-from ftw.footballchallenge.player import Player
-
-from ftw.footballchallenge.save import Save
-from ftw.footballchallenge.teamstatistics import calculate_team_points
-from ftw.footballchallenge.playerstatistics import calculate_player_points
-from ftw.footballchallenge.interfaces import IGame
-from zope.publisher.interfaces import IPublishTraverse
+from zope import interface, schema
 from zope.interface import implements
-import datetime
+from zope.publisher.interfaces import IPublishTraverse
 from ftw.footballchallenge.game import RoundVocabulary
+from z3c.form import form, field, button
+from z3c.saconfig import named_scoped_session
+
 
 class CreateGameSchema(interface.Interface):
     """defines which Fields we will schow in the create Form."""
@@ -29,7 +19,7 @@ class CreateGameSchema(interface.Interface):
                             required=False)
     nation2 = schema.Choice(title=_('label_visitorteam',
                                     default="Visitor Team"),
-                            source=u"NationFactory",
+                            vocabulary=u"NationFactory",
                             required=False)
 
 
@@ -59,17 +49,17 @@ class CreateGameForm(form.Form):
 
 
     def updateWidgets(self):
+        super(CreateGameForm, self).updateWidgets()
         if self.game_id:
             session = named_scoped_session('footballchallenge')
             game = session.query(Game).filter(Game.id_ == self.game_id).one()
-            self.fields['date'].field.default = game.date
-            self.fields['event'].field.default = game.events_id
-            self.fields['nation1'].field.default = game.nation1_id
-            self.fields['nation2'].field.default = game.nation2_id
-            self.fields['nation1_dummy'].field.default = game.nation1_dummy
-            self.fields['nation2_dummy'].field.default = game.nation2_dummy
-            self.fields['round_'].field.default = game.round_
-        super(CreateGameForm, self).updateWidgets()
+            self.widgets['date'].value = (game.date.year, game.date.month, game.date.day, game.date.hour, game.date.minute)
+            self.widgets['event'].value = [unicode(game.events_id)]
+            self.widgets['nation1'].value = [unicode(game.nation1_id)]
+            self.widgets['nation2'].value = [unicode(game.nation2_id)]
+            self.widgets['nation1_dummy'].value = game.nation1_dummy
+            self.widgets['nation2_dummy'].value = game.nation2_dummy
+            self.widgets['round_'].value = game.round_
 
 
     @button.buttonAndHandler(_(u'Save'))
