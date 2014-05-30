@@ -6,13 +6,7 @@
     i18n:domain="ftw.footballchallenge">
 
     <div class="portletWrapper">
-        <dl class="portlet portletLatestGames">
-
-            <dt class="portletHeader">
-                <span i18n:translate="">
-                    Latest Games
-                </span>
-            </dt>
+        <dl class="portlet portletWinnerLooser">
 
             <dd class="portletItem">
                 <h3 i18n:translate="">Winner of the Round</h3>
