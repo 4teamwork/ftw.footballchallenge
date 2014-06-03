@@ -29,13 +29,14 @@ class AssignUserForm(form.Form):
         return self
     
     def updateWidgets(self):
+        super(AssignUserForm, self).updateWidgets()
         session = named_scoped_session('footballchallenge')
         league = session.query(League).filter(League.id_ == self.league_id).one()
         if league.teams:
             user_ids = [team.user_id for team in league.teams]
-            self.fields['teams'].field.default = user_ids
-        super(AssignUserForm, self).updateWidgets()
-
+            self.widgets['teams'].value = user_ids
+            self.widgets['teams'].update()
+    
     @button.buttonAndHandler(_(u'Save'))
     def handleImport(self, action):
         data, errors = self.extractData()
