@@ -1,64 +1,81 @@
-from zope.publisher.browser import BrowserView
-from z3c.saconfig import named_scoped_session
-from ftw.footballchallenge.Teams_Players import Teams_Players
-from zope.component.hooks import getSite 
-from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-from zope.interface import implements
-from zope.publisher.interfaces import IPublishTraverse
-from ftw.footballchallenge.playerstatistics import Playerstatistics
-from ftw.footballchallenge.event import Event
-import datetime
-from ftw.footballchallenge import _
-from Products.statusmessages.interfaces import IStatusMessage
 from Products.CMFCore.utils import getToolByName
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+from ftw.footballchallenge.Teams_Players import Teams_Players
+from ftw.footballchallenge.event import Event
+from ftw.footballchallenge.playerstatistics import Playerstatistics
 from ftw.footballchallenge.team import Team
+from z3c.saconfig import named_scoped_session
+from zExceptions import Unauthorized, NotFound
+from zope.component.hooks import getSite
+from zope.interface import implements
+from zope.publisher.browser import BrowserView
+from zope.publisher.interfaces import IPublishTraverse
+import datetime
 
 
 class TeamOverview(BrowserView):
     """Defines a view for the league which displays the ranking."""
-
     implements(IPublishTraverse)
-    
     template = ViewPageTemplateFile("team_overview.pt")
 
     def __init__(self, context, request):
         super(TeamOverview, self).__init__(context, request)
         self.team_id = None
-
+        self.team_name = 'My Team'
+        self.coach = ''
 
     def __call__(self):
+        mtool = getToolByName(self.context, 'portal_membership')
+        userid = mtool.getAuthenticatedMember().getId()
         session = named_scoped_session('footballchallenge')
-        open_events = session.query(Event).filter(Event.deadline > datetime.datetime.now()).all()
-        membershiptool = getToolByName(self.context, 'portal_membership')
-        userid = membershiptool.getAuthenticatedMember().getId()
+        myteam = session.query(Team).filter(Team.user_id == userid).first()
+
+        # If there's no team_id in the url show the team of the currently
+        # logged-in user or redirect to the edit form if the user hasn't yet
+        # created a team.
         if not self.team_id:
-            team = session.query(Team).filter(Team.user_id == userid).all()
-            if len(team) == 0:
-                return self.request.RESPONSE.redirect(self.context.absolute_url()+ '/edit_team')
+            if myteam:
+                self.team_id = int(myteam.id_)
+                self.team_name = myteam.name
+                self.coach = self.coach_name(myteam.user_id)
+                return self.template()
             else:
-                team = team[0]
-            self.team_id = int(team.id_)
-        else:
-            msg = _(u'team_doesnt_exitst',
-                    default=u'The team specified doesnt exist.')
-            IStatusMessage(self.request).addStatusMessage(
-                msg, type='information')
-            team = session.query(Team).filter(Team.id_ == self.team_id).all()
-            if len(team) == 0:
-                return self.request.RESPONSE.redirect(self.context.absolute_url())
-            else:
-                team = team[0]
-        if not open_events or team.id_ == int(self.team_id):
+                return self.request.RESPONSE.redirect(
+                    self.context.absolute_url() + '/edit_team')
+        # team_id of the currently logged-in user provided
+        elif myteam and self.team_id == myteam.id_:
+            self.team_name = myteam.name
+            self.coach = self.coach_name(myteam.user_id)
             return self.template()
-        msg = _(u'event_not_started',
-                default=u'The Event has not started yet. You can not see this Team')
-        IStatusMessage(self.request).addStatusMessage(
-            msg, type='information')
-        return self.request.RESPONSE.redirect(self.context.absolute_url())
-        
+
+        # Other teams can only be viewed if the event already started.
+        open_events = session.query(Event).filter(
+            Event.deadline > datetime.datetime.now()).first()
+        if open_events:
+            raise Unauthorized
+
+        # Check if a team with the given team_id exists.
+        team = session.query(Team).filter(Team.id_ == self.team_id).first()
+        if not team:
+            raise NotFound
+
+        self.team_name = team.name
+        self.coach = self.coach_name(team.user_id)
+        return self.template()
+
     def publishTraverse(self, request, name):
-        self.team_id = name
+        try:
+            self.team_id = int(name)
+        except ValueError:
+            raise NotFound
         return self
+
+    def coach_name(self, userid):
+        mtool = getToolByName(self.context, 'portal_membership')
+        member = mtool.getMemberById(userid)
+        if not member:
+            return userid
+        return member.getProperty('fullname', userid) or userid
 
     def get_players(self, starters):
         session = named_scoped_session('footballchallenge')
