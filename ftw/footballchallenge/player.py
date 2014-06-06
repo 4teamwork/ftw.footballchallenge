@@ -222,7 +222,6 @@ class Player(Base):
 
 def get_player_term(context, position=None, nation=None):
     """Returns the players as SimpleVocabulary"""
-    print "hallo"
     terms=[]
     session = named_scoped_session('footballchallenge')
     event_id = session.query(Event).filter(
