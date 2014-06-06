@@ -1,4 +1,4 @@
-from z3c.form import form, field, button, group
+from z3c.form import form, field, button
 from zope import interface, schema
 from ftw.footballchallenge import _
 from z3c.saconfig import named_scoped_session
@@ -8,7 +8,6 @@ from ftw.footballchallenge.player import Player
 from ftw.footballchallenge.event import Event
 from ftw.footballchallenge.Teams_Players import Teams_Players
 from datetime import datetime
-import transaction
 from zope.interface import implements
 from ftw.footballchallenge.interfaces import IEditTeam
 from zope.interface import invariant
@@ -130,7 +129,8 @@ class EditTeamSchema(interface.Interface):
                 playernames += session.query(Player).filter(
                     Player.id_ == player_id).one().name
 
-        raise Invalid(_(u"You can't use the player ${players} multiple times", mapping={'players':playernames}))
+        raise Invalid(_(u"You can't use the player ${players} multiple times",
+                        mapping={'players': playernames}))
 
 
 class EditTeamForm(form.Form):
@@ -145,105 +145,118 @@ class EditTeamForm(form.Form):
 
     def __call__(self):
         session = named_scoped_session('footballchallenge')
-        if not session.query(Event).filter(Event.deadline > datetime.now()).all():
-            msg = _(u'label_not_edit', default="The Event has started. You can't edit your Team now.")
+        if not session.query(Event).filter(
+                Event.deadline > datetime.now()).first():
+            msg = _(u'label_not_edit',
+                    default="The Event has started. You can't edit your Team "
+                    "now.")
             IStatusMessage(self.request).addStatusMessage(
                 msg, type='error')
             return self.request.response.redirect(self.context.absolute_url())
         else:
             return super(EditTeamForm, self).__call__()
-            
 
     def updateWidgets(self):
         super(EditTeamForm, self).updateWidgets()
         membershiptool = getToolByName(self.context, 'portal_membership')
         userid = membershiptool.getAuthenticatedMember().getId()
         session = named_scoped_session('footballchallenge')
-        event_id = session.query(Event).filter(Event.deadline > datetime.now()).one().id_
-        if not len(session.query(Team).filter_by(user_id=userid).filter_by(event_id=event_id).all()):
-            super(EditTeamForm, self).updateWidgets()
+        event_id = session.query(Event).filter(
+            Event.deadline > datetime.now()).first().id_
+
+        team = session.query(Team).filter_by(user_id=userid).filter_by(
+            event_id=event_id).first()
+
+        if not team:
             return
 
-        team = session.query(Team).filter_by(user_id=userid).filter_by(event_id=event_id).one()
-        starters = session.query(Teams_Players).filter_by(team_id=team.id_).filter_by(is_starter=True).all()
-        substitutes = session.query(Teams_Players).filter_by(team_id=team.id_).filter_by(is_starter=False).all()
-
         self.widgets['name'].value = team.name
-        count = {'defender':1, 'midfield':1, 'striker':1}    
-        for starter in starters:
-            if not starter.player.position=="keeper":
-                self.widgets[(starter.player.position + str(count[starter.player.position])).encode('utf-8')].value = str(starter.player.id_)
-                count[starter.player.position] += 1
+
+        pos_counts = {
+            'defender': 0,
+            'midfield': 0,
+            'striker': 0,
+            'substitute_defender': 0,
+            'substitute_midfield': 0,
+            'substitute_striker': 0,
+        }
+
+        players = session.query(Teams_Players).filter_by(
+            team_id=team.id_).all()
+        for player in players:
+            position = player.player.position
+            if player.is_starter:
+                widget_key = position
             else:
-                self.widgets["keeper"].value = str(starter.player.id_)
-        
-        
-        count = {'defender':1, 'midfield':1, 'striker':1}
-        for substitute in substitutes:
-            if not substitute.player.position=="keeper":
-                self.widgets["substitute_"+(substitute.player.position + str(count[substitute.player.position])).encode('utf-8')].value = str(substitute.player.id_)
-                count[substitute.player.position] += 1
-            else:
-                self.widgets["substitute_keeper"].value = str(substitute.player.id_)
+                widget_key = 'substitute_' + position
+            if position != 'keeper':
+                pos_counts[widget_key] += 1
+                widget_key += str(pos_counts[widget_key])
 
+            self.widgets[widget_key].value = [str(player.player_id)]
 
-
-        
     @button.buttonAndHandler(_(u'Save'))
     def handleSave(self, action):
         """Handles the Edit action of the form"""
         data, errors = self.extractData()
-        #If all validators are ok: proceed
+
+        # If all validators are ok: proceed
         if len(errors) == 0:
-            #get the session from z3c.sacofig
             session = named_scoped_session('footballchallenge')
             event_id = session.query(Event).filter(
                 Event.deadline > datetime.now()).one().id_
-            #get the userid we need it to find the right team
+
             membershiptool = getToolByName(self.context, 'portal_membership')
             userid = membershiptool.getAuthenticatedMember().getId()
-            if not session.query(Team).filter_by(user_id=userid).filter_by(event_id=event_id).all():
-                #create the team if it doesn't exist.
+
+            team = session.query(Team).filter_by(user_id=userid).filter_by(
+                event_id=event_id).first()
+
+            # Create team if it doesn't exist.
+            if not team:
                 team = Team(userid, event_id, name=data['name'])
-                session.add(team)                
-            else:
-                team = session.query(Team).filter_by(user_id=userid).filter_by(event_id=event_id).one()
-            session.query(Teams_Players).filter(Teams_Players.team_id==\
-            team.id_).delete()
+                session.add(team)
+
+            # First remove all players from team.
+            session.query(Teams_Players).filter(
+                Teams_Players.team_id == team.id_).delete()
+
             team.name = data['name']
-            nations = []
-            all_nations = []
+
+            starter_nations = set()
+            all_nations = set()
             for k, v in data.items():
                 if not k == 'name' and v:
-                    player = session.query(Player).filter(Player.id_ == v).one()
-                    #Create relationsship between Team and Player
-                    if bool(not 'substitute' in k):
-                        if not player.nation_id in nations:
-                            nations.append(player.nation_id)
-                        if not player.nation_id in all_nations:
-                            all_nations.append(player.nation_id)
-                    else:
-                        if not player.nation_id in all_nations:
-                            all_nations.append(player.nation_id)
+                    player = session.query(Player).filter(
+                        Player.id_ == v).first()
 
-                    team.players.append(Teams_Players(team.id_, player,
-                                        bool(not 'substitute' in k)))
+                    is_starter = not k.startswith('substitute')
+                    if is_starter:
+                        starter_nations.add(player.nation_id)
+                    all_nations.add(player.nation_id)
 
-            if len(nations) >= 6 and len(all_nations) >=12 and len(team.players) == 22:
+                    team.players.append(Teams_Players(
+                        team.id_, player, is_starter))
+
+            if (len(starter_nations) >= 6 and len(all_nations) >= 12 and
+                    len(team.players) == 22):
                 team.valid = True
             else:
-                msg = _(u'label_not_valid', default=u'Your Team is not valid and will not receive any points')
+                msg = _(u'label_not_valid',
+                        default=u'Your Team is not valid and will not receive '
+                        'any points')
                 IStatusMessage(self.request).addStatusMessage(
                     msg, type='warning')
                 team.valid = False
 
-            msg = _(u'label_changes_saved', default=u'Your changes are saved successfully')
-            IStatusMessage(self.request).addStatusMessage(
-                msg, type='info')
+            msg = _(u'label_changes_saved',
+                    default=u'Your changes are saved successfully')
+            IStatusMessage(self.request).addStatusMessage(msg, type='info')
 
-            return self.request.RESPONSE.redirect(self.context.absolute_url()+'/team_overview/' + str(team.id_))
+            return self.request.RESPONSE.redirect(
+                self.context.absolute_url() + '/team_overview/' + str(team.id_)
+            )
 
     @button.buttonAndHandler(_(u'Cancel'))
     def handleCancel(self, action):
         return self.request.RESPONSE.redirect(self.context.absolute_url())
-
