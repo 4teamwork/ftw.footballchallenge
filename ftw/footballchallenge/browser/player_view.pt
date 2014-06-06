@@ -6,6 +6,12 @@
       metal:use-macro="context/main_template/macros/master"
       i18n:domain="ftw.footballchallenge">
 
+<metal:content-core fill-slot="content-title">
+    <metal:content-core define-macro="content-title">
+        <h1 class="documentFirstHeading" tal:define="player view/get_player" tal:content="player/name">Diego Armando Maradona</h1>
+    </metal:content-core>
+</metal:content-core>
+
 <metal:content-core fill-slot="content-core">
     <tal:define tal:define="player view/get_player">
     <div style="float:left">
