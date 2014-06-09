@@ -13,33 +13,79 @@
 </metal:content-core>
 
 <metal:content-core fill-slot="content-core">
-    <tal:define tal:define="player view/get_player">
-    <div style="float:left">
-        <table class="listing">
-            <tr><td i18n:translate="">Name</td><td tal:content="player/name" /></tr>
-            <tr><td i18n:translate="">Position</td><td tal:content="player/position" /></tr>
-            <tr><td i18n:translate="">Original Name</td><td tal:content="player/original_name" /></tr>
-            <tr><td i18n:translate="">Date of Birth</td><td tal:content="python: player.date_of_birth.strftime('%d.%m.%Y')" /></tr>
-            <tr><td i18n:translate="">Value</td><td tal:content="string: ${player/pretty_value} SFr." /></tr>
-            <tr><td i18n:translate="">Club</td><td tal:content="player/club" /></tr>
-            <tr><td i18n:translate="">Teams</td><td>
-                <ul tal:condition="view/check_teams_public">
-                    <li tal:repeat="team player/teams" tal:content="team/team/name" />
-                </ul>
-            </td>
+    <tal:define tal:define="player view/get_player;
+                            portal_url context/@@plone_portal_state/portal_url">
+
+        <img src="#" class="playerPortrait"
+             tal:attributes="src string:${portal_url}/playerimage/${player/id_}">
+
+        <table class="vertical playerData">
+            <tr tal:condition="player/original_name">
+                <th i18n:translate="">Original Name</th>
+                <td tal:content="player/original_name" />
             </tr>
-            <tr><td i18n:translate="">Log:</td><td>
-                <ul>
-                    <li tal:repeat="log player/get_log" tal:content="python: context.translate(log[2])+': '+str(log[1])+ ' '+ context.translate(msgid='points', domain='ftw.footballchallenge')" />
-                </ul>
-            </td>
+            <tr tal:define="nation player/nation">
+                <th>Nation</th>
+                <td>
+                    <a href="#"
+                       tal:content="nation/name"
+                       tal:attributes="href string:${context/absolute_url}/nation/${nation/id_}"></a>
+                </td>
+            </tr>
+            <tr>
+                <th i18n:translate="">Club</th>
+                <td tal:content="player/club"></td>
+            </tr>
+            <tr>
+                <th i18n:translate="">League</th>
+                <td tal:content="player/league"></td>
+            </tr>
+            <tr>
+                <th i18n:translate="">Position</th>
+                <td i18n:translate="" tal:content="player/position" />
+            </tr>
+
+            <tr>
+                <th i18n:translate="">Date of Birth</th>
+                <td tal:content="python: player.date_of_birth.strftime('%d.%m.%Y')" />
+            </tr>
+            <tr>
+                <th i18n:translate="">Age</th>
+                <td tal:content="player/age"></td>
+            </tr>
+            <tr>
+                <th i18n:translate="">Size</th>
+                <td><span tal:content="string: ${player/size} m" /></td>
+            </tr>
+            <tr>
+                <th i18n:translate="">Value</th>
+                <td tal:content="string: ${player/pretty_value} SFr." />
+            </tr>
+
+            <tr>
+                <th i18n:translate="">Teams</th>
+                <td>
+                    <span tal:condition="not:view/check_teams_public"
+                          tal:content="python: len(player.teams)">0</span> 
+                    <ul tal:condition="view/check_teams_public">
+                        <li tal:repeat="team player/teams">
+                            <a tal:content="team/team/name"
+                               tal:attributes="href string:${portal_url}/team_overview/${team/team/id_}" />
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+            <tr tal:define="player_log player/get_log" tal:condition="player_log">
+                <th i18n:translate="">Log:</th>
+                <td>
+                    <ul>
+                        <li tal:repeat="log player_log" tal:content="python: context.translate(log[2])+': '+str(log[1])+ ' '+ context.translate(msgid='points', domain='ftw.footballchallenge')" />
+                    </ul>
+                </td>
             </tr>
 
         </table>
-    </div>
-    <div style="padding-left:1em" tal:define="url python: context.absolute_url()+'/++player++'+str(player.id_)+'/player_img'">
-        <img style="padding-left:1em" tal:attributes="src url" />
-    </div>
+
     </tal:define>
 </metal:content-core>
 </html>
