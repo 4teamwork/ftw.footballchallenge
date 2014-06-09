@@ -190,8 +190,14 @@ class EditTeamForm(form.Form):
             else:
                 widget_key = 'substitute_' + position
             if position != 'keeper':
-                pos_counts[widget_key] += 1
-                widget_key += str(pos_counts[widget_key])
+                # For newer entries the field position is stored in the db.
+                if player.field_pos > 0:
+                    widget_key += str(player.field_pos)
+                # Support for older entries without stored field position
+                # Can be removed in emgame2016
+                else:
+                    pos_counts[widget_key] += 1
+                    widget_key += str(pos_counts[widget_key])
 
             self.widgets[widget_key].value = [str(player.player_id)]
 
@@ -235,8 +241,12 @@ class EditTeamForm(form.Form):
                         starter_nations.add(player.nation_id)
                     all_nations.add(player.nation_id)
 
+                    if k[-1].isdigit():
+                        field_pos = int(k[-1])
+                    else:
+                        field_pos = 0
                     team.players.append(Teams_Players(
-                        team.id_, player, is_starter))
+                        team.id_, player, is_starter, field_pos))
 
             if (len(starter_nations) >= 6 and len(all_nations) >= 12 and
                     len(team.players) == 22):
