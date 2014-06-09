@@ -17,6 +17,7 @@ class NationView(BrowserView):
     def __init__(self, context, request):
         super(NationView, self).__init__(context, request)
         self.nation_id = None
+        self.request.set('disable_border', 1)
 
     def __call__(self):
         return self.template()

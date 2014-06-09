@@ -2,8 +2,10 @@ from Products.CMFCore.utils import getToolByName
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from ftw.footballchallenge.Teams_Players import Teams_Players
 from ftw.footballchallenge.event import Event
+from ftw.footballchallenge.player import Player
 from ftw.footballchallenge.playerstatistics import Playerstatistics
 from ftw.footballchallenge.team import Team
+from sqlalchemy import func
 from z3c.saconfig import named_scoped_session
 from zExceptions import Unauthorized, NotFound
 from zope.component.hooks import getSite
@@ -23,12 +25,14 @@ class TeamOverview(BrowserView):
         self.team_id = None
         self.team_name = 'My Team'
         self.coach = ''
+        self.session = named_scoped_session('footballchallenge')
+        self.request.set('disable_border', 1)
 
     def __call__(self):
         mtool = getToolByName(self.context, 'portal_membership')
         userid = mtool.getAuthenticatedMember().getId()
-        session = named_scoped_session('footballchallenge')
-        myteam = session.query(Team).filter(Team.user_id == userid).first()
+        myteam = self.session.query(Team).filter(
+            Team.user_id == userid).first()
 
         # If there's no team_id in the url show the team of the currently
         # logged-in user or redirect to the edit form if the user hasn't yet
@@ -49,13 +53,14 @@ class TeamOverview(BrowserView):
             return self.template()
 
         # Other teams can only be viewed if the event already started.
-        open_events = session.query(Event).filter(
+        open_events = self.session.query(Event).filter(
             Event.deadline > datetime.datetime.now()).first()
         if open_events:
             raise Unauthorized
 
         # Check if a team with the given team_id exists.
-        team = session.query(Team).filter(Team.id_ == self.team_id).first()
+        team = self.session.query(Team).filter(
+            Team.id_ == self.team_id).first()
         if not team:
             raise NotFound
 
@@ -78,8 +83,8 @@ class TeamOverview(BrowserView):
         return member.getProperty('fullname', userid) or userid
 
     def get_players(self, starters):
-        session = named_scoped_session('footballchallenge')
-        teams_players = session.query(Teams_Players).filter_by(team_id=self.team_id).filter_by(is_starter=starters).all()
+        teams_players = self.session.query(Teams_Players).filter_by(
+            team_id=self.team_id).filter_by(is_starter=starters).all()
         players = []
         for team_player in teams_players:
             players.append(team_player.player)
@@ -88,13 +93,19 @@ class TeamOverview(BrowserView):
             if player.position == "keeper":
                 sorted_players.insert(0, sorted_players.pop(index))
         return sorted_players
-        
+
+    def market_value(self):
+        value = self.session.query(func.sum(Player.value)).filter(
+            Player.id_ == Teams_Players.player_id).filter(
+            Teams_Players.team_id == self.team_id).first()
+        return "{:,}".format(int(value[0])).replace(",", "'")
+
     def generate_link(self, player):
         portal = getSite()
         base_url = portal.absolute_url()
         url = base_url + '/player/' + str(player.id_)
         return '<a href="' + url + '">' + player.name + '</a>'
-    
+
     def get_starters(self):
         return self.get_players(True)
 
@@ -102,26 +113,31 @@ class TeamOverview(BrowserView):
         return self.get_players(False)
 
     def calculate_nations(self):
-        session = named_scoped_session('footballchallenge')
-        teams_players = session.query(Teams_Players).filter(Teams_Players.team_id==self.team_id).all()
+        teams_players = self.session.query(Teams_Players).filter(
+            Teams_Players.team_id == self.team_id).all()
         nations = []
         all_nations = []
         for team_player in teams_players:
-            if team_player.is_starter == True:
+            if team_player.is_starter:
                 player = team_player.player
-                if not player.nation_id in nations:
+                if player.nation_id not in nations:
                     nations.append(player.nation_id)
-                    if not player.nation_id in all_nations:
+                    if player.nation_id not in all_nations:
                         all_nations.append(player.nation_id)
             else:
                 player = team_player.player
-                if not player.nation_id in nations and not player.nation_id in all_nations:
+                if (player.nation_id not in nations and
+                        player.nation_id not in all_nations):
                     all_nations.append(player.nation_id)
-        return {'starter_nations': len(nations), 'sub_nations': len(all_nations)}
+        return {
+            'starter_nations': len(nations),
+            'sub_nations': len(all_nations),
+        }
 
     def get_player_points(self, player):
         session = named_scoped_session('footballchallenge')
-        playerstats = session.query(Playerstatistics).filter(Playerstatistics.player_id == player.id_).all()
+        playerstats = session.query(Playerstatistics).filter(
+            Playerstatistics.player_id == player.id_).all()
         points = 0
         for playerstat in playerstats:
             points += playerstat.points
