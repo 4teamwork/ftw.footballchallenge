@@ -71,6 +71,13 @@ POSITION_MAPPING={
     u'Mittelfeld - Linkes Mittelfeld': 'midfield',
     u'Mittelfeld - Rechtes Mittelfeld': 'midfield'}
 
+POSITION_ORDER = {
+    'keeper': 1,
+    'defender': 2,
+    'midfield': 3,
+    'striker': 4,
+}
+
 # Official UEFA country codes
 # These are *not* the same as ISO-3155-1-alpha3
 COUNTRY_CODE_MAPPING = {

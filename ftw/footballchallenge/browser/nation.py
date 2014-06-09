@@ -5,6 +5,7 @@ from Acquisition import aq_inner
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from z3c.saconfig import named_scoped_session
 from ftw.footballchallenge.nation import Nation
+from ftw.footballchallenge.config import POSITION_ORDER
 
 
 class NationView(BrowserView):
@@ -12,7 +13,6 @@ class NationView(BrowserView):
     implements(IPublishTraverse)
 
     template = ViewPageTemplateFile("nation.pt")
-
 
     def __init__(self, context, request):
         super(NationView, self).__init__(context, request)
@@ -35,13 +35,17 @@ class NationView(BrowserView):
 
     def players(self):
         context = aq_inner(self.context)
-        base_url = context.absolute_url() 
+        base_url = context.absolute_url()
         results = []
-        for player in self.nation().players:
+        for player in sorted(
+                self.nation().players,
+                key=lambda p: POSITION_ORDER.get(p.position, 100)):
             info = dict(
                 name=player.name,
-                url='%s/%s' % (base_url.rstrip('/')+'/player_view', player.id_),
-                position=context.translate(player.position, domain='ftw.footballchallenge'),
+                url='%s/%s' % (base_url.rstrip('/')+'/player_view',
+                               player.id_),
+                position=context.translate(player.position,
+                                           domain='ftw.footballchallenge'),
                 age=player.age,
                 club=player.club,
                 league=player.league,
