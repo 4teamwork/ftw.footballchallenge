@@ -69,8 +69,8 @@
 
     <browser:page
         for="*"
-        name="player_view"
-        class=".player_view.PlayerView"
+        name="player"
+        class=".player.PlayerView"
         permission="zope2.View"
         />
 

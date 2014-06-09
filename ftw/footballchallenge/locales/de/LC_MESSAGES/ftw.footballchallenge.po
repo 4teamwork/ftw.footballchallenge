@@ -25,7 +25,7 @@ msgstr "Benutzer zuweisen"
 msgid "Cancel"
 msgstr "Abbrechen"
 
-#: ./ftw/footballchallenge/browser/player_view.pt:18
+#: ./ftw/footballchallenge/browser/player.pt:18
 msgid "Club"
 msgstr "Club"
 
@@ -45,7 +45,7 @@ msgstr "Spiel erfassen"
 msgid "Date"
 msgstr "Datum"
 
-#: ./ftw/footballchallenge/browser/player_view.pt:16
+#: ./ftw/footballchallenge/browser/player.pt:16
 msgid "Date of Birth"
 msgstr "Geburtsdatum"
 
@@ -92,7 +92,7 @@ msgstr "Information"
 msgid "Latest Games"
 msgstr "Letzte Spiele"
 
-#: ./ftw/footballchallenge/browser/player_view.pt:25
+#: ./ftw/footballchallenge/browser/player.pt:25
 msgid "Log:"
 msgstr "Log:"
 
@@ -104,7 +104,7 @@ msgstr "Verlierer der Runde"
 msgid "My Team"
 msgstr "Mein Team"
 
-#: ./ftw/footballchallenge/browser/player_view.pt:13
+#: ./ftw/footballchallenge/browser/player.pt:13
 #: ./ftw/footballchallenge/browser/team_overview.pt:29
 msgid "Name"
 msgstr "Name"
@@ -117,7 +117,7 @@ msgstr "Nationalität"
 msgid "Nationcount Starter (6 Required)"
 msgstr "Anzahl Nationen der Stammelf (6 benötigt)"
 
-#: ./ftw/footballchallenge/browser/player_view.pt:15
+#: ./ftw/footballchallenge/browser/player.pt:15
 msgid "Original Name"
 msgstr "Geburtsname"
 
@@ -126,7 +126,7 @@ msgstr "Geburtsname"
 msgid "Points"
 msgstr "Punkte"
 
-#: ./ftw/footballchallenge/browser/player_view.pt:14
+#: ./ftw/footballchallenge/browser/player.pt:14
 #: ./ftw/footballchallenge/browser/team_overview.pt:31
 msgid "Position"
 msgstr "Position"
@@ -163,7 +163,7 @@ msgstr "Auswechselspieler"
 msgid "Team"
 msgstr "Team"
 
-#: ./ftw/footballchallenge/browser/player_view.pt:19
+#: ./ftw/footballchallenge/browser/player.pt:19
 msgid "Teams"
 msgstr "Teams"
 
@@ -175,7 +175,7 @@ msgstr "Anzahl Nationen des kompletten Teams (12 benötigt)"
 msgid "Total Playercount (22 Required)"
 msgstr "Spieleranzahl (22 benötigt)"
 
-#: ./ftw/footballchallenge/browser/player_view.pt:17
+#: ./ftw/footballchallenge/browser/player.pt:17
 msgid "Value"
 msgstr "Marktwert"
 

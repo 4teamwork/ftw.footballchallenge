@@ -12,7 +12,7 @@ class PlayerView(BrowserView):
     """Defines a view for the league which displays the ranking."""
     implements(IPublishTraverse)
 
-    template = ViewPageTemplateFile("player_view.pt")
+    template = ViewPageTemplateFile("player.pt")
 
     def __init__(self, context, request):
         super(PlayerView, self).__init__(context, request)

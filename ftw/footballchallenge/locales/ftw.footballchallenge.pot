@@ -25,7 +25,7 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
-#: ./ftw/footballchallenge/browser/player_view.pt:18
+#: ./ftw/footballchallenge/browser/player.pt:18
 msgid "Club"
 msgstr ""
 
@@ -45,7 +45,7 @@ msgstr ""
 msgid "Date"
 msgstr ""
 
-#: ./ftw/footballchallenge/browser/player_view.pt:16
+#: ./ftw/footballchallenge/browser/player.pt:16
 msgid "Date of Birth"
 msgstr ""
 
@@ -92,7 +92,7 @@ msgstr ""
 msgid "Latest Games"
 msgstr ""
 
-#: ./ftw/footballchallenge/browser/player_view.pt:25
+#: ./ftw/footballchallenge/browser/player.pt:25
 msgid "Log:"
 msgstr ""
 
@@ -104,7 +104,7 @@ msgstr ""
 msgid "My Team"
 msgstr ""
 
-#: ./ftw/footballchallenge/browser/player_view.pt:13
+#: ./ftw/footballchallenge/browser/player.pt:13
 #: ./ftw/footballchallenge/browser/team_overview.pt:29
 msgid "Name"
 msgstr ""
@@ -117,7 +117,7 @@ msgstr ""
 msgid "Nationcount Starter (6 Required)"
 msgstr ""
 
-#: ./ftw/footballchallenge/browser/player_view.pt:15
+#: ./ftw/footballchallenge/browser/player.pt:15
 msgid "Original Name"
 msgstr ""
 
@@ -126,7 +126,7 @@ msgstr ""
 msgid "Points"
 msgstr ""
 
-#: ./ftw/footballchallenge/browser/player_view.pt:14
+#: ./ftw/footballchallenge/browser/player.pt:14
 #: ./ftw/footballchallenge/browser/team_overview.pt:31
 msgid "Position"
 msgstr ""
@@ -163,7 +163,7 @@ msgstr ""
 msgid "Team"
 msgstr ""
 
-#: ./ftw/footballchallenge/browser/player_view.pt:19
+#: ./ftw/footballchallenge/browser/player.pt:19
 msgid "Teams"
 msgstr ""
 
@@ -175,7 +175,7 @@ msgstr ""
 msgid "Total Playercount (22 Required)"
 msgstr ""
 
-#: ./ftw/footballchallenge/browser/player_view.pt:17
+#: ./ftw/footballchallenge/browser/player.pt:17
 msgid "Value"
 msgstr ""
 

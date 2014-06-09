@@ -92,7 +92,7 @@ class TeamOverview(BrowserView):
     def generate_link(self, player):
         portal = getSite()
         base_url = portal.absolute_url()
-        url = base_url + '/player_view/' + str(player.id_)
+        url = base_url + '/player/' + str(player.id_)
         return '<a href="' + url + '">' + player.name + '</a>'
     
     def get_starters(self):

@@ -42,7 +42,7 @@ class NationView(BrowserView):
                 key=lambda p: POSITION_ORDER.get(p.position, 100)):
             info = dict(
                 name=player.name,
-                url='%s/%s' % (base_url.rstrip('/')+'/player_view',
+                url='%s/%s' % (base_url.rstrip('/')+'/player',
                                player.id_),
                 position=context.translate(player.position,
                                            domain='ftw.footballchallenge'),
