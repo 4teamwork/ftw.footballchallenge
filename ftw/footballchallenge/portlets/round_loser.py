@@ -27,6 +27,7 @@ class Renderer(base.Renderer):
     def update(self):
         session = named_scoped_session('footballchallenge')
         last_game = session.query(Game).filter(Game.calculated == True).order_by(desc(Game.date)).first()
+        self.ranking = None
         if last_game:
             round_ = last_game.round_
             gameids = session.query(Game.id_).filter_by(calculated = True).filter_by(round_ = round_).all()
@@ -39,11 +40,7 @@ class Renderer(base.Renderer):
                     teams[teamstat.team_id]['points'] += teamstat.points
         
             self.ranking = sorted(teams.iteritems(), key=lambda (k,v): itemgetter(1)(v))
-        self.ranking = None
 
-    def get_link(self, game):
-        portal_url = self.context.absolute_url()
-        return '<a href="'+portal_url+'/game_view/'+str(game.id_)+'">'+game.nation1.name +' vs. '+game.nation2.name+'</a>'
 
     def get_loser(self):
         if self.ranking:

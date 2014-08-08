@@ -9,7 +9,7 @@ from zope.schema import vocabulary
 from z3c.saconfig import named_scoped_session
 import datetime
 from ftw.footballchallenge.event import Event
-from zope.app.component.hooks import getSite
+from zope.component.hooks import getSite
 from Products.CMFCore.utils import getToolByName
 
 leagues_teams = Table('leagues_teams', Base.metadata,

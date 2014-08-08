@@ -1,5 +1,5 @@
 from pyquery import PyQuery
-import urllib2
+import requests
 from ftw.footballchallenge.nation import Nation
 from ftw.footballchallenge.player import Player
 import StringIO
@@ -15,9 +15,10 @@ def import_team(rootpage, session, event):
        Currently only working with Transfermarkt.ch
 
     """
+    headers = {'User-agent': 'Mozilla/5.0'}
     for page in rootpage:
-        f = urllib2.urlopen(page)
-        nationpage = f.read()
+        f = requests.get(page, headers=headers)
+        nationpage = f.content
         nationpage = PyQuery(nationpage.decode('utf8'))
         content = nationpage("#content")
         nation_name = content("table.tabelle_spieler a#vereinsinfo").text()
@@ -28,7 +29,7 @@ def import_team(rootpage, session, event):
             Nation.country==country_code).first()
         # Create a new nation if we didn't find one
         if nation is None:
-            nation = Nation(nation_name, event)
+            nation = Nation(nation_name, event, country_code)
             nation.country = country_code
             session.add(nation)
 
@@ -38,8 +39,8 @@ def import_team(rootpage, session, event):
             name = PyQuery(item)("a.fb:first").text()
             link = PyQuery(item)("a.fb:first").attr("href")
             link = "http://www.transfermarkt.ch" + link
-            f = urllib2.urlopen(link)
-            playerpage = f.read()
+            f = requests.get(link, headers=headers)
+            playerpage = f.content
             playerpage = PyQuery(playerpage.decode('utf8'))
             clubname = playerpage(
                 "table.tabelle_spieler img:first").attr('title')
@@ -52,7 +53,7 @@ def import_team(rootpage, session, event):
                                  tds[::2], tds[1::2])])
 
             img_src = playerpage("img.minifoto").attr("src")
-            img = urllib2.urlopen(img_src).read()
+            img = requests.get(img_src, headers=headers).content
             try:
                 im = Image.open(StringIO.StringIO(img))
                 im.verify()
@@ -61,8 +62,9 @@ def import_team(rootpage, session, event):
 
             # Conversions
             position = POSITION_MAPPING.get(player_props.get('Position:'))
-            value = int(player_props.get('Marktwert:', '0').split()[0].replace(
-                '.', ''))
+            if not player_props.get('Marktwert:') in ['-',]:
+                value = int(player_props.get('Marktwert:', '0').split()[0].replace(
+                    '.', ''))
             size = player_props.get(u'Gr\xf6\xdfe:', '0.00').replace(',', '.')
             date_of_birth = date.fromtimestamp(time.mktime(time.strptime(
                 player_props.get('Geburtsdatum:'), '%d.%m.%Y')))

@@ -74,6 +74,8 @@ class Game(Base):
                 else:
                     total_nation2_score += 1
         return '('+str(total_nation1_score)+':'+str(total_nation2_score)+' n.P.)'
+
+
 RoundVocabulary = SimpleVocabulary(
     [SimpleTerm(value=u'group1', title=_(u'label_group1', default=u'Group1')),
      SimpleTerm(value=u'group2', title=_(u'label_group2', default=u'Group2')),

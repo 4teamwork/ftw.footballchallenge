@@ -2,7 +2,7 @@ from Acquisition import aq_inner
 from Products.CMFCore.utils import getToolByName
 from zope.publisher.browser import BrowserView
 from z3c.saconfig import named_scoped_session
-from zope.app.pagetemplate.viewpagetemplatefile import ViewPageTemplateFile
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 import datetime
 from ftw.footballchallenge.event import Event
 from ftw.footballchallenge.game import Game

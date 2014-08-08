@@ -1,8 +1,8 @@
 from zope.publisher.browser import BrowserView
 from z3c.saconfig import named_scoped_session
 from ftw.footballchallenge.Teams_Players import Teams_Players
-from zope.app.component.hooks import getSite 
-from zope.app.pagetemplate.viewpagetemplatefile import ViewPageTemplateFile
+from zope.component.hooks import getSite 
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from zope.interface import implements
 from zope.publisher.interfaces import IPublishTraverse
 from ftw.footballchallenge.playerstatistics import Playerstatistics
@@ -32,8 +32,22 @@ class TeamOverview(BrowserView):
         membershiptool = getToolByName(self.context, 'portal_membership')
         userid = membershiptool.getAuthenticatedMember().getId()
         if not self.team_id:
-            team = session.query(Team).filter(Team.user_id == userid).one()
+            team = session.query(Team).filter(Team.user_id == userid).all()
+            if len(team) == 0:
+                return self.request.RESPONSE.redirect(self.context.absolute_url + '/edit_team')
+            else:
+                team = team[0]
             self.team_id = int(team.id_)
+        else:
+            msg = _(u'team_doesnt_exitst',
+                    default=u'The team specified doesnt exist.')
+            IStatusMessage(self.request).addStatusMessage(
+                msg, type='information')
+            team = session.query(Team).filter(Team.id_ == self.team_id).all()
+            if len(team) == 0:
+                return self.request.RESPONSE.redirect(self.context.absolute_url())
+            else:
+                team = team[0]
         if not open_events or team.id_ == int(self.team_id):
             return self.template()
         msg = _(u'event_not_started',

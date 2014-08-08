@@ -21,15 +21,6 @@ class CreateEventForm(form.Form):
     ignoreContext = True
 
     def updateWidgets(self):
-        try:
-            IEvent(self.context)
-        except TypeError:
-            pass
-        if IEvent.providedBy(self.context):
-            session = named_scoped_session("footballchallenge")
-            event = session.query(Event).filter(Event.id_==self.context.id_).one()
-            self.fields['name'].field.default = event.name
-            self.fields['date'].field.default = event.deadline
         super(CreateEventForm, self).updateWidgets()
     
     def update(self):
