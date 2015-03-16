@@ -47,6 +47,9 @@ setup(name='ftw.footballchallenge',
         'requests',
         'setuptools',
         'z3c.saconfig',
+
+        # Use SQLAlchemy 0.9.x for z3c.saconfig compatibility.
+        'sqlalchemy <1.0.0b',
         ],
 
       tests_require=tests_require,
