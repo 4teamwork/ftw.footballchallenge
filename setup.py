@@ -39,14 +39,14 @@ setup(name='ftw.footballchallenge',
       zip_safe=False,
 
       install_requires=[
-        'setuptools',
         'SQLAlchemy',
-        'pyquery',
-        'z3c.saconfig',
         'ftw.datepicker',
         'ftw.tabbedview',
-        'requests'
-        # -*- Extra requirements: -*-
+        'plonetheme.emgame2012',
+        'pyquery',
+        'requests',
+        'setuptools',
+        'z3c.saconfig',
         ],
 
       tests_require=tests_require,
