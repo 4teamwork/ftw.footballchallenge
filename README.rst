@@ -21,9 +21,9 @@ Usage
 Links
 -----
 
-- Main github project repository: https://github.com/4teamwork/ftw.footballchallenge
-- Issue tracker: https://github.com/4teamwork/ftw.footballchallenge/issues
-- Package on pypi: http://pypi.python.org/pypi/ftw.footballchallenge
+- Github: https://github.com/4teamwork/ftw.footballchallenge
+- Issues: https://github.com/4teamwork/ftw.footballchallenge/issues
+- Pypi: http://pypi.python.org/pypi/ftw.footballchallenge
 - Continuous integration: https://jenkins.4teamwork.ch/search?q=ftw.footballchallenge
 
 
