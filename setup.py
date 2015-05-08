@@ -27,7 +27,7 @@ setup(name='ftw.footballchallenge',
         ],
 
       maintainer=maintainer,
-      author='4teamwork GmbH',
+      author='4teamwork AG',
       author_email='mailto:info@4teamwork.ch',
       keywords='Football Plone Python',
       url='https://github.com/4teamwork/ftw.footballchallenge',
