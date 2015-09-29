@@ -7,6 +7,7 @@ maintainer = 'Timon Tschanz'
 tests_require = [
     'plone.app.testing',
     'plone.mocktestcase',
+    'unittest2',
     ]
 
 setup(name='ftw.footballchallenge',
