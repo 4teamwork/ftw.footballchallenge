@@ -177,7 +177,7 @@ class Player(Base):
                     else:
                         log.append([goal, mapping['penalty'],
                                    _(u'label_penalty_log', default=u'Penalty vs ${enemy}', mapping=dict(enemy=enemy.name))])
-                        
+
             assists = self.get_assists(session, game.id_)
             if assists:
                 for assist in assists:
@@ -222,7 +222,6 @@ class Player(Base):
 
 def get_player_term(context, position=None, nation=None):
     """Returns the players as SimpleVocabulary"""
-    print "hallo"
     terms=[]
     session = named_scoped_session('footballchallenge')
     event_id = session.query(Event).filter(
@@ -241,14 +240,14 @@ def get_player_term(context, position=None, nation=None):
 
 
 class PlayerVocabularyFactory(object):
-    
+
     implements(IVocabularyFactory)
 
     def __call__(self, context):
         """a Proxy function which returns keeper term"""
         return get_player_term(context)
-    
-    
+
+
 class KeeperVocabularyFactory(object):
 
     implements(IVocabularyFactory)

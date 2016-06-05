@@ -43,14 +43,11 @@ setup(name='ftw.footballchallenge',
         'SQLAlchemy',
         'ftw.datepicker',
         'ftw.tabbedview',
-        'plonetheme.emgame2012',
         'pyquery',
         'requests',
+        'requests-cache',
         'setuptools',
         'z3c.saconfig',
-
-        # Use SQLAlchemy 0.9.x for z3c.saconfig compatibility.
-        'sqlalchemy <1.0.0b',
         ],
 
       tests_require=tests_require,
