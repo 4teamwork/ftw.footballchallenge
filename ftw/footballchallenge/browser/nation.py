@@ -35,7 +35,7 @@ class NationView(BrowserView):
 
     def players(self):
         context = aq_inner(self.context)
-        base_url = context.absolute_url() 
+        base_url = context.absolute_url()
         results = []
         for player in self.nation().players:
             info = dict(
@@ -46,6 +46,7 @@ class NationView(BrowserView):
                 club=player.club,
                 league=player.league,
                 value=player.pretty_value(),
+                value_int=player.value,
             )
             results.append(info)
         return results

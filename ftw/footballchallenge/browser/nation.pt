@@ -34,7 +34,7 @@
                     <td tal:content="player/age"></td>
                     <td tal:content="player/club"></td>
                     <td tal:content="player/league"></td>
-                    <td tal:content="player/value"></td>
+                    <td tal:content="player/value" tal:attributes="class python:'sortabledata-%09d' % player['value_int']"></td>
                 </tr>
             </tbody>
         </table>
