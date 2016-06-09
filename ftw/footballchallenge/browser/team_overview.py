@@ -26,6 +26,7 @@ class TeamOverview(BrowserView):
     def __init__(self, context, request):
         super(TeamOverview, self).__init__(context, request)
         self.team_id = None
+        self.team_name = ''
 
 
     def __call__(self):
@@ -38,12 +39,14 @@ class TeamOverview(BrowserView):
         if not self.team_id:
             if myteam:
                 self.team_id = myteam.id_
+                self.team_name = myteam.name
             else:
                 return self.request.RESPONSE.redirect(self.context.absolute_url() + '/edit_team')
         else:
             team = session.query(Team).filter(Team.id_ == self.team_id).first()
             if not team:
                 raise NotFound
+            self.team_name = team.name
 
         # Don't show other teams if event hasn't started yet
         if open_events and self.team_id != myteam.id_:

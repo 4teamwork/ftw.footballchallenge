@@ -6,6 +6,10 @@
       metal:use-macro="context/main_template/macros/master"
       i18n:domain="ftw.footballchallenge">
 
+<metal:content-title fill-slot="content-title">
+    <h1 class="documentFirstHeading" tal:content="view/team_name"></h1>
+</metal:content-title>
+
 <metal:content-core fill-slot="content-core">
     <div tal:define="nations view/calculate_nations">
         <table class="listing">
