@@ -34,7 +34,7 @@ class TeamOverview(BrowserView):
         if not self.team_id:
             team = session.query(Team).filter(Team.user_id == userid).all()
             if len(team) == 0:
-                return self.request.RESPONSE.redirect(self.context.absolute_url + '/edit_team')
+                return self.request.RESPONSE.redirect(self.context.absolute_url() + '/edit_team')
             else:
                 team = team[0]
             self.team_id = int(team.id_)
