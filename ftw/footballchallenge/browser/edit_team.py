@@ -241,7 +241,7 @@ class EditTeamForm(form.Form):
             IStatusMessage(self.request).addStatusMessage(
                 msg, type='info')
 
-            return self.request.RESPONSE.redirect(self.context.absolute_url()+'/team_overview/' + str(team.id_))
+            return self.request.RESPONSE.redirect(self.context.absolute_url()+'/team_overview')
 
     @button.buttonAndHandler(_(u'Cancel'))
     def handleCancel(self, action):
