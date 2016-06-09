@@ -11,6 +11,8 @@ import datetime
 from ftw.footballchallenge import _
 from Products.statusmessages.interfaces import IStatusMessage
 from Products.CMFCore.utils import getToolByName
+from zExceptions import NotFound
+from zope.publisher.interfaces import NotFound as PublishNotFound
 from ftw.footballchallenge.team import Team
 
 
@@ -31,33 +33,33 @@ class TeamOverview(BrowserView):
         open_events = session.query(Event).filter(Event.deadline > datetime.datetime.now()).all()
         membershiptool = getToolByName(self.context, 'portal_membership')
         userid = membershiptool.getAuthenticatedMember().getId()
+        myteam = session.query(Team).filter(Team.user_id == userid).first()
+
         if not self.team_id:
-            team = session.query(Team).filter(Team.user_id == userid).all()
-            if len(team) == 0:
+            if myteam:
+                self.team_id = myteam.id_
+            else:
                 return self.request.RESPONSE.redirect(self.context.absolute_url() + '/edit_team')
-            else:
-                team = team[0]
-            self.team_id = int(team.id_)
         else:
-            msg = _(u'team_doesnt_exitst',
-                    default=u'The team specified doesnt exist.')
-            IStatusMessage(self.request).addStatusMessage(
-                msg, type='information')
-            team = session.query(Team).filter(Team.id_ == self.team_id).all()
-            if len(team) == 0:
-                return self.request.RESPONSE.redirect(self.context.absolute_url())
-            else:
-                team = team[0]
-        if not open_events or team.id_ == int(self.team_id):
-            return self.template()
-        msg = _(u'event_not_started',
-                default=u'The Event has not started yet. You can not see this Team')
-        IStatusMessage(self.request).addStatusMessage(
-            msg, type='information')
-        return self.request.RESPONSE.redirect(self.context.absolute_url())
+            team = session.query(Team).filter(Team.id_ == self.team_id).first()
+            if not team:
+                raise NotFound
+
+        # Don't show other teams if event hasn't started yet
+        if open_events and self.team_id != myteam.id_:
+            raise NotFound
+
+        return self.template()
+
         
     def publishTraverse(self, request, name):
-        self.team_id = name
+        if self.team_id is None:
+            try:
+                self.team_id = int(name)
+            except ValueError:
+                raise PublishNotFound(self, name, request)
+        else:
+            raise PublishNotFound(self, name, request)
         return self
 
     def get_players(self, starters):
