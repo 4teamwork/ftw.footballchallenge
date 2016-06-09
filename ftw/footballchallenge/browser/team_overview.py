@@ -43,14 +43,14 @@ class TeamOverview(BrowserView):
             else:
                 return self.request.RESPONSE.redirect(self.context.absolute_url() + '/edit_team')
         else:
+            # Don't show other teams if event hasn't started yet
+            if open_events:
+                raise NotFound
+
             team = session.query(Team).filter(Team.id_ == self.team_id).first()
             if not team:
                 raise NotFound
             self.team_name = team.name
-
-        # Don't show other teams if event hasn't started yet
-        if open_events and self.team_id != myteam.id_:
-            raise NotFound
 
         return self.template()
 
