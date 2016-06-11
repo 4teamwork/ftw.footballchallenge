@@ -32,14 +32,16 @@ class TeamOverview(BrowserView):
     def __call__(self):
         session = named_scoped_session('footballchallenge')
         open_events = session.query(Event).filter(Event.deadline > datetime.datetime.now()).all()
-        membershiptool = getToolByName(self.context, 'portal_membership')
-        userid = membershiptool.getAuthenticatedMember().getId()
+        mtool = getToolByName(self.context, 'portal_membership')
+        user = mtool.getAuthenticatedMember()
+        userid = user.getId()
         myteam = session.query(Team).filter(Team.user_id == userid).first()
 
         if not self.team_id:
             if myteam:
                 self.team_id = myteam.id_
                 self.team_name = myteam.name
+                self.coach = user.getProperty('fullname')
             else:
                 return self.request.RESPONSE.redirect(self.context.absolute_url() + '/edit_team')
         else:
@@ -51,6 +53,8 @@ class TeamOverview(BrowserView):
             if not team:
                 raise NotFound
             self.team_name = team.name
+            coach = mtool.getMemberById(team.user_id)
+            self.coach = coach.getProperty('fullname')
 
         return self.template()
 
