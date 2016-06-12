@@ -7,7 +7,8 @@
       i18n:domain="ftw.footballchallenge">
 
 <metal:content-core fill-slot="content-core">
-    <tal:define tal:define="player view/get_player">
+    <tal:define tal:define="player view/get_player;
+                            portal_url context/@@plone_portal_state/portal_url">
     <div style="float:left">
         <table class="listing">
             <tr><td i18n:translate="">Name</td><td tal:content="player/name" /></tr>
@@ -17,8 +18,12 @@
             <tr><td i18n:translate="">Value</td><td tal:content="string: ${player/pretty_value} SFr." /></tr>
             <tr><td i18n:translate="">Club</td><td tal:content="player/club" /></tr>
             <tr><td i18n:translate="">Teams</td><td>
-                <ul tal:condition="view/check_teams_public">
-                    <li tal:repeat="team player/teams" tal:content="team/team/name" />
+                <ul tal:condition="view/check_teams_public"
+                    tal:define="teams python:sorted([(t.team.name, t.team.id_) for t in player.teams], key=lambda x: x[0].lower())">
+                    <li tal:repeat="team teams">
+                        <a href="" tal:attributes="href python:'%s/team_overview/%s' % (portal_url,team[1])"
+                                   tal:content="python:team[0]"></a>
+                    </li>
                 </ul>
             </td>
             </tr>
