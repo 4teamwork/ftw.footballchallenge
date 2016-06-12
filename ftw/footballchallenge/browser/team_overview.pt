@@ -9,7 +9,7 @@
 <metal:content-title fill-slot="content-title">
     <h1 class="documentFirstHeading" tal:content="view/team_name"></h1>
     <div class="coachInfo">
-        <span>Coach:</span>
+        <span i18n:translate="">Coach</span>:
         <span tal:content="view/coach"></span>
     </div>
 </metal:content-title>
