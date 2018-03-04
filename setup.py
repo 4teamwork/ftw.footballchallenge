@@ -47,6 +47,7 @@ setup(name='ftw.footballchallenge',
         'requests-cache',
         'setuptools',
         'z3c.saconfig',
+        'zope.sqlalchemy<=0.7.7',
         ],
 
       tests_require=tests_require,
