@@ -1,15 +1,20 @@
-from PIL import Image
 from datetime import date
 from ftw.footballchallenge.config import COUNTRY_CODE_MAPPING
 from ftw.footballchallenge.config import MULTIPLIER_MAPPING
 from ftw.footballchallenge.config import POSITION_MAPPING
 from ftw.footballchallenge.nation import Nation
 from ftw.footballchallenge.player import Player
+from PIL import Image
 from pyquery import PyQuery
-import StringIO
+from requests.exceptions import RequestException
+import logging
 import requests
 import requests_cache
+import StringIO
 import time
+
+
+logger = logging.getLogger('ftw.footballchallenge')
 
 requests_cache.install_cache('transfermarkt_cache')
 
@@ -21,7 +26,11 @@ def import_team(rootpage, session, event):
     """
     headers = {'User-agent': 'Mozilla/5.0'}
     for page in rootpage:
-        f = requests.get(page, headers=headers)
+        try:
+            f = requests.get(page, headers=headers)
+        except RequestException as exc:
+            logger.warning('Could not fetch url %s. %r', page, exc)
+            continue
         nationpage = f.content
         nationpage = PyQuery(nationpage.decode('utf8'))
         content = nationpage("#main")
