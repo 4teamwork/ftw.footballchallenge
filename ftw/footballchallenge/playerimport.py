@@ -51,7 +51,7 @@ def import_team(rootpage, session, event):
         for item in playerlist("tbody > tr"):
             name = PyQuery(item)(".hide-for-small a.spielprofil_tooltip").text()
             link = PyQuery(item)(".hide-for-small a.spielprofil_tooltip").attr("href")
-            link = "http://www.transfermarkt.ch" + link
+            link = "https://www.transfermarkt.ch" + link
             f = requests.get(link, headers=headers)
             playerpage = f.content
             playerpage = PyQuery(playerpage.decode('utf8'))
