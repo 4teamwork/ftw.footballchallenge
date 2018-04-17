@@ -64,12 +64,17 @@ def import_team(rootpage, session, event):
                 in zip(data_items('.dataItem').items(), data_items('.dataValue').items())])
 
             img_src = playerpage('.dataBild img').attr('src')
-            img = requests.get(img_src, headers=headers).content
             try:
-                im = Image.open(StringIO.StringIO(img))
-                im.verify()
-            except Exception:
+                img = requests.get(img_src, headers=headers).content
+            except RequestException as exc:
+                logger.warning('Could not fetch image with from %s. %r', img_src, exc)
                 img = None
+            if img is not None:
+                try:
+                    im = Image.open(StringIO.StringIO(img))
+                    im.verify()
+                except Exception:
+                    img = None
 
             # Conversions
             position = POSITION_MAPPING.get(player_props.get('Position:'))
