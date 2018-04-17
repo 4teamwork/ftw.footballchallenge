@@ -81,12 +81,15 @@ def import_team(rootpage, session, event):
 
             # Marktwert
             value_data = playerpage('.dataMarktwert').text()
-            value = value_data.split()[0]
-            multiplier = MULTIPLIER_MAPPING.get(value_data.split()[1], 1)
-            if ',' in value:
-                value = int(value.split(',')[0]) * multiplier + int(value.split(',')[1]) * multiplier * 0.01
+            if value_data:
+                value = value_data.split()[0]
+                multiplier = MULTIPLIER_MAPPING.get(value_data.split()[1], 1)
+                if ',' in value:
+                    value = int(value.split(',')[0]) * multiplier + int(value.split(',')[1]) * multiplier * 0.01
+                else:
+                    value = int(value) * multiplier
             else:
-                value = int(value) * multiplier
+                value = 0
 
             size = player_props.get(u'Gr\xf6\xdfe:', '0.00').replace(',', '.')
             if size.endswith(' m'):
