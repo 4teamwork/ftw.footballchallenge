@@ -86,11 +86,12 @@ POSITION_MAPPING = {
     u'Rechtes Mittelfeld': 'midfield',
 }
 
-# Official UEFA country codes
+# Official FIFA country codes
 # These are *not* the same as ISO-3155-1-alpha3
 COUNTRY_CODE_MAPPING = {
     u'Albanien': 'ALB',
     u'Algerien': 'ALG',
+    u'Ägypten': 'EGY',
     u'Argentinien': 'ARG',
     u'Australien': 'AUS',
     u'Belgien': 'BEL',
@@ -115,21 +116,28 @@ COUNTRY_CODE_MAPPING = {
     u'Kamerun': 'CMR',
     u'Kolumbien': 'COL',
     u'Kroatien': 'CRO',
+    u'Marokko': 'MAR',
     u'Mexiko': 'MEX',
     u'Niederlande': 'NED',
     u'Nigeria': 'NGA',
     u'Nordirland': 'NIR',
     u'Österreich': 'AUT',
+    u'Panama': 'PAN',
+    u'Peru': 'PER',
     u'Polen': 'POL',
     u'Portugal': 'POR',
     u'Rumänien': 'ROU',
     u'Russland': 'RUS',
+    u'Saudi-Arabien': 'KSA',
     u'Schweden': 'SWE',
     u'Schweiz': 'SUI',
+    u'Senegal': 'SEN',
+    u'Serbien': 'SRB',
     u'Slowakei': 'SVK',
     u'Spanien': 'ESP',
     u'Südkorea': 'KOR',
     u'Tschechien': 'CZE',
+    u'Tunesien': 'TUN',
     u'Türkei': 'TUR',
     u'Ukraine': 'UKR',
     u'Ungarn': 'HUN',
