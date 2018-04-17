@@ -84,6 +84,8 @@ def import_team(rootpage, session, event):
                 value = int(value) * multiplier
 
             size = player_props.get(u'Gr\xf6\xdfe:', '0.00').replace(',', '.')
+            if size.endswith(' m'):
+                size = size[:-2]
             date_of_birth = date.fromtimestamp(time.mktime(time.strptime(
                 player_props.get('Geb./Alter:').split()[0], '%d.%m.%Y')))
 
