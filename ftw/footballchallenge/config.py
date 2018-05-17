@@ -79,8 +79,6 @@ POSITION_MAPPING = {
     u'Linksau\xdfen': 'midfield',
     u'Rechtsau\xdfen': 'midfield',
     u'Mittelst\xfcrmer': 'striker',
-    u'Rechtsau\xdfen': 'striker',
-    u'Linksau\xdfen': 'striker',
     u'H\xe4ngende Spitze': 'striker',
     u'Linkes Mittelfeld': 'midfield',
     u'Rechtes Mittelfeld': 'midfield',
