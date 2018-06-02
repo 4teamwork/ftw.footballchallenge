@@ -165,8 +165,8 @@ class EditTeamForm(form.Form):
             return
 
         team = session.query(Team).filter_by(user_id=userid).filter_by(event_id=event_id).one()
-        starters = session.query(Teams_Players).filter_by(team_id=team.id_).filter_by(is_starter=True).all()
-        substitutes = session.query(Teams_Players).filter_by(team_id=team.id_).filter_by(is_starter=False).all()
+        starters = session.query(Teams_Players).filter_by(team_id=team.id_).filter_by(is_starter=True).order_by(Teams_Players.ui_position).all()
+        substitutes = session.query(Teams_Players).filter_by(team_id=team.id_).filter_by(is_starter=False).order_by(Teams_Players.ui_position).all()
 
         self.widgets['name'].value = team.name
         count = {'defender':1, 'midfield':1, 'striker':1}    
@@ -211,12 +211,17 @@ class EditTeamForm(form.Form):
             session.query(Teams_Players).filter(Teams_Players.team_id==\
             team.id_).delete()
             team.name = data['name']
+            del data['name']
             nations = []
             all_nations = []
-            for k, v in data.items():
-                if not k == 'name' and v:
+            ui_pos = 0
+            for k, v in sorted(data.items(), key=lambda x: x[0]):
+                if v:
                     player = session.query(Player).filter(Player.id_ == v).one()
-                    #Create relationsship between Team and Player
+                    team.players.append(Teams_Players(team.id_, player,
+                                        bool(not 'substitute' in k), ui_pos))
+                    ui_pos += 1
+
                     if bool(not 'substitute' in k):
                         if not player.nation_id in nations:
                             nations.append(player.nation_id)
@@ -225,9 +230,6 @@ class EditTeamForm(form.Form):
                     else:
                         if not player.nation_id in all_nations:
                             all_nations.append(player.nation_id)
-
-                    team.players.append(Teams_Players(team.id_, player,
-                                        bool(not 'substitute' in k)))
 
             if len(nations) >= 6 and len(all_nations) >=12 and len(team.players) == 22:
                 team.valid = True

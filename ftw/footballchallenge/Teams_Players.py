@@ -13,9 +13,11 @@ class Teams_Players(Base):
     player_id = Column('player_id', Integer, ForeignKey('players.id'),
                        primary_key=True, nullable=False)
     is_starter = Column('is_starter', Boolean)
+    ui_position = Column('ui_position', Integer, default=0)
     player = relationship("Player", backref="teams")
 
-    def __init__(self, team_id, player, is_starter):
+    def __init__(self, team_id, player, is_starter, ui_position):
         self.team_id = team_id
         self.is_starter = is_starter
         self.player = player
+        self.ui_position = ui_position
