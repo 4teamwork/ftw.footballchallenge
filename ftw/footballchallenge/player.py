@@ -243,50 +243,30 @@ class PlayerVocabularyFactory(object):
 
     implements(IVocabularyFactory)
 
-    def __call__(self, context):
-        """a Proxy function which returns keeper term"""
-        return get_player_term(context)
-
-
-class KeeperVocabularyFactory(object):
-
-    implements(IVocabularyFactory)
-#    implements(ISource)
-#    classProvides(IContextSourceBinder)
+    position = None
+    players = None
 
     def __call__(self, context):
-        """a Proxy function which returns keeper term"""
-        return get_player_term(context, position="keeper")
-
-class DefenderVocabularyFactory(object):
-
-        implements(IVocabularyFactory)
-    #    implements(ISource)
-    #    classProvides(IContextSourceBinder)
-
-        def __call__(self, context):
-            """a Proxy function which returns keeper term"""
-            return get_player_term(context, position="defender")
-
-class MidfieldVocabularyFactory(object):
-
-        implements(IVocabularyFactory)
-    #    implements(ISource)
-    #    classProvides(IContextSourceBinder)
-
-        def __call__(self, context):
-            """a Proxy function which returns keeper term"""
-            return get_player_term(context, position="midfield")
+        if self.players is None:
+            self.players = get_player_term(context, position=self.position)
+        return self.players
 
 
+class KeeperVocabularyFactory(PlayerVocabularyFactory):
 
-class StrikerVocabularyFactory(object):
+    position = 'keeper'
 
-        implements(IVocabularyFactory)
-    #    implements(ISource)
-    #    classProvides(IContextSourceBinder)
 
-        def __call__(self, context):
-            """a Proxy function which returns keeper term"""
-            return get_player_term(context, position="striker")
+class DefenderVocabularyFactory(PlayerVocabularyFactory):
 
+    position = 'defender'
+
+
+class MidfieldVocabularyFactory(PlayerVocabularyFactory):
+
+    position = 'midfield'
+
+
+class StrikerVocabularyFactory(PlayerVocabularyFactory):
+
+    position= 'striker'
