@@ -308,6 +308,9 @@ msgstr "Tor gegen ${enemy}"
 msgid "label_goals"
 msgstr "Tore"
 
+msgid "label_group"
+msgstr "Gruppe"
+
 #. Default: "Group1"
 #: ./ftw/footballchallenge/game.py:80
 msgid "label_group1"

@@ -46,6 +46,7 @@ class NationsView(BrowserView):
             info = dict(
                 title=nation.name,
                 url='%s/%s' % (base_url.rstrip('/')+'/nation', nation.id_),
+                group=nation.group,
                 coach=nation.coach,
                 participations=nation.participations,
                 rank=nation.fifa_rank,

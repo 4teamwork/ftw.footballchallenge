@@ -16,6 +16,7 @@ class Nation(Base):
     implements(INation)
     id_ = Column('id', Integer, primary_key=True)
     name = Column(String(45))
+    group = Column(String(1))
     country = Column(String(3), nullable=False)
     coach = Column(String(64))
     participations = Column(Integer)

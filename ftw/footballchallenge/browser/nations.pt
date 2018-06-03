@@ -10,10 +10,11 @@
 <metal:content-core fill-slot="content-core">
     <metal:content-core define-macro="content-core">
 
-        <table class="listing">
+        <table class="listing sortable">
             <thead>
                 <tr>
                     <th i18n:translate="label_nation">Nation</th>
+                    <th i18n:translate="label_group">Group</th>
                     <th i18n:translate="label_coach">Coach</th>
                     <th i18n:translate="label_participations">Participations</th>
                     <th i18n:translate="label_fifa_ranking">FIFA Ranking</th>
@@ -22,6 +23,7 @@
             <tbody>
                 <tr tal:repeat="nation view/nations">
                     <td><a href="#" tal:content="nation/title" tal:attributes="href nation/url">Switzerland</a></td>
+                    <td tal:content="nation/group"></td>
                     <td tal:content="nation/coach"></td>
                     <td tal:content="nation/participations"></td>
                     <td tal:content="nation/rank"></td>

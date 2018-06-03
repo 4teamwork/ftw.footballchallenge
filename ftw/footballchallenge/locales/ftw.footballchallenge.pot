@@ -308,6 +308,9 @@ msgstr ""
 msgid "label_goals"
 msgstr ""
 
+msgid "label_group"
+msgstr ""
+
 #. Default: "Group1"
 #: ./ftw/footballchallenge/game.py:80
 msgid "label_group1"
