@@ -33,7 +33,11 @@
             <tbody>
                 <tr tal:repeat="game games">
                     <td tal:content="python: game.date.strftime('%d.%m.%Y %H:%M')" />
-                    <td tal:condition="python: game.nation1 and game.nation2" tal:content="string: ${game/nation1/name} - ${game/nation2/name}" />
+                    <td tal:condition="python: game.nation1 and game.nation2">
+                        <a href="" tal:attributes="href string:${portal_url}/nationen-spieler/nation/${game/nation1/id_}" tal:content="game/nation1/name"></a>
+                        -
+                        <a href="" tal:attributes="href string:${portal_url}/nationen-spieler/nation/${game/nation2/id_}" tal:content="game/nation2/name"></a>
+                    </td>
                     <td tal:condition="python: not game.nation1 and not game.nation2" tal:content="string: ${game/nation1_dummy} - ${game/nation2_dummy}" />
 
                     <td>
