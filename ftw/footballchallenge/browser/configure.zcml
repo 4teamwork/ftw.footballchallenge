@@ -12,6 +12,13 @@
 
     <browser:page
         for="*"
+        name="sync_nation"
+        class=".sync_nation.SyncNationForm"
+        permission="ftw.footballchallenge.manage_event"
+        />
+
+    <browser:page
+        for="*"
         name="create_event"
         class=".event_creation.CreateEventForm"
         permission="ftw.footballchallenge.manage_event"
