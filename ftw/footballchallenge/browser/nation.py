@@ -7,12 +7,19 @@ from z3c.saconfig import named_scoped_session
 from ftw.footballchallenge.nation import Nation
 
 
+POS_ORDER = {
+    'keeper': 0,
+    'defender': 1,
+    'midfield': 2,
+    'striker': 3,
+}
+
+
 class NationView(BrowserView):
 
     implements(IPublishTraverse)
 
     template = ViewPageTemplateFile("nation.pt")
-
 
     def __init__(self, context, request):
         super(NationView, self).__init__(context, request)
@@ -37,7 +44,7 @@ class NationView(BrowserView):
         context = aq_inner(self.context)
         base_url = context.absolute_url()
         results = []
-        for player in self.nation().players:
+        for player in sorted(self.nation().players, key=lambda p: POS_ORDER.get(p.position, 10)):
             info = dict(
                 name=player.name,
                 url='%s/%s' % (base_url.rstrip('/')+'/player_view', player.id_),
