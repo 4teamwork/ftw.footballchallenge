@@ -44,7 +44,6 @@ class Team(Base):
         return '<Team %s>' % self.name
 
 
-
 class TeamVocabularyFactory(object):
 
     implements(IVocabularyFactory)
@@ -57,5 +56,9 @@ class TeamVocabularyFactory(object):
         terms = []
         for user in source_users.getUsers():
             propsheet = user.getPropertysheet('mutable_properties')
-            terms.append(vocabulary.SimpleTerm(user.getId(), user.getId(), propsheet.getProperty('fullname')))
+            terms.append(vocabulary.SimpleTerm(
+                user.getId(),
+                user.getId(),
+                '%s (%s)' % (propsheet.getProperty('fullname'), user.getId()),
+            ))
         return vocabulary.SimpleVocabulary(terms)
